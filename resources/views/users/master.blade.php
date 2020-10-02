@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('bower_components/bower_project1/user/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/bower_project1/user/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/bower_project1/user/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/all.css') }}">
 </head>
 <body class="goto-here">
     @include("users.elements.information_header")
