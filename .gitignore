@@ -4,9 +4,10 @@
 /public/mix-manifest.json
 /public/hot
 /public/storage
+/public/bower_components
+/.idea
 /storage/*.key
 /vendor
-/.idea
 /public/bower_components
 .env
 .env.backup
