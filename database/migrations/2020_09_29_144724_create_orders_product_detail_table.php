@@ -21,7 +21,7 @@ class CreateOrdersProductDetailTable extends Migration
             $table->bigInteger('unit_price');
             $table->timestamps();
             $table->foreign('order_id')->references('id')->on('orders');
-            $table->foreign('product_detail_id')->references('id')->on('product_detail');
+            $table->foreign('product_detail_id')->references('id')->on('product_details');
         });
     }
 

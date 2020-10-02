@@ -20,12 +20,11 @@ class CreateCommentsTable extends Migration
             $table->text('message');
             $table->tinyInteger('status');
             $table->integer('rate');
-            $table->integer('parent_id')->unsigned()->default(config('parent.parent'));
+            $table->integer('parent_id')->unsigned()->nullable();
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('parent_id')->references('id')->on('comments');
         });
     }
     /**
