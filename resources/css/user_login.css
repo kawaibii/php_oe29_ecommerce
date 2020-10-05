@@ -1,0 +1,15 @@
+.wrap-user-login-page .btn-forgot-password {
+    float: left;
+    display: inline;
+    margin-top: 10px;
+}
+
+.wrap-user-login-page .btn-register {
+    float: right;
+    display: inline;
+    margin-top: 10px;
+}
+
+.wrap-user-login-page a:hover {
+    text-decoration: none;
+}
