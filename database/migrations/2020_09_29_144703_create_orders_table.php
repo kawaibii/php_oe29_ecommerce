@@ -18,9 +18,10 @@ class CreateOrdersTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->bigInteger('total_price');
             $table->text('note');
-            $table->enum('status', ['pending', 'accepted', 'rejected']);
+            $table->tinyInteger('status')->unsigned()->default(config('order.status.pending'));
             $table->string('address');
             $table->string('phone');
+            $table->softDeletes();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
