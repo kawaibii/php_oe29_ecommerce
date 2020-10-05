@@ -1,0 +1,20 @@
+{
+  "name": "php_oe29_ecommerce",
+  "description": "",
+  "main": "",
+  "authors": [
+    "kawaibii <khoanld98@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bower_project1": "git@github.com:kawaibii/bower_project1.git"
+  }
+}
