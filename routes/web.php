@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['middleware' => 'localization'], function() {
     Route::get('lang/{language}', 'LocalizationController@changeLanguage')->name('localization');
+    Route::get('/', 'HomeController@home')->name('home');
+    Route::group(['prefix' => 'admin'], function() {
+        Route::get('/', 'Admin\DashboardController@index')->name('admin.dashboard');
+    });
 });
