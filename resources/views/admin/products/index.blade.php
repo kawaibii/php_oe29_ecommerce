@@ -9,6 +9,11 @@
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">{{ trans('admin.product.add_product') }}</button>
                 </div>
             </div>
+            @if (session('message_success'))
+                <div class="text-center alert-danger">
+                    {{ session('message_success') }}
+                </div>
+            @endif
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
@@ -43,7 +48,13 @@
                                             <td class="center">
                                                 <button class="btn btn-primary">{{ trans('admin.detail') }}</button>
                                                 <button type="button" class="btn btn-info">{{ trans('admin.edit') }}</button>
-                                                <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
+                                                <form action="{{ route('products.destroy', $product->id) }}"
+                                                      data-message="{{ trans('confirm_delete', ['name' => $product->name]) }}"
+                                                      method="post" onsubmit="deleteProduct(this)">
+                                                    @csrf
+                                                    @method("DELETE")
+                                                    <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
