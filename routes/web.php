@@ -30,5 +30,8 @@ Route::group(['middleware' => 'localization'], function() {
     Route::group(['prefix' => 'admin'], function() {
         Route::get('/', 'Admin\DashboardController@index')->name('admin.dashboard');
         Route::resource('products', 'Admin\ProductController')->names('products');
+        Route::delete('delete-image/{id}', 'Admin\ProductController@deleteImage')->name('delete.image');
+        Route::delete('delete-comment/{id}', 'Admin\ProductController@deleteComment')->name('delete.comment');
+        Route::delete('delete-productDetail/{id}', 'Admin\ProductController@deleteProductDetail')->name('delete.productDetail');
     });
 });
