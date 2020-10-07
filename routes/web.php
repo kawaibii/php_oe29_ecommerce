@@ -15,7 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'localization'], function() {
     Route::get('lang/{language}', 'LocalizationController@changeLanguage')->name('localization');
-    Route::get('/', 'HomeController@home')->name('home');
+    Route::name('user.')->group(function() {
+        Route::get('login', 'LoginController@getLogin')->name('getLogin');
+        Route::post('login', 'LoginController@postLogin')->name('postLogin');
+        Route::get('logout', 'LoginController@logout')->name('logout');
+        Route::get('/', 'HomeController@home')->name('home');
+        Route::get('products', 'HomeController@home')->name('product');
+        Route::get('about', 'HomeController@home')->name('about');
+        Route::get('contact', 'HomeController@home')->name('contact');
+        Route::get('cart', 'HomeController@home')->name('cart');
+    });
     Route::group(['prefix' => 'admin'], function() {
         Route::get('/', 'Admin\DashboardController@index')->name('admin.dashboard');
     });

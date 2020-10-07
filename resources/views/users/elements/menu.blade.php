@@ -7,11 +7,20 @@
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="{{ route('home') }}" class="nav-link">{{ trans('home') }}</a></li>
-                <li class="nav-item"><a href="{{ route('show.all.product') }}" class="nav-link" >{{ trans('category') }}</a></li>
-                <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">{{ trans('about') }}</a></li>
-                <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">{{ trans('contact') }}</a></li>
-                <li class="nav-item cta cta-colored"><a href="{{ route('cart') }}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+                <li class="nav-item active"><a href="{{ route('user.home') }}" class="nav-link">{{ trans('home') }}</a></li>
+                <li class="nav-item"><a href="{{ route('user.product') }}" class="nav-link" >{{ trans('category') }}</a></li>
+                <li class="nav-item"><a href="{{ route('user.about') }}" class="nav-link">{{ trans('about') }}</a></li>
+                <li class="nav-item"><a href="{{ route('user.contact') }}" class="nav-link">{{ trans('contact') }}</a></li>
+                <li class="nav-item cta cta-colored">
+                    <a href="{{ route('user.cart') }}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a>
+                </li>
+                <li class="nav-item">
+                    @if (Auth::check())
+                        <a href="{{ route('user.logout') }}" class="nav-link">{{ trans('logout') }}</a>
+                    @else
+                        <a href="{{ route('user.getLogin') }}" class="nav-link">{{ trans('login') }}</a>
+                    @endif
+                </li>
             </ul>
         </div>
     </div>
