@@ -1,5 +1,12 @@
 <?php
     return [
-        'admin' => 1,
-        'user' => 0,
+        'user' => 1,
+
+        'admin' => [
+            'product' => 2,
+            'store' => 3,
+            'order' => 4,
+            'supplier' => 5,
+            'management' => 6,
+        ],
     ];

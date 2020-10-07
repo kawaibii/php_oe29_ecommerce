@@ -78,6 +78,13 @@
     "subtotal" : "Subtotal",
     "title" : "Bảnh shop :name",
     "total" : "Total",
+    "user.register.back_to_login": "Back to Login",
+    "user.register.email": "E-mail",
+    "user.register.name": "Name",
+    "user.register.password": "Password",
+    "user.register.repeat_password": "Repeat Password",
+    "user.register.submit": "Register",
+    "user.register.title": "Register",
     "valuable_gifts" : "Valuable Gifts",
     "vietnamese": "Vietnamese",
     "women_collection" : "Women's Collection"

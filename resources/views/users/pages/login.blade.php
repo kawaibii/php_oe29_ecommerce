@@ -32,7 +32,7 @@
                                 <input type="submit" class="btn btn-lg btn-primary btn-block" value="{{ trans('login') }}">
                             </form>
                             <a href="#" class="btn-forgot-password">{{ trans('forgot_password') }}</a>
-                            <a href="#" class="btn-register">{{ trans('register_account') }}</a>
+                            <a href="{{ route('user.getRegister') }}" class="btn-register">{{ trans('register_account') }}</a>
                         </div>
                     </div>
                 </div>
