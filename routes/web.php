@@ -27,5 +27,6 @@ Route::group(['middleware' => 'localization'], function() {
     });
     Route::group(['prefix' => 'admin'], function() {
         Route::get('/', 'Admin\DashboardController@index')->name('admin.dashboard');
+        Route::resource('products', 'Admin\ProductController')->names('products');
     });
 });

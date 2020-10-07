@@ -14,21 +14,21 @@
     <link href="{{ asset('bower_components/bower_project1/admin/css/morris.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/bower_project1/admin/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+    <link href="{{ asset('bower_components/bower_project1/admin/css/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('bower_components/bower_project1/admin/css/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
+    <script src="{{ asset('bower_components/ckeditor/ckeditor.js') }}"></script>
 </head>
 <body>
-    <div id="wrapper">
-        @include('admin.elements.header')
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                @yield('content')
-            </div>
-        </div>
-    </div>
-    @yield('js')
+<div id="wrapper">
+    @include('admin.elements.header')
+    @yield('content')
+</div>
     <script src="{{ asset('bower_components/bower_project1/admin/js/jquery.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/admin/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/admin/js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/admin/js/raphael.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/admin/js/startmin.js') }}"></script>
+    @yield('js')
 </body>
 </html>
