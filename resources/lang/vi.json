@@ -46,7 +46,6 @@
     "confirm_delete" : "Xóa sản phẩm :name?",
     "contact" : "Liên hệ",
     "deal" : "Giảm giá :month",
-    "detail" : "3-5 ngày giao hàng và đổi trả miễn phí",
     "description" : "Mô tả",
     "discover_now" : "Xem ngay",
     "discount" : "Gỉam giá",
@@ -99,6 +98,10 @@
     "user.register.repeat_password": "Nhập lại mật khẩu",
     "user.register.submit": "Đăng kí",
     "user.register.title": "Đăng kí",
+    "user.product": "Sản phẩm",
+    "user.product.add_to_cart": "Thêm vào giỏ",
+    "user.product.buy_now": "Mua ngay",
+    "user.product.category": "Danh mục",
     "valuable_gifts" : "Quà tặng giá trị",
     "vietnamese": "Tiếng Việt",
     "women_collection" : "Bộ sưu tập nữ giới"
