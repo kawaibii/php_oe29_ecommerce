@@ -11,6 +11,7 @@ class Image extends Model
 
     protected $fillable = [
         'image_link',
+        'product_id',
     ];
 
     public $timestamps = true;

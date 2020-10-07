@@ -179,6 +179,9 @@ return [
         'message' => 'lời nhắn',
         'available' => 'có sẵn',
         'size' => 'kích thước',
+        "current_price" => "Giá bán",
+        "brand" => "nhãn hiệu",
+        "category" => "danh mục",
     ],
 
 ];

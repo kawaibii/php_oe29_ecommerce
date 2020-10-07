@@ -79,6 +79,8 @@
         </div>
         <!-- /.container-fluid -->
     </div>
+    <div class="define" data-value = {{ $errors->first('show_modal') }} data-route={{ route('products.edit', $errors->first('route')) }}></div>
+    @include('admin.products.modal_create_product')
 @endsection
 @section('js')
     <script src="{{ asset('bower_components/bower_project1/admin/js/dataTables/jquery.dataTables.min.js') }}"></script>
