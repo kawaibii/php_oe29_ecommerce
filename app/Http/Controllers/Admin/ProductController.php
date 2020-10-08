@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class ProductController extends Controller
 {
@@ -53,7 +57,16 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $product = Product::with(['images', 'productDetails', 'comments'])->find($id);
+            $images = $product->images()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
+            $productDetails = $product->productDetails()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.product_detail'));
+            $comments = $product->comments()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.comment'));
+
+            return view('admin.products.detail_product', compact('product','images', 'productDetails', 'comments'));
+        } catch (Exception $ex) {
+            return redirect()->back()->with('message_error', trans('message_error'));
+        }
     }
 
     /**

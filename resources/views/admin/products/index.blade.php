@@ -21,6 +21,11 @@
                         <div class="panel-heading">
                             {{ trans('admin.product.data_product') }}
                         </div>
+                        @if (session('message'))
+                            <div class="alert alert-danger">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -46,7 +51,9 @@
                                             <td class="center">{{ $product->images_count }}</td>
                                             <td class="center">{{ $product->product_details_count }}</td>
                                             <td class="center">
-                                                <button class="btn btn-primary">{{ trans('admin.detail') }}</button>
+                                                <a href="{{ route('products.show', $product->id) }}">
+                                                    <button class="btn btn-primary">{{ trans('admin.detail') }}</button>
+                                                </a>
                                                 <button type="button" class="btn btn-info">{{ trans('admin.edit') }}</button>
                                                 <form action="{{ route('products.destroy', $product->id) }}"
                                                       data-message="{{ trans('confirm_delete', ['name' => $product->name]) }}"

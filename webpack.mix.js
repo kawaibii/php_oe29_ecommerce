@@ -19,5 +19,6 @@ mix.styles([
     'resources/css/detail_page.css',
     'resources/css/user_login.css',
     'resources/css/user_register.css',
+    'resources/css/page_detail_product.css',
     ], 'public/css/all.css'
 );

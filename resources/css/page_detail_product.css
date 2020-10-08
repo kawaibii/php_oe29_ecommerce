@@ -1,0 +1,44 @@
+#infor {
+    width: 50%;
+    float: left;
+    color: #0d6aad;
+}
+
+.item-product {
+    font-size: 20px;
+}
+
+#jtab {
+    justify-content: center;
+    display: flex
+}
+
+#jtab li {
+    padding: 10px;
+    font-size: 20px;
+}
+
+#jtab li a:hover {
+    background: #0d6aad;
+    color: #1b1918;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+.item-image {
+    width: 200px;
+    height: 200px;
+}
+
+#image-product {
+    border-radius: 30px;
+    width: 100%;
+    height: 100%;
+}
+
+#image-product :hover {
+    width: 550px;
+    height: 550px;
+}
