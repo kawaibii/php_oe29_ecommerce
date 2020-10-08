@@ -3,3 +3,7 @@ $(document).ready(function() {
         responsive: true
     });
 });
+
+window.deleteProduct = function (e) {
+    return confirm(e.getAttribute('data-message'));
+}

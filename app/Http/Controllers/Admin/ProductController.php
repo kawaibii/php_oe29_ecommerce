@@ -87,6 +87,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+            $product->delete();
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message_error', trans('message_error'));
+        }
     }
 }
