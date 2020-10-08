@@ -19,6 +19,8 @@ Route::group(['middleware' => 'localization'], function() {
         Route::get('login', 'LoginController@getLogin')->name('getLogin');
         Route::post('login', 'LoginController@postLogin')->name('postLogin');
         Route::get('logout', 'LoginController@logout')->name('logout');
+        Route::get('register', 'RegisterController@getRegister')->name('getRegister');
+        Route::post('register', 'RegisterController@postRegister')->name('postRegister');
         Route::get('/', 'HomeController@home')->name('home');
         Route::get('products', 'HomeController@home')->name('product');
         Route::get('about', 'HomeController@home')->name('about');

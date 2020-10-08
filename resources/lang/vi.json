@@ -78,6 +78,13 @@
     "subtotal" : "Tổng cộng",
     "title" : "Bảnh shop :name",
     "total" : "thành tiền",
+    "user.register.back_to_login": "Quay lại đăng nhập",
+    "user.register.email": "E-mail",
+    "user.register.name": "Tên người dùng",
+    "user.register.password": "Mật khẩu",
+    "user.register.repeat_password": "Nhập lại mật khẩu",
+    "user.register.submit": "Đăng kí",
+    "user.register.title": "Đăng kí",
     "valuable_gifts" : "Quà tặng giá trị",
     "vietnamese": "Tiếng Việt",
     "women_collection" : "Bộ sưu tập nữ giới"

@@ -1,0 +1,9 @@
+.wrap-user-register-page .btn-login {
+    float:right;
+    display: inline;
+    margin-top: 10px;
+}
+
+.wrap-user-register-page a:hover {
+    text-decoration: none;
+}
