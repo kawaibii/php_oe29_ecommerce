@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{ route('user.home') }}" class="nav-link">{{ trans('home') }}</a></li>
-                <li class="nav-item"><a href="{{ route('user.product') }}" class="nav-link" >{{ trans('category') }}</a></li>
+                <li class="nav-item"><a href="{{ route('user.product') }}" class="nav-link" >{{ trans('product') }}</a></li>
                 <li class="nav-item"><a href="{{ route('user.about') }}" class="nav-link">{{ trans('about') }}</a></li>
                 <li class="nav-item"><a href="{{ route('user.contact') }}" class="nav-link">{{ trans('contact') }}</a></li>
                 <li class="nav-item cta cta-colored">

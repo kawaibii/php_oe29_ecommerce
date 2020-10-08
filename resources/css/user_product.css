@@ -1,0 +1,12 @@
+.wrap-user-product-page .hero-bread {
+    background-image: url('../bower_components/bower_project1/user/images/bg_6.jpg');
+}
+
+.wrap-user-product-page .original-price {
+    text-decoration: line-through;
+    color: #6E6E6E;
+}
+
+.wrap-user-product-page .paginate {
+    float: right;
+}

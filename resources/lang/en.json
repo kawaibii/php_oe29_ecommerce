@@ -46,7 +46,6 @@
     "confirm_delete" : "Delete Product :name ?",
     "contact" : "Contact",
     "deal" : "DEAL :month",
-    "detail" : "3-5 BUSINESS DAYS DELIVERY & FREE RETURNS",
     "description" : "Description",
     "discover_now" : "Discover Now",
     "discount" : "Discount",
@@ -99,6 +98,10 @@
     "user.register.repeat_password": "Repeat Password",
     "user.register.submit": "Register",
     "user.register.title": "Register",
+    "user.product": "Product",
+    "user.product.add_to_cart": "Add to cart",
+    "user.product.buy_now": "Buy now",
+    "user.product.category": "Category",
     "valuable_gifts" : "Valuable Gifts",
     "vietnamese": "Vietnamese",
     "women_collection" : "Women's Collection"

@@ -4,6 +4,7 @@
             'image' =>'image',
             'product_detail' =>'product-detail',
             'comment' => 'comment',
+            'product' => 9,
         ],
 
         'image' => [

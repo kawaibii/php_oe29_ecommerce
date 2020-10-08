@@ -11,8 +11,15 @@
                         <div class="icon mr-2 d-flex justify-content-center align-items-center"><span class="icon-paper-plane"></span></div>
                         <span class="text">{{ config('information_shop.email_shop') }}</span>
                     </div>
-                    <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
-                        <span class="text">{{ trans('detail') }}</span>
+                    <div class="col-md-2 pr-4 d-flex topper align-items-center text-lg-right">
+                        <a href="{{ route('localization', 'en') }}">
+                            <span class="text">{{ trans('language.english') }}</span>
+                        </a>
+                    </div>
+                    <div class="col-md-2 pr-4 d-flex topper align-items-center text-lg-right">
+                        <a href="{{ route('localization', 'vi') }}">
+                            <span class="text">{{ trans('language.vietnamese') }}</span>
+                        </a>
                     </div>
                 </div>
             </div>
