@@ -165,4 +165,43 @@ class ProductController extends Controller
             }
         }
     }
+
+    public function deleteImage($id)
+    {
+        try {
+            $image = Image::findorFail($id);
+            if (file_exists(config('setting.image.product') . $image->image_link)) {
+                unlink(config('setting.image.product') . $image->image_link);
+            }
+            $image->delete();
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message_error', trans('message_error'));
+        }
+    }
+
+    public function deleteComment($id)
+    {
+        try {
+            $comment = Comment::findOrFail($id);
+            $comment->delete();
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message_error', trans('message_error'));
+        }
+    }
+
+    public function deleteProductDetail($id)
+    {
+        try {
+            $productDetail = ProductDetail::findOrFail($id);
+            $productDetail->delete();
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        } catch (Exception $exception) {
+            return redirect()->back()->with('message_error', trans('message_error'));
+        }
+    }
 }
