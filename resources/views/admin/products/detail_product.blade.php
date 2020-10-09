@@ -10,6 +10,11 @@
             </div>
             <!-- /.row -->
             <div class="container">
+                @if (session('message_success'))
+                    <div class="alert alert-success">
+                        {{ session('message_success') }}
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-md-8">
                         <p class="item-product">
@@ -42,9 +47,15 @@
 
             <div class="container">
                 <ul class="nav nav-pills" id="jtab">
-                    <li><a data-toggle="pill" href="#image">{{ trans('admin.image') }}</a></li>
-                    <li><a data-toggle="pill" href="#comment">{{ trans('admin.comment') }}</a></li>
-                    <li><a data-toggle="pill" href="#detail">{{ trans('admin.product.list_size') }}</a></li>
+                    @if (count($images))
+                        <li><a data-toggle="pill" href="#image">{{ trans('admin.image') }}</a></li>
+                    @endif
+                    @if (count($comments))
+                        <li><a data-toggle="pill" href="#comment">{{ trans('admin.comment') }}</a></li>
+                    @endif
+                    @if ($productDetails)
+                        <li><a data-toggle="pill" href="#detail">{{ trans('admin.product.list_size') }}</a></li>
+                    @endif
                 </ul>
                 <div class="tab-content">
                     @if (count($images))
@@ -66,7 +77,10 @@
                                             <img class="item-image" src="{{ asset(config('setting.image.product') . $image->image_link) }}">
                                         </td>
                                         <td>
-                                            <form action="{{ route('delete.image', $image->id) }}" method="post" >
+                                            <form action="{{ route('delete.image', $image->id) }}"
+                                                data-message ="{{ trans('admin.delete') . trans('admin.image') }}"
+                                                onsubmit="confirmDelete(this)"
+                                                method="post" >
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
@@ -100,7 +114,10 @@
                                             <td>{{ $comment->message }}</td>
                                             <td>{{ $comment->rate }}</td>
                                             <td>
-                                                <form action="{{ route('delete.comment', $comment->id) }}" method="post">
+                                                <form action="{{ route('delete.comment', $comment->id) }}"
+                                                    data-message ="{{ trans('admin.delete') . trans('admin.comment') }}"
+                                                    onsubmit="confirmDelete(this)"
+                                                    method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
@@ -132,7 +149,10 @@
                                             <td>{{ $productDetail->size }}</td>
                                             <td>{{ $productDetail->quantity }}</td>
                                             <td>
-                                                <form action="{{ route('delete.productDetail', $productDetail->id) }}" method="post">
+                                                <form action="{{ route('delete.productDetail', $productDetail->id) }}"
+                                                    data-message ="{{ trans('admin.delete') . trans('admin.product.list_size')}}"
+                                                    onsubmit="confirmDelete(this)"
+                                                    method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>

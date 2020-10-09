@@ -32,6 +32,10 @@ window.deleteProduct = function (e) {
     return confirm(e.getAttribute('data-message'));
 }
 
+window.confirmDelete = function (e) {
+    return confirm(e.getAttribute('data-message'));
+}
+
 function previewImages() {
     var preview = document.querySelector('#preview');
     for (let i = 0; i < preview.childNodes.length ; i++) {

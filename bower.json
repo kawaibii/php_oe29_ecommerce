@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "bower_project1": "git@github.com:kawaibii/bower_project1.git"
+    "bower_project1": "git@github.com:kawaibii/bower_project1.git",
+    "bootstrap-sweetalert": "^1.0.1"
   }
 }
