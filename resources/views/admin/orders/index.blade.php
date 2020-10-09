@@ -1,0 +1,99 @@
+@extends('admin.layouts.master')
+
+@section('content')
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ trans('admin.order.name') }}</h1>
+                </div>
+            </div>
+            @if (session('message_success'))
+                <div class="text-center alert alert-success">
+                    {{ session('message_success') }}
+                </div>
+            @endif
+        <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{ trans('admin.order.data_order') }}
+                        </div>
+                        @if (session('message'))
+                            <div class="alert alert-danger">
+                                {{ session('message') }}
+                            </div>
+                    @endif
+                    <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th>{{ trans('admin.#') }}</th>
+                                        <th>{{ trans('admin.order.user_name') }}</th>
+                                        <th>{{ trans('admin.order.phone') }}</th>
+                                        <th>{{ trans('admin.order.address') }}</th>
+                                        <th>{{ trans('admin.order.total_price') }}</th>
+                                        <th>{{ trans('admin.order.status') }}</th>
+                                        <th>{{ trans('admin.order.note') }}</th>
+                                        <th>{{ trans('admin.number_product_detail') }}</th>
+                                        <th>{{ trans('admin.action') }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($orders as $key => $order)
+                                        <tr class="odd gradeX">
+                                            <td> {{ $key + 1 }}</td>
+                                            <td>{{ $order->user->name }}</td>
+                                            <td>{{ $order->phone }}</td>
+                                            <td class="center">{{ $order->address }}</td>
+                                            <td class="center">{{ $order->total_price }}</td>
+                                            <td class="center">
+                                                @switch ($order->status)
+                                                    @case (config('order.status.pending'))
+                                                        {{ trans('admin.pending') }}
+
+                                                        @break
+                                                    @case (config('order.status.approved'))
+                                                        {{ trans('admin.approved') }}
+
+                                                        @break
+                                                    @case (config('order.status.rejected'))
+                                                        {{ trans('admin.rejected') }}
+
+                                                        @break
+                                                    @default
+                                                        {{ trans('admin.cancelled') }}
+                                                    @endswitch
+                                            </td>
+                                            <td class="center">{{ $order->note }}</td>
+                                            <td class="center">{{ $order->product_details_count }}</td>
+                                            <td class="center">
+                                                <button class="btn btn-primary">{{ trans('admin.detail') }}</button>
+                                                <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    @include('admin.elements.loading')
+@endsection
+@section('js')
+    <script src="{{ asset('bower_components/bower_project1/admin/js/dataTables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bower_components/bower_project1/admin/js/dataTables/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ mix('js/orderjs.js') }}"></script>
+@endsection

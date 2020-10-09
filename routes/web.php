@@ -27,11 +27,16 @@ Route::group(['middleware' => 'localization'], function() {
         Route::get('contact', 'HomeController@home')->name('contact');
         Route::get('cart', 'HomeController@home')->name('cart');
     });
-    Route::group(['prefix' => 'admin'], function() {
-        Route::get('/', 'Admin\DashboardController@index')->name('admin.dashboard');
-        Route::resource('products', 'Admin\ProductController')->names('products');
-        Route::delete('delete-image/{id}', 'Admin\ProductController@deleteImage')->name('delete.image');
-        Route::delete('delete-comment/{id}', 'Admin\ProductController@deleteComment')->name('delete.comment');
-        Route::delete('delete-productDetail/{id}', 'Admin\ProductController@deleteProductDetail')->name('delete.productDetail');
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
+        Route::get('/', 'DashboardController@index')->name('admin.dashboard');
+        Route::group(['prefix' => 'manage-product'], function () {
+            Route::resource('products', 'ProductController')->names('products');
+            Route::delete('delete-image/{id}', 'ProductController@deleteImage')->name('delete.image');
+            Route::delete('delete-comment/{id}', 'ProductController@deleteComment')->name('delete.comment');
+            Route::delete('delete-productDetail/{id}', 'ProductController@deleteProductDetail')->name('delete.productDetail');
+        });
+        Route::group(['prefix' => 'manage-order'], function () {
+            Route::resource('orders', 'OrderController')->names('orders');
+        });
     });
 });
