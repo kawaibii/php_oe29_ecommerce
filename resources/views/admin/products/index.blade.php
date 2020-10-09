@@ -10,7 +10,7 @@
                 </div>
             </div>
             @if (session('message_success'))
-                <div class="text-center alert-danger">
+                <div class="text-center alert alert-success">
                     {{ session('message_success') }}
                 </div>
             @endif
@@ -54,7 +54,11 @@
                                                 <a href="{{ route('products.show', $product->id) }}">
                                                     <button class="btn btn-primary">{{ trans('admin.detail') }}</button>
                                                 </a>
-                                                <button type="button" class="btn btn-info">{{ trans('admin.edit') }}</button>
+                                                <button type="button" class="btn btn-info"
+                                                        onclick="editProduct(this)" data-toggle="modal"
+                                                        data-url={{ route('products.edit', $product->id) }}>
+                                                    {{ trans('admin.edit') }}
+                                                </button>
                                                 <form action="{{ route('products.destroy', $product->id) }}"
                                                       data-message="{{ trans('confirm_delete', ['name' => $product->name]) }}"
                                                       method="post" onsubmit="deleteProduct(this)">
@@ -81,6 +85,8 @@
     </div>
     <div class="define" data-value = {{ $errors->first('show_modal') }} data-route={{ route('products.edit', $errors->first('route')) }}></div>
     @include('admin.products.modal_create_product')
+    @include('admin.elements.loading')
+    @include('admin.products.modal_edit_product')
 @endsection
 @section('js')
     <script src="{{ asset('bower_components/bower_project1/admin/js/dataTables/jquery.dataTables.min.js') }}"></script>
