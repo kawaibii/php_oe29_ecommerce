@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductDetail;
+use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 use Mockery\Exception;
 
@@ -44,9 +45,24 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        try {
+            $product = Product::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'rate' => config('setting.rate'),
+                'original_price' => $request->original_price,
+                'current_price' => $request->current_price,
+                'category_id' => $request->category,
+                'brand_id' => $request->brand,
+            ]);
+            $this->uploadImage($request, $product);
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        } catch (Exception $ex) {
+            return redirect()->back()->with('message_error', trans('message_error'));
+        }
     }
 
     /**
@@ -107,6 +123,21 @@ class ProductController extends Controller
             return redirect()->back()->with('message_success', trans('message_success'));
         } catch (Exception $exception) {
             return redirect()->back()->with('message_error', trans('message_error'));
+        }
+    }
+
+    public function uploadImage($request, $product)
+    {
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $name = time() . "_" . $file->getClientOriginalName();
+                $path = public_path(config('setting.image.product'));
+                $image = Image::create([
+                    'product_id' => $product->id,
+                    'image_link' => $name,
+                ]);
+                $file->move($path, $name);
+            }
         }
     }
 }

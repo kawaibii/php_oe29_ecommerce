@@ -15,6 +15,8 @@ class Product extends Model
         'rate',
         'original_price',
         'current_price',
+        'category_id',
+        'brand_id',
     ];
 
     public $timestamps = true;

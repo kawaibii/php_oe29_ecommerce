@@ -29,3 +29,7 @@
     pointer-events: none;
     background-color: transparent;
 }
+
+#show_errors {
+    color: red;
+}

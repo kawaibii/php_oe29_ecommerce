@@ -1,4 +1,5 @@
 <?php
+
     return [
         'paginate' => [
             'image' =>'image',
@@ -6,10 +7,11 @@
             'comment' => 'comment',
             'product' => 9,
         ],
+        
+    'image' => [
+        'product' => 'bower_components/bower_project1/user/images/products/',
+    ],
 
-        'image' => [
-            'product' => 'bower_components/bower_project1/user/images/products/',
-        ],
-
-        'number_paginate' => '5',
-    ];
+    'number_paginate' => '5',
+    'rate' => 5,
+];
