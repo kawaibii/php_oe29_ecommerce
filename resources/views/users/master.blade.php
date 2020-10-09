@@ -24,7 +24,6 @@
     @include("users.elements.menu")
     @yield("content")
     @include("users.elements.footer")
-    @yield("js")
 
     <script src="{{ asset('bower_components/bower_project1/user/js/jquery.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/jquery-migrate-3.0.1.min.js') }}"></script>
@@ -42,5 +41,6 @@
     <script src="{{ asset('bower_components/bower_project1/user/googlemap.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/google-map.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/main.js') }}"></script>
+    @yield("js")
 </body>
 </html>

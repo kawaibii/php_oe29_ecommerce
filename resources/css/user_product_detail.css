@@ -1,0 +1,38 @@
+.wrap-user-product-detail-page .product-name {
+    font-weight: 600;
+}
+
+.wrap-user-product-detail-page .list-image:hover {
+    cursor: pointer;
+    border: 1px solid #BDBDBD;
+}
+
+.wrap-user-product-detail-page .price .original-price {
+    font-size: 14px;
+    text-decoration: line-through;
+    padding-right: 10px;
+}
+
+.wrap-user-product-detail-page .price .current-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FE2E2E;
+}
+
+.wrap-user-product-detail-page .list-image {
+    width: 100%;
+}
+
+.wrap-user-product-detail-page .size {
+    padding-top: 5px;
+    padding-right: 17px;
+}
+
+.wrap-user-product-detail-page .wrap-size {
+    padding-left: 15px;
+    padding-bottom: 20px;
+}
+
+.wrap-user-product-detail-page .quantity {
+    color: #000;
+}
