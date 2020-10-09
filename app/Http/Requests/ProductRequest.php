@@ -4,7 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
+use App\Models\Product;
 class ProductRequest extends FormRequest
 {
     /**
@@ -25,12 +26,18 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
+
             'name' => 'required|unique:products,name',
+
+            'name' => [
+                'required',
+                Rule::unique('products', 'name')->ignore($this->product),
+            ],
             'original_price' => 'numeric|required',
             'current_price' => 'numeric|required',
             'category' => 'required',
             'brand' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg',
+            'image' => 'mimes:png,jpg,jpeg',
             'description' => 'required',
         ];
     }
@@ -39,7 +46,7 @@ class ProductRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if ($validator->errors()->all()){
+            if ($validator->errors()->all()) {
                 $validator->errors()->add('show_modal', $this->input('define'));
                 $validator->errors()->add('route', $this->route('product'));
             }

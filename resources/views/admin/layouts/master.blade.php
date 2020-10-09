@@ -14,9 +14,9 @@
     <link href="{{ asset('bower_components/bower_project1/admin/css/morris.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/bower_project1/admin/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/bower_project1/admin/css/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components/bower_project1/admin/css/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
+    @yield('css')
     <script src="{{ asset('bower_components/ckeditor/ckeditor.js') }}"></script>
 </head>
 <body>

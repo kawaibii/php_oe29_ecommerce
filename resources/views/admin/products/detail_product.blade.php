@@ -42,21 +42,9 @@
 
             <div class="container">
                 <ul class="nav nav-pills" id="jtab">
-                    @if (count($images) != 0)
-                        <div class="col-md-4">
-                            <li><a data-toggle="pill" href="#image">{{ trans('admin.image') }}</a></li>
-                        </div>
-                    @endif
-                    @if (count($comments) != 0)
-                        <div class="col-md-4">
-                             <li><a data-toggle="pill" href="#comment">{{ trans('admin.comment') }}</a></li>>
-                        </div>
-                    @endif
-                    @if (count($productDetails) != 0)
-                        <div class="col-md-4">
-                             <li><a data-toggle="pill" href="#detail">{{ trans('admin.product.list_size') }}</a></li>
-                        </div>
-                    @endif
+                    <li><a data-toggle="pill" href="#image">{{ trans('admin.image') }}</a></li>
+                    <li><a data-toggle="pill" href="#comment">{{ trans('admin.comment') }}</a></li>
+                    <li><a data-toggle="pill" href="#detail">{{ trans('admin.product.list_size') }}</a></li>
                 </ul>
                 <div class="tab-content">
                     @if (count($images))

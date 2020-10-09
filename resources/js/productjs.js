@@ -4,13 +4,36 @@ $(document).ready(function() {
     });
 });
 
+window.editProduct = function (button) {
+    $(".loader").show();
+    let url = button.getAttribute('data-url');
+    $.ajax({
+        url : url,
+        type : "get",
+        success : function (data) {
+            let json = JSON.parse(data);
+            $("#formEdit").attr("action", json.url);
+            $(".loader").hide();
+            $("#name_edit").val(json.name);
+            $("#original_price_edit").val(json.original_price);
+            $("#current_price_edit").val(json.current_price);
+            CKEDITOR.instances['description_edit'].setData(json.description);
+            $("#Modaledit").modal("show");
+
+        },
+        error : function (data) {
+            (".loader").hide();
+            confirm("not working");
+        }
+    })
+}
+
 window.deleteProduct = function (e) {
     return confirm(e.getAttribute('data-message'));
 }
 
 function previewImages() {
     var preview = document.querySelector('#preview');
-    console.log(preview.childElementCount);
     for (let i = 0; i < preview.childNodes.length ; i++) {
         preview.removeChild(preview.childNodes[i]);
     }
@@ -19,7 +42,6 @@ function previewImages() {
     }
     function readAndPreview(file) {
         var reader = new FileReader();
-
         reader.addEventListener("load", function() {
             var image = new Image();
             image.id ="images-product";
@@ -37,8 +59,29 @@ document.querySelector('#file-input').addEventListener("change", previewImages);
 
 $(document).ready(function (e) {
     let x = $(".define").data('value');
-    if( x == "create"){
+    let url = $(".define").data('route');
+    if ( x == "create") {
         $("#myModal").modal("show");
     }
+    if (x == "edit") {
+        $.ajax({
+            url : url,
+            type : "get",
+            success : function (data) {
+                let json = JSON.parse(data);
+                $("#formEdit").attr("action", json.url);
+                $(".loader").hide();
+                $("#name_edit").val(json.name);
+                $("#original_price_edit").val(json.original_price);
+                $("#current_price_edit").val(json.current_price);
+                CKEDITOR.instances['description_edit'].setData(json.description);
+                $("#Modaledit").modal("show");
+            },
+            error : function (data) {
+                (".loader").hide();
+                alert("not found");
+            }
+        });
+        $("#Modaledit").modal("show");
+    }
 });
-

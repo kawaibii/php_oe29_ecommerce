@@ -93,7 +93,16 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findorFail($id);
+        $data = [
+            'name' => $product->name,
+            'current_price' => $product->current_price,
+            'original_price' => $product->original_price,
+            'description' => $product->description,
+            'url' => route('products.update', $product->id),
+        ];
+
+        return json_encode($data);
     }
 
     /**
@@ -103,9 +112,25 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+            $product->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'rate' => $product->rate,
+                'original_price' => $request->original_price,
+                'current_price' => $request->current_price,
+                'category_id' => $request->category,
+                'brand_id' => $request->brand,
+            ]);
+            $this->uploadImage($request, $product);
+
+            return redirect()->back()->with('message_success', trans('success'));
+        } catch (Exception $ex) {
+            return redirect()->back()->with('message_error', trans('error'));
+        }
     }
 
     /**
