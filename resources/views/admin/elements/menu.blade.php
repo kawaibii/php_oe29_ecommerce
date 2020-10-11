@@ -17,10 +17,10 @@
                 <a href="#" ><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.user_management') }}</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.product_management') }}</a>
+                <a href="{{ route('products.index') }}"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.product_management') }}</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.order_management') }}</a>
+                <a href="{{ route('orders.index') }}"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.order_management') }}</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.store_management') }}</a>

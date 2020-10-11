@@ -50,22 +50,30 @@
                                             <td>{{ $order->phone }}</td>
                                             <td class="center">{{ $order->address }}</td>
                                             <td class="center">{{ $order->total_price }}</td>
-                                            <td class="center">
+                                            <td>
                                                 @switch ($order->status)
                                                     @case (config('order.status.pending'))
+                                                    <div class="alert alert-success">
                                                         {{ trans('admin.pending') }}
 
                                                         @break
+                                                    </div>
                                                     @case (config('order.status.approved'))
-                                                        {{ trans('admin.approved') }}
+                                                        <div class="alert alert-info">
+                                                            {{ trans('admin.approved') }}
 
-                                                        @break
+                                                            @break
+                                                        </div>
                                                     @case (config('order.status.rejected'))
-                                                        {{ trans('admin.rejected') }}
+                                                        <div class="alert alert-danger">
+                                                            {{ trans('admin.rejected') }}
 
-                                                        @break
+                                                            @break
+                                                        </div>
                                                     @default
-                                                        {{ trans('admin.cancelled') }}
+                                                        <div class="alert alert-warning">
+                                                            {{ trans('admin.cancelled') }}
+                                                        </div>
                                                     @endswitch
                                             </td>
                                             <td class="center">{{ $order->note }}</td>
