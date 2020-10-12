@@ -37,7 +37,9 @@
                                         <th>{{ trans('admin.product.original_price') }}</th>
                                         <th>{{ trans('admin.product.current_price') }}</th>
                                         <th>{{ trans('admin.product.count_image') }}</th>
+                                        <th>{{ trans('admin.image') }}</th>
                                         <th>{{ trans('admin.product.count_product_detail') }}</th>
+                                        <th>{{ trans('admin.quantity') }}</th>
                                         <th>{{ trans('admin.action') }}</th>
                                     </tr>
                                     </thead>
@@ -49,7 +51,11 @@
                                             <td>{{ $product->original_price }}</td>
                                             <td class="center">{{ $product->current_price }}</td>
                                             <td class="center">{{ $product->images_count }}</td>
+                                            <td class="center">
+                                                <img class="img-circle" src="{{ asset(config('setting.image.product') . $product->images->first()->image_link ) }}" width="100px" height="100px">
+                                            </td>
                                             <td class="center">{{ $product->product_details_count }}</td>
+                                            <td class="center">{{ $product->productDetails->sum('quantity') }}</td>
                                             <td class="center">
                                                 <a href="{{ route('products.show', $product->id) }}">
                                                     <button class="btn btn-primary">{{ trans('admin.detail') }}</button>

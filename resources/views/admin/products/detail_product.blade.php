@@ -47,15 +47,9 @@
 
             <div class="container">
                 <ul class="nav nav-pills" id="jtab">
-                    @if (count($images))
-                        <li><a data-toggle="pill" href="#image">{{ trans('admin.image') }}</a></li>
-                    @endif
-                    @if (count($comments))
-                        <li><a data-toggle="pill" href="#comment">{{ trans('admin.comment') }}</a></li>
-                    @endif
-                    @if ($productDetails)
-                        <li><a data-toggle="pill" href="#detail">{{ trans('admin.product.list_size') }}</a></li>
-                    @endif
+                    <li><a data-toggle="pill" href="#image">{{ trans('admin.image') }}</a></li>
+                    <li><a data-toggle="pill" href="#comment">{{ trans('admin.comment') }}</a></li>
+                    <li><a data-toggle="pill" href="#detail">{{ trans('admin.product.list_size') }}</a></li>
                 </ul>
                 <div class="tab-content">
                     @if (count($images))
@@ -92,9 +86,13 @@
                             </table>
                             <div class="text-center">{{ $images->appends(config('setting.paginate.image'))->links() }}</div>
                         </div>
+                    @else
+                        <div id="image" class="tab-pane fade in active text-center">
+                           <h2>{{ trans('admin.product.currently_image') }}</h2>
+                        </div>
                     @endif
                     @if (count($comments))
-                            <div id="comment" class="tab-pane fade">
+                        <div id="comment" class="tab-pane fade">
                                 <h3>{{ trans('admin.comment') }}</h3>
                                 <table class="table">
                                     <thead>
@@ -128,6 +126,10 @@
                                     </tbody>
                                 </table>
                                 <div class="text-center"> {{ $comments->appends(config('setting.paginate.comment'))->links() }}</div>
+                            </div>
+                    @else
+                            <div id="comment" class="tab-pane fade text-center">
+                                <h2>{{ trans('admin.product.currently_comment') }}</h2>
                             </div>
                     @endif
                     @if (count($productDetails))
@@ -164,9 +166,11 @@
                                 </table>
                                 <div class="text-center">{{ $productDetails->appends(config('setting.paginate.product_detail'))->links() }}</div>
                             </div>
+                    @else
+                        <div id="detail" class="tab-pane fade text-center">
+                            <h2>{{ trans('admin.product.currently_product_detail') }}</h2>
+                        </div>
                     @endif
-
-
                 </div>
             </div>
 
