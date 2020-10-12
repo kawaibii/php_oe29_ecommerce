@@ -48,8 +48,8 @@
                                         <tr class="odd gradeX">
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $product->name }}</td>
-                                            <td>{{ $product->original_price }}</td>
-                                            <td class="center">{{ $product->current_price }}</td>
+                                            <td>{{ number_format($product->original_price ) . trans('admin.money.vi') }}</td>
+                                            <td class="center">{{ number_format($product->current_price) . trans('admin.money.vi') }}</td>
                                             <td class="center">{{ $product->images_count }}</td>
                                             <td class="center">
                                                 <img class="img-circle" src="{{ asset(config('setting.image.product') . $product->images->first()->image_link ) }}" width="100px" height="100px">
@@ -60,8 +60,8 @@
                                                 <a href="{{ route('products.show', $product->id) }}">
                                                     <button class="btn btn-primary">{{ trans('admin.detail') }}</button>
                                                 </a>
-                                                <button type="button" class="btn btn-info"
-                                                        onclick="editProduct(this)" data-toggle="modal"
+                                                <button type="button" class="btn btn-info edit-product"
+                                                        id="edit-product" data-toggle="modal"
                                                         data-url={{ route('products.edit', $product->id) }}>
                                                     {{ trans('admin.edit') }}
                                                 </button>

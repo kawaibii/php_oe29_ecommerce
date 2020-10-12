@@ -69,12 +69,12 @@
                         <div id="preview"></div>
                     </div>
                     <input value="create" hidden name="define">
-                    <button class="btn btn-primary" type="submit">Thêm sản phẩm</button>
-                    <button class = "btn btn-danger" type="reset"> Reset </button>
+                    <button class="btn btn-primary" type="submit">{{ trans('admin.product.add_product') }}</button>
+                    <button class = "btn btn-danger" type="reset"> {{ trans('admin.reset') }} </button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('admin.close') }}</button>
             </div>
         </div>
 

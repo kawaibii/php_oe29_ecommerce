@@ -1,5 +1,4 @@
 @extends('admin.layouts.master')
-
 @section('content')
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -49,7 +48,7 @@
                                             <td>{{ $order->user->name }}</td>
                                             <td>{{ $order->phone }}</td>
                                             <td class="center">{{ $order->address }}</td>
-                                            <td class="center">{{ $order->total_price }}</td>
+                                            <td class="center">{{ number_format($order->total_price) . trans('admin.money.vi') }}</td>
                                             <td>
                                                 @switch ($order->status)
                                                     @case (config('order.status.pending'))
@@ -79,8 +78,7 @@
                                             <td class="center">{{ $order->note }}</td>
                                             <td class="center">{{ $order->product_details_count }}</td>
                                             <td class="center">
-                                                <button class="btn btn-primary">{{ trans('admin.detail') }}</button>
-                                                <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
+                                                <button class="btn btn-primary order" data-url="{{ route('orders.show', $order->id) }}" id="view-order-detail" >{{ trans('admin.detail') }}</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -98,6 +96,7 @@
         </div>
         <!-- /.container-fluid -->
     </div>
+    <div class="modal fade" id="detail-Order" role="dialog"></div>
     @include('admin.elements.loading')
 @endsection
 @section('js')

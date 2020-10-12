@@ -55,7 +55,11 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+        $order = Order::with(['productDetails', 'user'])->findOrFail($id);
+        $productDetails = $order->productDetails;
+        $user = $order->user;
 
+        return view('admin.orders.modal_detail_order', compact('order', 'productDetails', 'user'));
     }
 
     /**

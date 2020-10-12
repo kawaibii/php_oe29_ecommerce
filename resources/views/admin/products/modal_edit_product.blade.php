@@ -36,7 +36,7 @@
                         @error('brand')
                             <span id = "show_errors">* {{ $errors->first('brand') }}</span>
                         @enderror
-                        <select multiple="" class="form-control" name="brand">
+                        <select multiple="" class="form-control brand" name="brand">
                             @foreach ($brands as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
@@ -47,7 +47,7 @@
                         @error('category')
                             <span id = "show_errors">* {{ $errors->first('category') }}</span>
                         @enderror
-                        <select multiple="" class="form-control" name="category">
+                        <select multiple="" class="form-control category" name="category">
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
@@ -69,12 +69,12 @@
                         <div id="preview"></div>
                     </div>
                     <input value="edit" hidden name="define">
-                    <button class="btn btn-primary" type="submit" onclick="preview(this)">{{ trans('edit_product') }}</button>
-                    <button class = "btn btn-danger" type="reset"> Reset </button>
+                    <button class="btn btn-primary" type="submit" >{{ trans('admin.edit') }}</button>
+                    <button class = "btn btn-danger" type="reset"> {{ trans('admin.reset') }} </button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('admin.close') }}</button>
             </div>
         </div>
     </div>
