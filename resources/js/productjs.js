@@ -4,29 +4,43 @@ $(document).ready(function() {
     });
 });
 
-window.editProduct = function (button) {
-    $(".loader").show();
-    let url = button.getAttribute('data-url');
-    $.ajax({
-        url : url,
-        type : "get",
-        success : function (data) {
-            let json = JSON.parse(data);
-            $("#formEdit").attr("action", json.url);
-            $(".loader").hide();
-            $("#name_edit").val(json.name);
-            $("#original_price_edit").val(json.original_price);
-            $("#current_price_edit").val(json.current_price);
-            CKEDITOR.instances['description_edit'].setData(json.description);
-            $("#Modaledit").modal("show");
+$(document).ready(function () {
+    $(".edit-product").click(function () {
+        $(".loader").show();
+        let url = this.getAttribute('data-url');
+        $.ajax({
+            url : url,
+            type : "get",
+            success : function (data) {
+                let json = JSON.parse(data);
+                $("#formEdit").attr("action", json.url);
+                $(".loader").hide();
+                $("#name_edit").val(json.name);
+                $("#original_price_edit").val(json.original_price);
+                $("#current_price_edit").val(json.current_price);
+                $('.category option').each(function() {
+                    if ($(this).val() == json.category) {
+                        $(this).prop("selected", true);
+                    }
+                });
+                $('.brand option').each(function() {
+                    if ($(this).val() == json.brand) {
+                        $(this).prop("selected", true);
+                    }
+                });
+                CKEDITOR.instances['description_edit'].setData(json.description);
+                $("#Modaledit").modal("show");
 
-        },
-        error : function (data) {
-            (".loader").hide();
-            confirm("not working");
-        }
-    })
-}
+            },
+            error : function (data) {
+                (".loader").hide();
+                confirm("not working");
+            }
+        })
+    });
+
+
+})
 
 window.deleteProduct = function (e) {
     return confirm(e.getAttribute('data-message'));
@@ -55,7 +69,6 @@ function previewImages() {
             preview.appendChild(image);
         });
         reader.readAsDataURL(file);
-
     }
 }
 
@@ -78,6 +91,16 @@ $(document).ready(function (e) {
                 $("#name_edit").val(json.name);
                 $("#original_price_edit").val(json.original_price);
                 $("#current_price_edit").val(json.current_price);
+                $('.category option').each(function() {
+                    if ($(this).val() == json.category) {
+                        $(this).prop("selected", true);
+                    }
+                });
+                $('.brand option').each(function() {
+                    if ($(this).val() == json.brand) {
+                        $(this).prop("selected", true);
+                    }
+                });
                 CKEDITOR.instances['description_edit'].setData(json.description);
                 $("#Modaledit").modal("show");
             },

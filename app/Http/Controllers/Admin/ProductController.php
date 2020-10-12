@@ -74,12 +74,11 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['images', 'productDetails', 'comments'])->find($id);
+            $product = Product::with(['images', 'productDetails'])->find($id);
             $images = $product->images()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
             $productDetails = $product->productDetails()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.product_detail'));
-            $comments = $product->comments()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.comment'));
 
-            return view('admin.products.detail_product', compact('product','images', 'productDetails', 'comments'));
+            return view('admin.products.detail_product', compact('product','images', 'productDetails'));
         } catch (Exception $ex) {
             return redirect()->back()->with('message_error', trans('message_error'));
         }
@@ -99,6 +98,8 @@ class ProductController extends Controller
             'current_price' => $product->current_price,
             'original_price' => $product->original_price,
             'description' => $product->description,
+            'category' => $product->category_id,
+            'brand' => $product->brand_id,
             'url' => route('products.update', $product->id),
         ];
 

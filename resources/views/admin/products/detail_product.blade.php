@@ -48,7 +48,6 @@
             <div class="container">
                 <ul class="nav nav-pills" id="jtab">
                     <li><a data-toggle="pill" href="#image">{{ trans('admin.image') }}</a></li>
-                    <li><a data-toggle="pill" href="#comment">{{ trans('admin.comment') }}</a></li>
                     <li><a data-toggle="pill" href="#detail">{{ trans('admin.product.list_size') }}</a></li>
                 </ul>
                 <div class="tab-content">
@@ -90,47 +89,6 @@
                         <div id="image" class="tab-pane fade in active text-center">
                            <h2>{{ trans('admin.product.currently_image') }}</h2>
                         </div>
-                    @endif
-                    @if (count($comments))
-                        <div id="comment" class="tab-pane fade">
-                                <h3>{{ trans('admin.comment') }}</h3>
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>{{ trans('admin.#') }}</th>
-                                        <th>{{ trans('admin.user') }}</th>
-                                        <th>{{ trans('admin.message') }}</th>
-                                        <th>{{ trans('admin.rate') }}</th>
-                                        <th>{{ trans('admin.action') }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($comments as $key => $comment)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $comment->user->name }}</td>
-                                            <td>{{ $comment->message }}</td>
-                                            <td>{{ $comment->rate }}</td>
-                                            <td>
-                                                <form action="{{ route('delete.comment', $comment->id) }}"
-                                                    data-message ="{{ trans('admin.delete') . trans('admin.comment') }}"
-                                                    onsubmit="confirmDelete(this)"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                                <div class="text-center"> {{ $comments->appends(config('setting.paginate.comment'))->links() }}</div>
-                            </div>
-                    @else
-                            <div id="comment" class="tab-pane fade text-center">
-                                <h2>{{ trans('admin.product.currently_comment') }}</h2>
-                            </div>
                     @endif
                     @if (count($productDetails))
                         <div id="detail" class="tab-pane fade">
