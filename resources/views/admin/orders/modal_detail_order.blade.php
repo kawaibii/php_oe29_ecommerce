@@ -68,9 +68,16 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary">{{ trans('admin.pending') }}</button>
-            <button class="btn btn-danger">{{ trans('admin.approved') }}</button>
-            <button class="btn btn-warning">{{ trans('admin.rejected') }}</button>
+            <button class="btn btn-primary approved-order
+                 @if ($order->status == config('order.status.approved'))
+                    disabled
+                 @endif
+            " data-url="{{ route('orders.approved', $order->id) }}">{{ trans('admin.approved') }}</button>
+            <button class="btn btn-danger rejected-order
+                 @if ($order->status == config('order.status.rejected'))
+                    disabled
+                 @endif
+            " data-url={{ route('orders.rejected', $order->id) }}>{{ trans('admin.rejected') }}</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('admin.close') }}</button>
         </div>
     </div>

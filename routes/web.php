@@ -39,6 +39,8 @@ Route::group(['middleware' => 'localization'], function() {
         });
         Route::group(['prefix' => 'manage-order'], function () {
             Route::resource('orders', 'OrderController')->names('orders');
+            Route::patch('order/{id}/approved', 'OrderController@approvedOrder')->name('orders.approved');
+            Route::patch('order/{id}/rejected', 'OrderController@rejectedOrder')->name('orders.rejected');
         });
         Route::group(['prefix' => 'manage-supplier'], function () {
            Route::resource('suppliers', 'SupplierController')->names('suppliers');
