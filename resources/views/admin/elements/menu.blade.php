@@ -26,7 +26,7 @@
                 <a href="#"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.store_management') }}</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.supplier_management') }}</a>
+                <a href="{{ route('suppliers.index') }}"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.supplier_management') }}</a>
             </li>
         </ul>
     </div>
