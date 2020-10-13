@@ -19,7 +19,8 @@
                             @foreach ($products as $product)
                             <div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex">
                                 <div class="product d-flex flex-column">
-                                    <a href="#" class="img-prod"><img class="img-fluid" src="{{ asset($product->images->first()->image_link) }}" alt="Product">
+                                    <a href="{{ route('user.product.show', $product->id) }}" class="img-prod">
+                                        <img class="img-fluid" src="{{ asset(config('setting.image.product') . $product->images->first()->image_link) }}" alt="">
                                         <div class="overlay"></div>
                                     </a>
                                     <div class="text py-3 pb-4 px-3">
@@ -38,16 +39,8 @@
                                         <h3><a href="#">{{ $product->name }}</a></h3>
                                         <div class="pricing">
                                             <p class="price">
-                                                <span class="original-price">
-                                                    @php
-                                                        echo number_format($product->original_price, 0, '', ',');
-                                                    @endphp
-                                                </span>
-                                                <span>
-                                                    @php
-                                                        echo number_format($product->current_price, 0, '', ',') . " VND";
-                                                    @endphp
-                                                </span>
+                                                <span class="original-price">{{ number_format($product->original_price) . " VND" }}</span>
+                                                <span>{{ number_format($product->current_price) . " VND" }}</span>
                                             </p>
                                         </div>
                                         <p class="bottom-area d-flex px-3">
