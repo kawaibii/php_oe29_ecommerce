@@ -2,4 +2,5 @@
 
 @section('content')
     @include("users.elements.slide")
+
 @endsection

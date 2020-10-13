@@ -16,7 +16,14 @@
                 </li>
                 <li class="nav-item">
                     @if (Auth::check())
-                        <a href="{{ route('user.logout') }}" class="nav-link">{{ trans('logout') }}</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-information">{{ trans('change_information') }}</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-password">{{ trans('change_password') }}</a>
+                            <a class="dropdown-item" href="{{ route('user.logout') }}" class="nav-link">{{ trans('logout') }}</a>
+                        </div>
+                    </li>
                     @else
                         <a href="{{ route('user.getLogin') }}" class="nav-link">{{ trans('login') }}</a>
                     @endif

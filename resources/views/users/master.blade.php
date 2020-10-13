@@ -24,7 +24,9 @@
     @include("users.elements.menu")
     @yield("content")
     @include("users.elements.footer")
-
+    @include("users.elements.modal_change_password")
+    @include("users.elements.modal_information")
+    <div class="show_modal" data-modal="{{ $errors->first('show_modal') }}"></div>
     <script src="{{ asset('bower_components/bower_project1/user/js/jquery.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/jquery-migrate-3.0.1.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/popper.min.js') }}"></script>
@@ -41,6 +43,7 @@
     <script src="{{ asset('bower_components/bower_project1/user/googlemap.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/google-map.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/main.js') }}"></script>
+    <script src="{{ asset('js/showModal.js') }}"></script>
     @yield("js")
 </body>
 </html>

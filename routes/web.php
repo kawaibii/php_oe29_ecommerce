@@ -28,6 +28,8 @@ Route::group(['middleware' => 'localization'], function() {
         Route::get('contact', 'HomeController@home')->name('contact');
         Route::get('cart', 'HomeController@home')->name('cart');
         Route::get('quantity/{id}', 'ProductController@quantity')->name('quantity');
+        Route::patch('change-password', 'HomeController@changePassword')->name('change_password');
+        Route::patch('change-information', 'HomeController@changeInformation')->name('change_information');
     });
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');
