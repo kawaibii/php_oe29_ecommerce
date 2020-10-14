@@ -40,5 +40,8 @@ Route::group(['middleware' => 'localization'], function() {
         Route::group(['prefix' => 'manage-order'], function () {
             Route::resource('orders', 'OrderController')->names('orders');
         });
+        Route::group(['prefix' => 'manage-supplier'], function () {
+           Route::resource('suppliers', 'SupplierController')->names('suppliers');
+        });
     });
 });

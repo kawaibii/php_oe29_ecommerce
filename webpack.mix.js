@@ -17,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
 mix.js('resources/js/productjs.js', 'public/js');
 mix.js('resources/js/orderjs.js', 'public/js');
 mix.js('resources/js/product_detail.js', 'public/js');
+mix.js('resources/js/admin_supplier.js', 'public/js');
 
 mix.styles([
     'resources/css/admin_menu.css',
