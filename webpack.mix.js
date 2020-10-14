@@ -28,5 +28,6 @@ mix.styles([
     'resources/css/user_product.css',
     'resources/css/order.css',
     'resources/css/user_product_detail.css',
+    'resources/css/user_menu.css',
     ], 'public/css/all.css'
 );

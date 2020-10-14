@@ -12,7 +12,14 @@
                 <li class="nav-item"><a href="{{ route('user.about') }}" class="nav-link">{{ trans('about') }}</a></li>
                 <li class="nav-item"><a href="{{ route('user.contact') }}" class="nav-link">{{ trans('contact') }}</a></li>
                 <li class="nav-item cta cta-colored">
-                    <a href="{{ route('user.cart') }}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a>
+                    <a href="{{ route('user.cart') }}" class="nav-link">
+                        <span class="icon-shopping_cart"></span>
+                        @if(Session::has('numberOfItemInCart'))
+                            <span class="badge">{{ Session::get('numberOfItemInCart') }}</span>
+                        @else
+                            <span class="badge">0</span>
+                        @endif
+                    </a>
                 </li>
                 <li class="nav-item">
                     @if (Auth::check())

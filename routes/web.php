@@ -30,6 +30,7 @@ Route::group(['middleware' => 'localization'], function() {
         Route::get('quantity/{id}', 'ProductController@quantity')->name('quantity');
         Route::patch('change-password', 'HomeController@changePassword')->name('change_password');
         Route::patch('change-information', 'HomeController@changeInformation')->name('change_information');
+        Route::post('add-to-cart', 'CartController@add')->name('addToCart');
     });
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');
