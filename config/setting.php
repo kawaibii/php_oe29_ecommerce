@@ -22,4 +22,5 @@
 
     'number_paginate' => '5',
     'rate' => 5,
+    'errors404' => 404,
 ];
