@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Mockery\Exception;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -94,5 +95,99 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function approvedOrder($id)
+    {
+        DB::beginTransaction();
+        $data = [
+            'status' => config('setting.http_status.success'),
+            'message' => trans('message_success'),
+        ];
+        try {
+            $order = Order::with('productDetails')->findOrFail($id);
+            if ($order->status != config('order.status.approved')) {
+                $productDetails = $order->productDetails;
+                foreach ($productDetails as $product) {
+                    if ($product->quantity >= $product->pivot->quantity) {
+                        $product->update([
+                            'quantity' => $product->quantity - $product->pivot->quantity,
+                        ]);
+                    } else {
+                        $data['status'] = config('setting.http_status.error');
+                        $data['message'] = trans('admin.order.not_enough');
+
+                        return json_encode($data);
+                    }
+                }
+                $order->update([
+                    'status' => config('order.status.approved'),
+                ]);
+                $data['id'] = $order->id;
+                DB::commit();
+
+                return json_encode($data);
+            } else {
+                $data['status'] = config('setting.http_status.serve');
+                $data['message'] = trans('admin.order.approved_error');
+
+                return  json_encode($data);
+            }
+        } catch (Exception $exception) {
+            DB::rollBack();
+            $data['status'] = config('setting.http_status.error');
+            $data['message'] = trans('message_errors');
+
+            return json_encode($data);
+        }
+    }
+
+    public function rejectedOrder($id)
+    {
+        DB::beginTransaction();
+        $data = [
+            'status' => config('setting.http_status.success'),
+            'message' => trans('message_success'),
+        ];
+        try {
+            $order = Order::with(['productDetails'])->findOrFail($id);
+            if ($order->status != config('order.status.rejected')
+                && $order->status != config('order.status.approved')) {
+                $order->update([
+                   'status' => config('order.status.rejected')
+                ]);
+                $data['id'] = $order->id;
+                DB::commit();
+
+                return json_encode($data);
+            } elseif ($order->status == config('order.status.approved')) {
+                $productDetails = $order->productDetails;
+                foreach ($productDetails as $product) {
+                    if ($product->quantity >= $product->pivot->quantity) {
+                        $product->update([
+                            'quantity' => $product->quantity + $product->pivot->quantity,
+                        ]);
+                    }
+                }
+                $order->update([
+                    'status' => config('order.status.rejected')
+                ]);
+                $data['id'] = $order->id;
+                DB::commit();
+
+                return json_encode($data);
+            } else {
+                $data['status'] = config('setting.http_status.serve');
+                $data['message'] = trans('admin.order.rejected_error');
+
+                return  json_encode($data);
+            }
+        } catch (Exception $exception) {
+            DB::rollBack();
+            $data['status'] = config('setting.http_status.error');
+            $data['message'] = trans('message_errors');
+
+            return json_encode($data);
+        }
     }
 }

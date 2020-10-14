@@ -49,28 +49,28 @@
                                             <td>{{ $order->phone }}</td>
                                             <td class="center">{{ $order->address }}</td>
                                             <td class="center">{{ number_format($order->total_price) . trans('admin.money.vi') }}</td>
-                                            <td>
+                                            <td class="status-order" data-id="{{ $order->id }}">
                                                 @switch ($order->status)
                                                     @case (config('order.status.pending'))
-                                                    <div class="alert alert-success">
+                                                    <div class="alert alert-success" data-id="{{ $order->id }}">
                                                         {{ trans('admin.pending') }}
 
                                                         @break
                                                     </div>
                                                     @case (config('order.status.approved'))
-                                                        <div class="alert alert-info">
+                                                        <div class="alert alert-info" data-id="{{ $order->id }}">
                                                             {{ trans('admin.approved') }}
 
                                                             @break
                                                         </div>
                                                     @case (config('order.status.rejected'))
-                                                        <div class="alert alert-danger">
+                                                        <div class="alert alert-danger" data-id="{{ $order->id }}">
                                                             {{ trans('admin.rejected') }}
 
                                                             @break
                                                         </div>
                                                     @default
-                                                        <div class="alert alert-warning">
+                                                        <div class="alert alert-warning" data-id="{{ $order->id }}">
                                                             {{ trans('admin.cancelled') }}
                                                         </div>
                                                     @endswitch
