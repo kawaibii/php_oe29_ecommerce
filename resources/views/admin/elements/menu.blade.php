@@ -25,9 +25,11 @@
             <li>
                 <a href="#"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.store_management') }}</a>
             </li>
-            <li>
-                <a href="{{ route('suppliers.index') }}"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.supplier_management') }}</a>
-            </li>
+            @can('viewAny', App\Models\Supplier::class)
+                <li>
+                    <a href="{{ route('suppliers.index') }}"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.supplier_management') }}</a>
+                </li>
+            @endcan
         </ul>
     </div>
 </div>

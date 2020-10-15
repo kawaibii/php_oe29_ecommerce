@@ -75,7 +75,7 @@
     "cart_total" : "Tổng số tiền",
     "category" : "Xem các loại",
     "checkout" : "Thanh toán",
-    "confirm_delete" : "Xóa sản phẩm :name?",
+    "confirm_delete" : "Xóa :name?",
     "contact" : "Liên hệ",
     "deal" : "Giảm giá :month",
     "description" : "Mô tả",

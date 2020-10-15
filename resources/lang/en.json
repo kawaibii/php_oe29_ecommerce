@@ -75,7 +75,7 @@
     "cart_total" : "Cart total",
     "category" : "Category",
     "checkout" : "Checkout",
-    "confirm_delete" : "Delete Product :name ?",
+    "confirm_delete" : "Delete :name ?",
     "contact" : "Contact",
     "deal" : "DEAL :month",
     "description" : "Description",

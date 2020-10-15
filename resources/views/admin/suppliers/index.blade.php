@@ -52,7 +52,14 @@
                                                 <button class="btn btn-primary">{{ trans('admin.supplier.import') }}</button>
                                                 <button type="button" class="btn btn-primary">{{ trans('admin.detail') }}</button>
                                                 <button type="button" class="btn btn-info">{{ trans('admin.edit') }}</button>
-                                                <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
+                                                <form action="{{ route('suppliers.destroy', $supplier->id) }}"
+                                                    class="confirm-delete-supplier"
+                                                    data-message="{{ trans('confirm_delete', ['name' => $supplier->name]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach

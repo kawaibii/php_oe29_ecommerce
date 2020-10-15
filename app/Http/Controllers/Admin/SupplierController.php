@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PHPUnit\Exception;
 
 class SupplierController extends Controller
@@ -16,13 +17,13 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        try {
+        if (Auth::user()->can('viewAny', Supplier::class)) {
             $suppliers = Supplier::all();
 
             return view('admin.suppliers.index', compact('suppliers'));
-        } catch (Exception $exception) {
-            return redirect()->back()->with('message_error', trans('message_error'));
         }
+
+        return abort(config('setting.errors404'));
     }
 
     /**
@@ -88,6 +89,13 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Auth::user()->can('delete', Supplier::class)) {
+            $supplier = Supplier::findOrFail($id);
+            $supplier->delete();
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        }
+
+        return abort(config('setting.errors404'));
     }
 }
