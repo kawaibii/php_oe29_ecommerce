@@ -4,9 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use App\Models\Product;
-class ProductRequest extends FormRequest
+use App\Models\User;
+
+class ChangeInformationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,26 +28,21 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'username' => [
                 'required',
-                Rule::unique('products', 'name')->ignore($this->product),
+                'min:8',
+                Rule::unique('users', 'phone')->ignore($this->user),
             ],
-            'original_price' => 'numeric|required',
-            'current_price' => 'numeric|required',
-            'category' => 'required',
-            'brand' => 'required',
-            'image.*' => 'mimes:png,jpg,jpeg',
-            'description' => 'required',
+            'phone' => 'numeric|required',
+            'address' => 'required',
         ];
     }
-
 
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
             if ($validator->errors()->all()) {
                 $validator->errors()->add('show_modal', $this->input('define'));
-                $validator->errors()->add('route', $this->route('product'));
             }
         });
     }

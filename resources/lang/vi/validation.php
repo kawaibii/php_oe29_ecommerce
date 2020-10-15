@@ -182,6 +182,9 @@ return [
         "current_price" => "Giá bán",
         "brand" => "nhãn hiệu",
         "category" => "danh mục",
+        "old_password" => "Mật khẩu cũ",
+        "new_password" => "Mật khẩu mới",
+        "rep_password" => "Nhập lại mật khẩu"
     ],
 
 ];
