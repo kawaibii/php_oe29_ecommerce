@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">{{ trans('admin.supplier.name') }}</h1>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">{{ trans('admin.supplier.add_supplier') }}</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-create-supplier">{{ trans('admin.supplier.add_supplier') }}</button>
                 </div>
             </div>
             @if (session('message_success'))
@@ -47,11 +47,16 @@
                                             <td>{{ $supplier->name }}</td>
                                             <td>{{ $supplier->phone }}</td>
                                             <td class="center">{{ $supplier->address }}</td>
-                                            <td class="center">{{ $supplier->description }}</td>
+                                            <td class="center">{!! $supplier->description !!}</td>
                                             <td class="center">
                                                 <button class="btn btn-primary">{{ trans('admin.supplier.import') }}</button>
                                                 <button type="button" class="btn btn-primary">{{ trans('admin.detail') }}</button>
-                                                <button type="button" class="btn btn-info">{{ trans('admin.edit') }}</button>
+
+                                                <button type="button"
+                                                    class="btn btn-info edit-supplier"
+                                                    data-url="{{ route('suppliers.edit', $supplier->id) }}">
+                                                    {{ trans('admin.edit') }}</button>
+
                                                 <form action="{{ route('suppliers.destroy', $supplier->id) }}"
                                                     class="confirm-delete-supplier"
                                                     data-message="{{ trans('confirm_delete', ['name' => $supplier->name]) }}"
@@ -78,6 +83,8 @@
     </div>
     <div class="define" data-value = {{ $errors->first('show_modal') }} data-route={{ route('suppliers.edit', $errors->first('route')) }}></div>
     @include('admin.elements.loading')
+    @include('admin.suppliers.modal_create_supplier')
+    @include('admin.suppliers.modal_edit_supplier')
 @endsection
 @section('js')
     <script src="{{ asset('bower_components/bower_project1/admin/js/dataTables/jquery.dataTables.min.js') }}"></script>

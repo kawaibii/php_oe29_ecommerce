@@ -28,9 +28,9 @@ class SupplierPolicy
      * @param  \App\Supplier  $supplier
      * @return mixed
      */
-    public function view(User $user, Supplier $supplier)
+    public function view(User $user)
     {
-        //
+        return $user->role_id == config('role.admin.supplier') || $user->role_id == config('role.admin.management');
     }
 
     /**
@@ -41,7 +41,7 @@ class SupplierPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->role_id == config('role.admin.supplier') || $user->role_id == config('role.admin.management');
     }
 
     /**
@@ -51,9 +51,9 @@ class SupplierPolicy
      * @param  \App\Supplier  $supplier
      * @return mixed
      */
-    public function update(User $user, Supplier $supplier)
+    public function update(User $user)
     {
-        //
+        return $user->role_id == config('role.admin.supplier') || $user->role_id == config('role.admin.management');
     }
 
     /**
