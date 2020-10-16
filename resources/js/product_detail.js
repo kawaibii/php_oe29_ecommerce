@@ -9,6 +9,7 @@ $(document).ready(function() {
             'background': '#FE2E2E',
             'color': '#fff'
         });
+        $("#quantity").val(1);
         $("#quantity").removeAttr("disabled");
         $(".quantity-right-plus").removeAttr("disabled");
         $(".quantity-left-minus").removeAttr("disabled");
@@ -18,11 +19,29 @@ $(document).ready(function() {
             url : url,
             type : "GET",
             success : function (data) {
-                let json = JSON.parse(data);
-                $("#quantity-size").text(json.quantity);
+                let productDetail = JSON.parse(data);
+                $("#quantity-size").text(productDetail.quantity);
+                $("#add-size").val(productDetail.size);
             },
             error : function($data) {
                 alert('Fail');
+            },
+            complete : function () {
+                $("#btn-add").click(function() {
+                    let chooseQuantity = $("#quantity").val();
+                    let maxQuantity = $("#quantity-size").text();
+                    if (chooseQuantity >= parseInt(maxQuantity)) {
+                        $("#btn-add").attr("disabled", true);
+                    }
+                });
+
+                $("#btn-sub").click(function() {
+                    let chooseQuantity = $("#quantity").val();
+                    let maxQuantity = $("#quantity-size").text();
+                    if (chooseQuantity < maxQuantity) {
+                        $("#btn-add").attr("disabled", false);
+                    }
+                });
             }
         });
     });
@@ -30,13 +49,13 @@ $(document).ready(function() {
     let quantitiy = 0;
     $('.quantity-right-plus').click(function(e) {
         e.preventDefault();
-        var quantity = parseInt($('#quantity').val());
+        let quantity = parseInt($('#quantity').val());
         $('#quantity').val(quantity + 1);
     });
 
     $('.quantity-left-minus').click(function(e) {
         e.preventDefault();
-        var quantity = parseInt($('#quantity').val());
+        let quantity = parseInt($('#quantity').val());
         if (quantity > 0) {
             $('#quantity').val(quantity - 1);
         }
