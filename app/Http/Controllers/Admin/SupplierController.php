@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,9 +43,15 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
-        //
+        if (Auth::user()->can('create', Supplier::class)) {
+            Supplier::create($request->all());
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        }
+
+        return abort(config('setting.errors404'));
     }
 
     /**
@@ -66,7 +73,27 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        //
+        if (Auth::user()->can('view', Supplier::class)) {
+            $supplier = Supplier::find($id);
+            if (empty($supplier)) {
+                $data = [
+                    'status' => config('setting.http_status.errors'),
+                    'message' => trans('message_error'),
+                ];
+
+                return json_encode($data);
+            }
+            $data = [
+                'status' => config('setting.http_status.success'),
+                'name' => $supplier->name,
+                'phone' => $supplier->phone,
+                'address' => $supplier->address,
+                'description' => $supplier->description,
+                'url' => route('suppliers.update', $supplier->id),
+            ];
+
+            return json_encode($data);
+        }
     }
 
     /**
@@ -76,9 +103,15 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SupplierRequest $request, $id)
     {
-        //
+        if (Auth::user()->can('update', Supplier::class)) {
+            Supplier::find($id)->update($request->all());
+
+            return redirect()->back()->with('message_success', trans('message_success'));
+        }
+
+        return abort(config('setting.errors404'));
     }
 
     /**
