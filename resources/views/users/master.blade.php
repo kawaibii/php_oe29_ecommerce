@@ -40,7 +40,6 @@
     <script src="{{ asset('bower_components/bower_project1/user/js/jquery.animateNumber.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/scrollax.min.js') }}"></script>
-    <script src="{{ asset('bower_components/bower_project1/user/googlemap.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/google-map.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/user/js/main.js') }}"></script>
     <script src="{{ asset('js/showModal.js') }}"></script>

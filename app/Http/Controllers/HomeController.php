@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ChangeInformationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
     public function home()
     {
-        return view('users.pages.home');
+        $products = Product::with('images')
+            ->orderBy('created_at', 'DESC')
+            ->take(config('setting.number_product'))
+            ->get();
+
+        return view('users.pages.home', compact('products'));
     }
 
     public function changeInformation(ChangeInformationRequest $request)
@@ -35,7 +41,7 @@ class HomeController extends Controller
                 'password' => bcrypt($request->new_password),
             ]);
 
-            return redirect()->route('user.homer')->with('message_success', trans('message_success'));
+            return redirect()->route('user.home')->with('message_success', trans('message_success'));
         } else {
 
             return redirect()->route('user.home')->withErrors(['show_modal' => $request->define, 'old_password' => trans('wrong_password')]);
