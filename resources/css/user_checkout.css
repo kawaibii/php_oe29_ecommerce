@@ -1,0 +1,56 @@
+.wrap-user-checkout-page .hero-bread {
+    background-image: url('../bower_components/bower_project1/user/images/bg_6.jpg');
+}
+
+.wrap-user-checkout-page .list-cart-detail {
+    padding-top: 30px;
+}
+
+.wrap-user-checkout-page .user-info {
+    float: left;
+    width: 45%;
+}
+
+.wrap-user-checkout-page .order-info {
+    float: right;
+    width: 45%;
+}
+
+.wrap-user-checkout-page .form-checkout {
+    width: 100%;
+    height: 500px;
+}
+
+.wrap-user-checkout-page .form-checkout ::-webkit-input-placeholder {
+    font-size: 13px;
+    color: #848484;
+}
+
+.wrap-user-checkout-page .order-info .line {
+    padding-top: 15px;
+    color: #000;
+}
+
+.wrap-user-checkout-page .order-info .line .title {
+    display: inline-block;
+    width: 30%;
+}
+
+.wrap-user-checkout-page .order-info .line .content {
+    display: inline-block;
+    font-weight: 600;
+    text-align: left;
+    width: 90px;
+}
+
+.wrap-user-checkout-page .btn-checkout {
+    margin-top: 30px;
+    width: 63%;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.wrap-user-checkout-page .order-info .form-group {
+    padding-top: 13px;
+}
