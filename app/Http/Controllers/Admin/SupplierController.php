@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
+use App\Models\Product;
+use App\Models\ProductDetail;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ImportProductRequest;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Exception;
 
 class SupplierController extends Controller
@@ -130,5 +134,82 @@ class SupplierController extends Controller
         }
 
         return abort(config('setting.errors404'));
+    }
+
+    public function showProduct($id)
+    {
+        if (Auth::user()->can('importProduct', Supplier::class)) {
+            $supplier = Supplier::findOrFail($id);
+            $products = Product::all();
+
+            return view('admin.suppliers.import_product', compact('supplier', 'products'));
+        }
+    }
+
+    public function showInfoProduct($productId, $supplierId)
+    {
+        $product = Product::findOrFail($productId);
+
+        return view('admin.suppliers.modal_import_product', compact('product', 'supplierId'));
+    }
+
+    public function updateOrCreateProductDetails(ImportProductRequest $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $product = Product::with(['productDetails'])->findOrFail($id);
+            $productDetail = $product->productDetails->where('size', '=', $request->size)->first();
+            $supplier = Supplier::findOrFail($request->supplier);
+            $price = 0;
+            if ($request->original_price > 0) {
+                $product->update([
+                    'original_price' => $request->original_price,
+                ]);
+                $price = $request->original_price;
+            } else {
+                $price = $product->original_price;
+            }
+            if (isset($productDetail)) {
+                $productDetail->update([
+                   'quantity' => $productDetail->quantity + $request->quantity,
+                ]);
+                $supplier->products()->attach($product, [
+                    'size' => $request->size,
+                    'quantity' => $request->quantity,
+                    'unit_price' => $price * $request->quantity,
+                    'paid' => config('setting.paid.payed'),
+                ]);
+            } else {
+                $newProductDetails = ProductDetail::create([
+                   'size' => $request->size,
+                   'quantity' => $request->quantity,
+                   'product_id' => $id,
+                ]);
+                $supplier->products()->attach($product, [
+                    'size' => $request->size,
+                    'quantity' => $request->quantity,
+                    'unit_price' => $price * $request->quantity,
+                    'paid' => config('setting.paid.payed'),
+                ]);
+            }
+            $data = [
+                'id' => $id,
+                'status' => config('setting.http_status.success'),
+                'message' => trans('message_success'),
+                'quantity' => $product->productDetails->sum('quantity'),
+                'original_price' => $product->original_price,
+            ];
+            DB::commit();
+
+            return json_encode($data);
+        } catch (Exception $exception) {
+            DB::rollBack();
+            $data = [
+                'status' => config('setting.http_status.success'),
+                'message' => trans('message_error'),
+            ];
+
+            return json_encode($data);
+        }
     }
 }

@@ -12,6 +12,7 @@ class ProductDetail extends Model
     protected $fillable = [
         'size',
         'quantity',
+        'product_id',
     ];
 
     public $timestamps = true;
