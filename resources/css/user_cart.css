@@ -1,0 +1,33 @@
+.wrap-user-cart-page .hero-bread {
+    background-image: url('../bower_components/bower_project1/user/images/bg_6.jpg');
+}
+
+.wrap-user-cart-page .buy-now {
+    color: #2E64FE;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.wrap-user-cart-page .img {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.wrap-user-cart-page .tr-total {
+
+}
+.wrap-user-cart-page .total-price {
+    background-color: #D8D8D8;
+}
+
+.wrap-user-cart-page td {
+    padding: 10px 5px !important;
+}
+
+.wrap-user-cart-page .size {
+    width: 20px !important;
+}
+
+.wrap-user-cart-page .quantity {
+    width: 20px !important;
+}
