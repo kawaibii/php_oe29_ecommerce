@@ -10,6 +10,7 @@
 
         'image' => [
             'product' => 'bower_components/bower_project1/user/images/products/',
+            'user1' => "bower_components/bower_project1/user/images/person_1.jpg",
             'slide1' => 'bower_components/bower_project1/user/images/bg_1.png',
             'slide2' => 'bower_components/bower_project1/user/images/bg_2.png',
         ],
@@ -23,4 +24,5 @@
     'number_paginate' => '5',
     'rate' => 5,
     'errors404' => 404,
+    'number_product' => '8',
 ];

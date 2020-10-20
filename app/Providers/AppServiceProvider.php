@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\View\View;
+use App\Models\Product;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +27,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        view()->composer(['users.components.homes.introduce_product_component'], function ($view) {
+            $product = Product::where('current_price', '>', 0)->first();
+            $view->with('product', $product);
+        });
     }
 }
