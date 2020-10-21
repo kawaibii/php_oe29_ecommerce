@@ -56,5 +56,6 @@ Route::group(['middleware' => 'localization'], function() {
         Route::group(['prefix' => 'manage-supplier'], function () {
            Route::resource('suppliers', 'SupplierController')->names('suppliers');
         });
+        Route::resource('brands', 'BrandController');
     });
 });
