@@ -34,6 +34,11 @@ Route::group(['middleware' => 'localization'], function() {
         Route::get('cart', 'CartController@cart')->name('cart');
         Route::post('delete-one-product', 'CartController@deleteOneProduct')->name('deleteOne');
         Route::get('delete-all-product', 'CartController@deleteAllProduct')->name('deleteAll');
+        Route::group(['middleware' => 'checkLogin'], function(){
+            Route::get('checkout', 'OrderController@getListItemsInCart')->name('listItemInCart');
+            Route::post('checkout', 'OrderController@checkout')->name('checkout');
+            Route::get('order-history', 'OrderController@getOrderHistory')->name('orderHistory');
+        });
     });
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');

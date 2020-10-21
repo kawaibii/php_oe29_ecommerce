@@ -31,3 +31,12 @@
 .wrap-user-cart-page .quantity {
     width: 20px !important;
 }
+
+.wrap-user-cart-page .btn-checkout {
+    float:right;
+    width: 30%;
+    height: 35px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+}

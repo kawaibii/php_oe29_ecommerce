@@ -81,6 +81,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <a href="{{ route('user.listItemInCart') }}" class="btn btn-danger btn-checkout">{{ trans('user.cart.checkout') }}</a>
                     @endif
                 </div>
             </div>
