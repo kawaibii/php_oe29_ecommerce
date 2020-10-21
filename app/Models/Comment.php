@@ -10,13 +10,16 @@ class Comment extends Model
         'message',
         'status',
         'rate',
+        'product_id',
+        'user_id',
+        'parent_id',
     ];
 
     public $timestamps = true;
 
     public function replies()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'parent_id', 'id');
     }
 
     public function user()

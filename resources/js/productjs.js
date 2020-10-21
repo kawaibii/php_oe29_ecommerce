@@ -4,8 +4,7 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function () {
-    $(".edit-product").click(function () {
+$(document).on("click", ".edit-product", function () {
         $(".loader").show();
         let url = this.getAttribute('data-url');
         $.ajax({
@@ -37,9 +36,6 @@ $(document).ready(function () {
                 confirm("not working");
             }
         })
-    });
-
-
 })
 
 window.deleteProduct = function (e) {

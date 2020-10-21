@@ -29,7 +29,7 @@
                             <span class="original-price">{{ number_format($product->original_price) . " VND" }}</span>
                             <span class="current-price">{{ number_format($product->current_price) . " VND" }}</span>
                         </p>
-                        <p>{{ $product->description }}</p>
+                        <p>{!! $product->description !!}</p>
                         <form action="{{ route('user.addToCart') }}" method="POST">
                             @csrf
                             <div class="row mt-4">
@@ -65,6 +65,152 @@
                             <input type="submit" class="btn btn-black py-3 px-5 mr-2" value="{{ trans('user.product_detail.add_to_cart') }}">
                             <a href="#" class="btn btn-primary py-3 px-5">{{ trans('user.product_detail.buy_now') }}</a>
                         </form>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-12 nav-link-wrap">
+                        <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link ftco-animate mr-lg-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="false">
+                                {{ trans('admin.description') }}
+                            </a>
+
+                            <a class="nav-link ftco-animate mr-lg-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">
+                                {{ trans('manufactured') }}
+                            </a>
+
+                            <a class="nav-link ftco-animate active" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="true">
+                                {{ trans('admin.comment') }}
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-wrap">
+                        <div class="tab-content bg-light" id="v-pills-tabContent">
+
+                            <div class="tab-pane fade" id="v-pills-1" role="tabpanel" aria-labelledby="day-1-tab">
+                                <div class="p-4">
+                                    <h3 class="mb-4">{{ $product->name }}</h3>
+                                    <p> {!! $product->description !!}</p>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-day-2-tab">
+                                <div class="p-4">
+                                    <h3 class="mb-4"> {{ $product->name . trans('manufactured_buy') . $product->brand->name }}</h3>
+                                    <p>{!! $product->description !!}</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade show active" id="v-pills-3" role="tabpanel" aria-labelledby="v-pills-day-3-tab">
+                                <div class="row p-4">
+                                    <div class="col-md-7">
+                                        <h3 class="mb-4">{{ $comments->count('id') . " " . trans('admin.comment') }}</h3>
+                                        <div class="list-comment">
+                                            @foreach ($comments as $comment)
+                                                <div class="review">
+                                                    <div class="user-img"></div>
+                                                    <div class="desc">
+                                                        <h4>
+                                                            <span class="text-left">{{ $comment->user->name }}</span>
+                                                            <span class="text-right">{{ $comment->created_at }}</span>
+                                                        </h4>
+                                                        <p class="star">
+								   				        <span>
+                                                            @for ($i = 0; $i < $comment->rate; $i++)
+                                                                <i class="ion-ios-star-outline"></i>
+                                                            @endfor
+							   					        </span>
+                                                        <span class="text-right">
+                                                            <a class="reply" data-toggle="collapse" href="#comment-{{ $comment->id }}" role="button" aria-expanded="false" aria-controls="collapseExample" >
+                                                                <i class="icon-reply"></i>
+                                                            </a>
+                                                        </span>
+                                                        </p>
+                                                        <p>{{ $comment->message }}</p>
+                                                        @if (count($comment->replies) > 0)
+                                                        <div class="list-reply">
+                                                            @foreach ($comment->replies as $reply)
+                                                                <div class="user-img"></div>
+                                                                <div class="desc">
+                                                                    <h4>
+                                                                        <span class="text-left">{{ $reply->user->name }}</span>
+                                                                        <span class="text-right">{{ $reply->created_at }}</span>
+                                                                    </h4>
+                                                                    <p class="star">
+                                                                        <span class="text-right">
+                                                                            <a class="reply" data-toggle="collapse" href="#comment-{{ $comment->id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                                                <i class="icon-reply"></i>
+                                                                            </a>
+                                                                        </span>
+                                                                    </p>
+                                                                    <p>{{ $reply->message }}</p>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        @endif
+                                                        <div class="collapse" id="comment-{{ $comment->id }}">
+                                                            <form action="{{ route('user.reply_comment',['commentId' => $comment->id, 'productId' => $product->id]) }}" method="post" id="comment">
+                                                                @csrf
+                                                                <div class="form-group">
+                                                                    <span>{{ $errors->first('comment') }}</span>
+                                                                    <input class="form-control" type="text" name="reply" value="{{ "@" . $comment->user->name . ": " }}">
+                                                                </div>
+                                                                <button class="btn btn-primary" type="submit">{{ trans('admin.send') }}</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        @auth
+                                        <div class="user-comment">
+                                            <form action="{{ route('user.comment', $product->id) }}" method="post" id="comment">
+                                                @csrf
+                                                <h3>{{ trans('admin.comment') }}</h3>
+                                                <div class="form-group">
+                                                    <div class="rating">
+                                                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5"></label>
+                                                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4"></label>
+                                                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3"></label>
+                                                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2"></label>
+                                                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <span>{{ $errors->first('comment') }}</span>
+                                                    <input class="form-control" type="text" name="comment" value="{{ old('comment') }}" placeholder="{{ trans('admin.comment') }}">
+                                                </div>
+                                                <button class="btn btn-primary" type="submit">{{ trans('admin.send') }}</button>
+                                            </form>
+                                        </div>
+                                        @endauth
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="rating-wrap">
+                                            <h3 class="mb-4">{{ trans('give_a_comment') }}</h3>
+                                            @php
+                                                $rate = config('setting.rate');
+                                            @endphp
+                                            @while ($rate)
+                                            <p class="star">
+							   				    <span>
+                                                    @for ($i = $rate; $i > 0; $i--)
+							   					        <i class="ion-ios-star-outline"></i>
+                                                    @endfor
+                                                    {{ round($comments->where('rate', '=', $rate)->count('id') / $comments->count('id') * 100) . "%"}}
+						   					    </span>
+                                                <span>
+                                                    {{ $comments->where('rate', '=', $rate)->count('id') . " " . trans('admin.comment') }}
+                                                </span>
+                                                </p>
+                                                @php
+                                                  $rate = $rate - 1;
+                                                @endphp
+                                            @endwhile
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,10 @@
 <?php
 
     return [
+        'comment' => [
+            'accept' => 1,
+        ],
+
         'paginate' => [
             'image' =>'image',
             'product_detail' =>'product-detail',
