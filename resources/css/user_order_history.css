@@ -1,0 +1,44 @@
+.wrap-user-order-history-page {
+    min-height: 750px;
+}
+
+.wrap-user-order-history-page .hero-bread {
+    background-image: url('../bower_components/bower_project1/user/images/bg_6.jpg');
+}
+
+.wrap-user-order-history-page table {
+    margin: 50px 0;
+}
+
+.wrap-user-order-history-page .paginate {
+    float: right;
+}
+
+.wrap-user-order-history-page .label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.wrap-user-order-history-page .label-primary {
+    background-color: #337ab7;
+}
+
+.wrap-user-order-history-page .label-success {
+    background-color: #5cb85c;
+}
+
+.wrap-user-order-history-page .label-danger {
+    background-color: #d9534f;
+}
+
+.wrap-user-order-history-page .label-default {
+    background-color: #777;
+}

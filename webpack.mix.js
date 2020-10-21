@@ -31,5 +31,6 @@ mix.styles([
     'resources/css/user_menu.css',
     'resources/css/user_cart.css',
     'resources/css/user_checkout.css',
+    'resources/css/user_order_history.css',
     ], 'public/css/all.css'
 );

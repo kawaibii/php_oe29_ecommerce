@@ -58,6 +58,11 @@ class OrderController extends Controller
 
     public function getOrderHistory()
     {
-        return view('users.pages.order_history');
+        $orders = Auth::user()->orders()
+            ->orderBy('created_at', 'desc')
+            ->with('productDetails.product')
+            ->paginate(config('setting.paginate.order'));
+
+        return view('users.pages.order_history', compact('orders'));
     }
 }
