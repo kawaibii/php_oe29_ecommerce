@@ -21,6 +21,7 @@
                         <th>{{ trans('user.order_history.status') }}</th>
                         <th>{{ trans('user.order_history.note') }}</th>
                         <th>{{ trans('user.order_history.time_order') }}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,6 +54,9 @@
                             </td>
                             <td>{{ $order->note }}</td>
                             <td>{{ $order->created_at }}</td>
+                            <td>
+                                @include ('users.modals.order_detail')
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
