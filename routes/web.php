@@ -57,6 +57,9 @@ Route::group(['middleware' => 'localization'], function() {
         });
         Route::group(['prefix' => 'manage-supplier'], function () {
            Route::resource('suppliers', 'SupplierController')->names('suppliers');
+           Route::get('import-product/{id}', 'SupplierController@showProduct')->name('import.product');
+           Route::get('view-modal/product/{productId}/supplier/{supplierId}', 'SupplierController@showInfoProduct')->name('show.modal');
+           Route::post('import-product/{id}', 'SupplierController@updateOrCreateProductDetails')->name('action.import');
         });
     });
 });

@@ -30,4 +30,8 @@
     'rate' => 5,
     'errors404' => 404,
     'number_product' => '8',
+        'paid' => [
+            'payed' => '1',
+            'unpaid' => '0',
+        ],
 ];

@@ -49,7 +49,9 @@
                                             <td class="center">{{ $supplier->address }}</td>
                                             <td class="center">{!! $supplier->description !!}</td>
                                             <td class="center">
-                                                <button class="btn btn-primary">{{ trans('admin.supplier.import') }}</button>
+                                                <a href="{{ route('import.product', $supplier->id) }}" >
+                                                    <button class="btn btn-primary">{{ trans('admin.supplier.import') }}</button>
+                                                </a>
                                                 <button type="button" class="btn btn-primary">{{ trans('admin.detail') }}</button>
 
                                                 <button type="button"
@@ -77,6 +79,10 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->
+            </div>
+
+            <div class="row">
+
             </div>
         </div>
         <!-- /.container-fluid -->

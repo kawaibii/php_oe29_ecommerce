@@ -91,4 +91,9 @@ class SupplierPolicy
     {
         //
     }
+
+    public function importProduct(User $user)
+    {
+        return $user->role_id == config('role.admin.supplier') || $user->role_id == config('role.admin.management');
+    }
 }
