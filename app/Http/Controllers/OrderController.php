@@ -65,4 +65,44 @@ class OrderController extends Controller
 
         return view('users.pages.order_history', compact('orders'));
     }
+
+    public function getOrderHistoryByStatus()
+    {
+        $orders = Auth::user()->orders()
+            ->orderBy('created_at', 'desc')
+            ->with('productDetails.product')
+            ->get();
+        $existsPending = false;
+        $existsApproved = false;
+        $existsRejected= false;
+        $existsCancelled = false;
+        foreach ($orders as $order) {
+            switch ($order->status) {
+                case config('order.status.pending'):
+                    $existsPending = true;
+
+                    break;
+                case config('order.status.approved'):
+                    $existsApproved = true;
+
+                    break;
+                case config('order.status.rejected'):
+                    $existsRejected = true;
+
+                    break;
+                case config('order.status.cancelled'):
+                    $existsCancelled = true;
+
+                    break;
+            }
+        }
+
+        return view('users.pages.order_history_by_status', compact(
+            'orders',
+            'existsPending',
+            'existsApproved',
+            'existsRejected',
+            'existsCancelled'
+        ));
+    }
 }

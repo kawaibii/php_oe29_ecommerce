@@ -215,6 +215,8 @@
     "user.order_history.note": "Note",
     "user.order_history.pending": "Pending",
     "user.order_history.rejected": "Rejected",
+    "user.order_history.show_all": "Show all",
+    "user.order_history.show_by_status": "Show by status",
     "user.order_history.status": "Status",
     "user.order_history.time_order": "Time Order",
     "user.order_history.total_payment": "Total payment",

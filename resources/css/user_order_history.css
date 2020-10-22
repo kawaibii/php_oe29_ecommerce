@@ -14,7 +14,7 @@
     float: right;
 }
 
-.wrap-user-order-history-page .label {
+.label {
     display: inline;
     padding: .2em .6em .3em;
     font-size: 75%;
@@ -27,18 +27,18 @@
     border-radius: .25em;
 }
 
-.wrap-user-order-history-page .label-primary {
+.label-primary {
     background-color: #337ab7;
 }
 
-.wrap-user-order-history-page .label-success {
+.label-success {
     background-color: #5cb85c;
 }
 
-.wrap-user-order-history-page .label-danger {
+.label-danger {
     background-color: #d9534f;
 }
 
-.wrap-user-order-history-page .label-default {
+.label-default {
     background-color: #777;
 }

@@ -215,6 +215,8 @@
     "user.order_history.note": "Ghi chú",
     "user.order_history.pending": "Đang chờ",
     "user.order_history.rejected": "Đã từ chối",
+    "user.order_history.show_all": "Xem tất cả",
+    "user.order_history.show_by_status": "Xem theo trạng thái",
     "user.order_history.status": "Trạng thái",
     "user.order_history.time_order": "Thời gian đặt hàng",
     "user.order_history.total_payment": "Tổng thanh toán",
