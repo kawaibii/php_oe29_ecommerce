@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
+use App\Http\Requests\ReplyCommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -68,17 +69,29 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function replyComment(Request $request, $idComment, $idProduct)
+    public function replyComment(ReplyCommentRequest $request, $commentId, $productId)
     {
         Comment::create([
-            'product_id' => $idProduct,
+            'product_id' => $productId,
             'user_id' => Auth::user()->id,
-            'parent_id' => $idComment,
+            'parent_id' => $commentId,
             'message' => $request->reply,
             'rate' => config('setting.rate'),
             'status' => config('setting.comment.accept')
         ]);
 
         return redirect()->back();
+    }
+
+    public function deleteComment($id)
+    {
+        $comment = Comment::findOrFail($id);
+        if (Auth::user()->can('delete', $comment)) {
+            $comment->delete();
+
+            return redirect()->back();
+        }
+
+        return abort(config('setting.errors404'));
     }
 }

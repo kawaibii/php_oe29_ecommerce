@@ -41,6 +41,7 @@ Route::group(['middleware' => 'localization'], function() {
         });
         Route::post('comment/product/{id}', 'ProductController@comment')->name('comment');
         Route::post('reply-comment/{commentId}/product/{productId}', 'ProductController@replyComment')->name('reply_comment');
+        Route::get('delete-comment/{id}', 'ProductController@deleteComment')->name('delete_comment');
     });
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');

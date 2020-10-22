@@ -104,7 +104,8 @@
                                 <div class="row p-4">
                                     <div class="col-md-7">
                                         <h3 class="mb-4">{{ $comments->count('id') . " " . trans('admin.comment') }}</h3>
-                                        <div class="list-comment">
+                                        @if ($comments->count('id') > 0)
+                                            <div class="list-comment">
                                             @foreach ($comments as $comment)
                                                 <div class="review">
                                                     <div class="user-img"></div>
@@ -123,6 +124,11 @@
                                                             <a class="reply" data-toggle="collapse" href="#comment-{{ $comment->id }}" role="button" aria-expanded="false" aria-controls="collapseExample" >
                                                                 <i class="icon-reply"></i>
                                                             </a>
+                                                            @can('delete', $comment)
+                                                                <a class="reply" href="{{ route('user.delete_comment', $comment->id) }}">
+                                                                    <i class="icon-delete"></i>
+                                                                </a>
+                                                            @endcan
                                                         </span>
                                                         </p>
                                                         <p>{{ $comment->message }}</p>
@@ -140,6 +146,11 @@
                                                                             <a class="reply" data-toggle="collapse" href="#comment-{{ $comment->id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                                                 <i class="icon-reply"></i>
                                                                             </a>
+                                                                            @can('delete', $reply)
+                                                                                <a class="reply" href="{{ route('user.delete_comment', $reply->id) }}">
+                                                                                    <i class="icon-delete"></i>
+                                                                                </a>
+                                                                            @endcan
                                                                         </span>
                                                                     </p>
                                                                     <p>{{ $reply->message }}</p>
@@ -161,6 +172,11 @@
                                                 </div>
                                             @endforeach
                                         </div>
+                                        @else
+                                            <div class="list-comment">
+                                                {{ trans('no_comment') }}
+                                            </div>
+                                        @endif
                                         @auth
                                         <div class="user-comment">
                                             <form action="{{ route('user.comment', $product->id) }}" method="post" id="comment">
@@ -190,22 +206,24 @@
                                             @php
                                                 $rate = config('setting.rate');
                                             @endphp
-                                            @while ($rate)
-                                            <p class="star">
-							   				    <span>
-                                                    @for ($i = $rate; $i > 0; $i--)
-							   					        <i class="ion-ios-star-outline"></i>
-                                                    @endfor
-                                                    {{ round($comments->where('rate', '=', $rate)->count('id') / $comments->count('id') * 100) . "%"}}
-						   					    </span>
-                                                <span>
-                                                    {{ $comments->where('rate', '=', $rate)->count('id') . " " . trans('admin.comment') }}
-                                                </span>
-                                                </p>
-                                                @php
-                                                  $rate = $rate - 1;
-                                                @endphp
-                                            @endwhile
+                                            @if ($comments->count('id') != 0)
+                                                @while ($rate)
+                                                <p class="star">
+                                                    <span>
+                                                        @for ($i = $rate; $i > 0; $i--)
+                                                            <i class="ion-ios-star-outline"></i>
+                                                        @endfor
+                                                        {{ round($comments->where('rate', '=', $rate)->count('id') / $comments->count('id') * 100) . "%"}}
+                                                    </span>
+                                                    <span>
+                                                        {{ $comments->where('rate', '=', $rate)->count('id') . " " . trans('admin.comment') }}
+                                                    </span>
+                                                    </p>
+                                                    @php
+                                                      $rate = $rate - 1;
+                                                    @endphp
+                                                @endwhile
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
