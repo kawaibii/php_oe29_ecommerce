@@ -94,4 +94,13 @@ class ProductController extends Controller
 
         return abort(config('setting.errors404'));
     }
+
+    public function getProductByCategory($id)
+    {
+        $products = Product::where('category_id', $id)->paginate(config('setting.paginate.product'));
+        $categories = Category::where('parent_id', null)->get();
+        $children = Category::where('parent_id', '<>', null)->get();
+
+        return view('users.pages.product', compact('products', 'categories', 'children'));
+    }
 }

@@ -5,6 +5,12 @@
 .wrap-user-product-page .original-price {
     text-decoration: line-through;
     color: #6E6E6E;
+    font-size: 14px;
+}
+
+.wrap-user-product-page .current-price {
+    color: #FF0000;
+    font-size: 17px;
 }
 
 .wrap-user-product-page .paginate {
