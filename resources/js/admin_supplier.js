@@ -10,7 +10,8 @@ $(document).ready(function () {
    });
 });
 
-$(document).on("click", ".edit-supplier", function () {
+$(document).ready(function () {
+   $(".edit-supplier").click(function () {
       $(".loader").show();
       $.ajax({
          url : $(this).data('url'),
@@ -26,6 +27,7 @@ $(document).on("click", ".edit-supplier", function () {
              $("#modal-edit-supplier").modal("show");
          },
       });
+   });
 });
 
 $(document).ready(function () {

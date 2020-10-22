@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CommentRequest;
-use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\ProductDetail;
-use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -25,12 +22,11 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['images','productDetails','comments'])->findOrFail($id);
+            $product = Product::findOrFail($id);
             $images = $product->images;
             $productDetails = $product->productDetails;
-            $comments = $product->comments->where('parent_id', '=', null);
 
-            return view('users.pages.product_detail', compact('product', 'images', 'productDetails', 'comments'));
+            return view('users.pages.product_detail', compact('product', 'images', 'productDetails'));
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -49,36 +45,5 @@ class ProductController extends Controller
         } catch (Exception $e) {
             return $e->getMessage();
         }
-    }
-
-    public function comment(CommentRequest $request, $id)
-    {
-        Comment::create([
-            'product_id' => $id,
-            'user_id' => Auth::user()->id,
-            'message' => $request->comment,
-            'rate' => $request->rating,
-            'status' => config('setting.comment.accept'),
-        ]);
-        $avg = Comment::where([['product_id', '=', $id], ['parent_id', '=', null]])->avg('rate');
-        Product::find($id)->update([
-           'rate' => round($avg),
-        ]);
-
-        return redirect()->back();
-    }
-
-    public function replyComment(Request $request, $idComment, $idProduct)
-    {
-        Comment::create([
-            'product_id' => $idProduct,
-            'user_id' => Auth::user()->id,
-            'parent_id' => $idComment,
-            'message' => $request->reply,
-            'rate' => config('setting.rate'),
-            'status' => config('setting.comment.accept')
-        ]);
-
-        return redirect()->back();
     }
 }

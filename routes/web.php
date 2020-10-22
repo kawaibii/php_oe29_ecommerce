@@ -39,8 +39,6 @@ Route::group(['middleware' => 'localization'], function() {
             Route::post('checkout', 'OrderController@checkout')->name('checkout');
             Route::get('order-history', 'OrderController@getOrderHistory')->name('orderHistory');
         });
-        Route::post('comment/product/{id}', 'ProductController@comment')->name('comment');
-        Route::post('reply-comment/{commentId}/product/{productId}', 'ProductController@replyComment')->name('reply_comment');
     });
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');
