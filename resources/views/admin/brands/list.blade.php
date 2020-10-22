@@ -11,7 +11,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <button type="button" class="btn btn-primary btn-lg">{{ trans('admin.brand.create_new_brand') }}</button>
+                        @include('admin.brands.modals.create')
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -36,8 +36,8 @@
                                                     <td>{{ $brand->created_at }}</td>
                                                     <td>{{ $brand->updated_at }}</td>
                                                     <td>
-                                                        <button type="button" class="btn btn-info"><i class="fa fa-fw fa-lg" aria-hidden="true">&#xf044;</i></button>
-                                                        <button type="button" class="btn btn-danger"><i class="fa fa-fw fa-lg" aria-hidden="true">&#xf014;</i></button>
+                                                        @include('admin.brands.modals.edit')
+                                                        @include('admin.brands.modals.delete')
                                                     </td>
                                                 </tr>
                                             @endforeach

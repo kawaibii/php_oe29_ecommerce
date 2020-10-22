@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brand;
+use App\Http\Requests\CreateBrandRequest;
+use App\Http\Requests\EditBrandRequest;
 
 class BrandController extends Controller
 {
@@ -36,9 +38,13 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateBrandRequest $request)
     {
+        $brand = Brand::create([
+            'name' => $request->name_of_create,
+        ]);
 
+        return redirect()->back();
     }
 
     /**
@@ -70,9 +76,17 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditBrandRequest $request, $id)
     {
+        try {
+            $brand = Brand::findOrFail($id);
+            $brand->name = $request->name_of_edit;
+            $brand->save();
 
+            return redirect()->back();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -83,6 +97,13 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
+        try {
+            $brand = Brand::findOrFail($id);
+            $brand->delete();
 
+            return redirect()->back();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
