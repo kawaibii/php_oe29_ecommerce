@@ -10,6 +10,7 @@
             'product_detail' =>'product-detail',
             'comment' => 'comment',
             'product' => 9,
+            'order' => 10,
         ],
 
         'image' => [
