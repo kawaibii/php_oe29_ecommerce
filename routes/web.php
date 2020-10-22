@@ -35,6 +35,7 @@ Route::group(['middleware' => 'localization'], function() {
         Route::get('cart', 'CartController@cart')->name('cart');
         Route::post('delete-one-product', 'CartController@deleteOneProduct')->name('deleteOne');
         Route::get('delete-all-product', 'CartController@deleteAllProduct')->name('deleteAll');
+        Route::post('filter-by-price', 'ProductController@filterByPrice')->name('filter_by_price');
         Route::group(['middleware' => 'checkLogin'], function(){
             Route::get('checkout', 'OrderController@getListItemsInCart')->name('listItemInCart');
             Route::post('checkout', 'OrderController@checkout')->name('checkout');

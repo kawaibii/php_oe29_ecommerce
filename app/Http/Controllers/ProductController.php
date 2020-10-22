@@ -14,13 +14,19 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    function __construct()
+    {
+        $categories = Category::where('parent_id', null)->get();
+        $children = Category::where('parent_id', '<>', null)->get();
+        view()->share('categories', $categories);
+        view()->share('children', $children);
+    }
+
     public function index()
     {
         $products = Product::paginate(config('setting.paginate.product'));
-        $categories = Category::where('parent_id', null)->get();
-        $children = Category::where('parent_id', '<>', null)->get();
 
-        return view('users.pages.product', compact('products', 'categories', 'children'));
+        return view('users.pages.product', compact('products'));
     }
 
     public function show($id)
@@ -102,5 +108,20 @@ class ProductController extends Controller
         $children = Category::where('parent_id', '<>', null)->get();
 
         return view('users.pages.product', compact('products', 'categories', 'children'));
+    }
+
+    public function filterByPrice(Request $request)
+    {
+        if ($request->price_to == 0) {
+            $products = Product::where('current_price', '>=', $request->price_from)
+                ->orderBy('current_price')
+                ->paginate(config('setting.paginate.product'));
+        } else {
+            $products = Product::whereBetween('current_price', [$request->price_from, $request->price_to])
+                ->orderBy('current_price')
+                ->paginate(config('setting.paginate.product'));
+        }
+
+        return view('users.pages.product', compact('products'));
     }
 }
