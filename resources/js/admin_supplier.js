@@ -75,6 +75,8 @@ $(document).on("click", ".btn-import-product", function () {
                         "supplier" : idSupplier,
                         "size" : $("#size").val(),
                         "quantity" : $("#quantity").val(),
+                        "current_price" : $("#current_price").val(),
+                        "unit_price" : $("#unit_price").val(),
                         "original_price" : $("#original_price").val(),
                     },
                     headers: {
@@ -84,7 +86,9 @@ $(document).on("click", ".btn-import-product", function () {
                         $(".loader").hide();
                         $(".show-size").text('');
                         $(".show-quantity").text('');
-                        $(".show-original").text('');
+                        $(".show-original-price").text('');
+                        $(".show-current-price").text('');
+                        $(".show-unit-price").text('');
                         let datas = JSON.parse(data);
                         $(".product").each(function () {
                             if (datas.id == $(this).data('id')) {
@@ -100,7 +104,9 @@ $(document).on("click", ".btn-import-product", function () {
                             let errors = data.responseJSON;
                             $(".show-size").text(errors.errors.size);
                             $(".show-quantity").text(errors.errors.quantity);
-                            $(".show-original").text(errors.errors.original_price);
+                            $(".show-original-price").text(errors.errors.original_price);
+                            $(".show-current-price").text(errors.errors.current_price);
+                            $(".show-unit-price").text(errors.errors.unit_price);
                         }
                     }
                 });

@@ -70,9 +70,9 @@
                                             <img class="item-image" src="{{ asset(config('setting.image.product') . $image->image_link) }}">
                                         </td>
                                         <td>
-                                            <form action="{{ route('delete.image', $image->id) }}"
+                                            <form class="delete-product"
+                                                action="{{ route('delete.image', $image->id) }}"
                                                 data-message ="{{ trans('admin.delete') . trans('admin.image') }}"
-                                                onsubmit="confirmDelete(this)"
                                                 method="post" >
                                                 @csrf
                                                 @method('DELETE')
@@ -111,7 +111,7 @@
                                             <td>
                                                 <form action="{{ route('delete.productDetail', $productDetail->id) }}"
                                                     data-message ="{{ trans('admin.delete') . trans('admin.product.list_size')}}"
-                                                    onsubmit="confirmDelete(this)"
+                                                    class="delete-product"
                                                     method="post">
                                                     @csrf
                                                     @method('DELETE')

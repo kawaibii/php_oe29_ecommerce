@@ -164,7 +164,11 @@ class ProductController extends Controller
                 ]);
                 $file->move($path, $name);
             }
+
+            return true;
         }
+
+        return false;
     }
 
     public function deleteImage($id)

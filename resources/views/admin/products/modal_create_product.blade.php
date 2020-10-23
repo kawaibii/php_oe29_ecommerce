@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label for="original_price">{{ trans('admin.product.original_price') }}</label>
                         @error('original_price')
-                            <span id = "show_errors">* {{ $errors->first('admin.product,original_price') }}</span>
+                            <span id = "show_errors">* {{ $errors->first('original_price') }}</span>
                         @enderror
                         <input type="text" id="original_price" class="form-control" name="original_price" value="{{ old('original_price') }}">
                     </div>
@@ -65,7 +65,7 @@
                         @error('image')
                             <span id = "show_errors">* {{ $errors->first('image') }}</span>
                         @enderror
-                        <input type="file" id="file-input" class="form-control" name="images[]" multiple placeholder="hinh anh">
+                        <input type="file" id="browse" class="form-control" name="images[]" multiple>
                         <div id="preview"></div>
                     </div>
                     <input value="create" hidden name="define">

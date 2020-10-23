@@ -29,6 +29,8 @@ class ImportProductRequest extends FormRequest
             'size' => 'required|numeric',
             'quantity' => 'required|numeric',
             'original_price' => 'nullable|numeric',
+            'current_price' => 'nullable|numeric',
+            'unit_price' => 'numeric',
         ];
     }
 }

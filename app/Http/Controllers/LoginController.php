@@ -21,7 +21,7 @@ class LoginController extends Controller
             'password' => $request->password,
         ];
         if (Auth::attempt($account, $request->remember)) {
-            return redirect()->route('user.home');
+            return redirect()->back();
         }
 
         return redirect()->route('user.getLogin');
@@ -31,6 +31,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect()->back();
+        return redirect()->route('user.home');
     }
 }

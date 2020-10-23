@@ -30,8 +30,15 @@ class ProductRequest extends FormRequest
                 'required',
                 Rule::unique('products', 'name')->ignore($this->product),
             ],
-            'original_price' => 'numeric|required',
-            'current_price' => 'numeric|required',
+            'original_price' =>[
+                'numeric',
+                'required',
+            ],
+            'current_price' => [
+                'numeric',
+                'required',
+                'gte:original_price',
+            ],
             'category' => 'required',
             'brand' => 'required',
             'image.*' => 'mimes:png,jpg,jpeg',
