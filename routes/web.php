@@ -63,5 +63,6 @@ Route::group(['middleware' => 'localization'], function() {
            Route::post('import-product/{id}', 'SupplierController@updateOrCreateProductDetails')->name('action.import');
         });
         Route::resource('brands', 'BrandController')->except(['create', 'show', 'edit']);
+        Route::resource('categories', 'CategoryController')->except(['create', 'show', 'edit']);
     });
 });
