@@ -1,0 +1,42 @@
+.wrap-user-order-detail-modal .title {
+    float: left;
+    margin-left: 2%;
+    margin-top: 20px;
+    color: #777;
+    font-weight: 600;
+    margin-bottom: 40px;
+    text-align: left;
+    width: 13%;
+}
+
+.wrap-user-order-detail-modal .content {
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    text-align: left;
+    width: 30%;
+}
+
+.wrap-user-order-detail-modal .column {
+    padding: 6px 0;
+}
+
+.wrap-user-order-detail-modal .btn-detail {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.wrap-user-order-detail-modal .btn-cancel {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: 200px;
+}
+
+.wrap-user-order-detail-modal .btn-close {
+    font-weight: 500;
+    font-size: 14px;
+    width: 100px;
+}
