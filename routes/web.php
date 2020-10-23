@@ -62,6 +62,6 @@ Route::group(['middleware' => 'localization'], function() {
            Route::get('view-modal/product/{productId}/supplier/{supplierId}', 'SupplierController@showInfoProduct')->name('show.modal');
            Route::post('import-product/{id}', 'SupplierController@updateOrCreateProductDetails')->name('action.import');
         });
-        Route::resource('brands', 'BrandController');
+        Route::resource('brands', 'BrandController')->except(['create', 'show', 'edit']);
     });
 });
