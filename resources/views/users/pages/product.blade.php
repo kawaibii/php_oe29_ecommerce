@@ -10,7 +10,6 @@
                 </div>
             </div>
         </div>
-
         <section class="ftco-section bg-light">
             <div class="container">
                 <div class="row">
@@ -40,7 +39,7 @@
                                         <div class="pricing">
                                             <p class="price">
                                                 <span class="original-price">{{ number_format($product->original_price) . " VND" }}</span>
-                                                <span>{{ number_format($product->current_price) . " VND" }}</span>
+                                                <span class="current-price">{{ number_format($product->current_price) . " VND" }}</span>
                                             </p>
                                         </div>
                                         <p class="bottom-area d-flex px-3">
@@ -54,7 +53,6 @@
                         </div>
                         <div class="paginate">{{ $products->links() }}</div>
                     </div>
-
                     <div class="col-md-4 col-lg-2">
                         <div class="sidebar">
                             <div class="sidebar-box-2">
@@ -73,7 +71,7 @@
                                                     <ul>
                                                     @foreach ($children as $child)
                                                         @if ($category->id == $child->parent_id)
-                                                            <li><a href="#">{{ $child->name }}</a></li>
+                                                            <li><a href="{{ route('user.product.filter_by_category', $child->id) }}">{{ $child->name }}</a></li>
                                                         @endif
                                                     @endforeach
                                                     </ul>

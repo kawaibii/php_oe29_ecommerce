@@ -24,6 +24,7 @@ Route::group(['middleware' => 'localization'], function() {
         Route::get('/', 'HomeController@home')->name('home');
         Route::get('product', 'ProductController@index')->name('product');
         Route::get('product/{id}', 'ProductController@show')->name('product.show');
+        Route::get('product/filter-by-category/{id}', 'ProductController@getProductByCategory')->name('product.filter_by_category');
         Route::get('about', 'HomeController@home')->name('about');
         Route::get('contact', 'HomeController@home')->name('contact');
         Route::get('cart', 'HomeController@home')->name('cart');
