@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 
 class ProductController extends Controller
@@ -22,11 +23,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $categories = Category::select('id', 'name')->get();
-        $brands = Brand::select('id', 'name')->get();
-        $products = Product::withCount(['images', 'productDetails'])->get();
+        if (Auth::user()->can('viewAny', Product::class)) {
+            $categories = Category::select('id', 'name')->get();
+            $brands = Brand::select('id', 'name')->get();
+            $products = Product::withCount(['images', 'productDetails'])->get();
 
-        return view('admin.products.index', compact('products', 'categories', 'brands'));
+            return view('admin.products.index', compact('products', 'categories', 'brands'));
+        }
+
+            return abort(config('setting.errors404'));
     }
 
     /**
@@ -47,7 +52,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        try {
+        if (Auth::user()->can('create', Product::class)) {
             $product = Product::create([
                 'name' => $request->name,
                 'description' => $request->description,
@@ -60,9 +65,9 @@ class ProductController extends Controller
             $this->uploadImage($request, $product);
 
             return redirect()->back()->with('message_success', trans('message_success'));
-        } catch (Exception $ex) {
-            return redirect()->back()->with('message_error', trans('message_error'));
         }
+
+            return abort(config('setting.errors404'));
     }
 
     /**
@@ -73,15 +78,15 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        try {
+        if (Auth::user()->can('view', Product::class)) {
             $product = Product::with(['images', 'productDetails'])->find($id);
             $images = $product->images()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
             $productDetails = $product->productDetails()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.product_detail'));
 
             return view('admin.products.detail_product', compact('product','images', 'productDetails'));
-        } catch (Exception $ex) {
-            return redirect()->back()->with('message_error', trans('message_error'));
         }
+
+            return abort(config('setting.errors404'));
     }
 
     /**
@@ -115,7 +120,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, $id)
     {
-        try {
+        if (Auth::user()->can('update', Product::class)) {
             $product = Product::findOrFail($id);
             $product->update([
                 'name' => $request->name,
@@ -129,9 +134,9 @@ class ProductController extends Controller
             $this->uploadImage($request, $product);
 
             return redirect()->back()->with('message_success', trans('success'));
-        } catch (Exception $ex) {
-            return redirect()->back()->with('message_error', trans('error'));
         }
+
+            return abort(config('setting.errors404'));
     }
 
     /**
@@ -142,14 +147,14 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        try {
+        if (Auth::user()->can('delete', Product::class)) {
             $product = Product::findOrFail($id);
             $product->delete();
 
             return redirect()->back()->with('message_success', trans('message_success'));
-        } catch (Exception $exception) {
-            return redirect()->back()->with('message_error', trans('message_error'));
         }
+
+            return abort(config('setting.errors404'));
     }
 
     public function uploadImage($request, $product)
@@ -173,7 +178,7 @@ class ProductController extends Controller
 
     public function deleteImage($id)
     {
-        try {
+        if (Auth::user()->can('deleteImage', Product::class)) {
             $image = Image::findorFail($id);
             if (file_exists(config('setting.image.product') . $image->image_link)) {
                 unlink(config('setting.image.product') . $image->image_link);
@@ -181,32 +186,20 @@ class ProductController extends Controller
             $image->delete();
 
             return redirect()->back()->with('message_success', trans('message_success'));
-        } catch (Exception $exception) {
-            return redirect()->back()->with('message_error', trans('message_error'));
         }
-    }
 
-    public function deleteComment($id)
-    {
-        try {
-            $comment = Comment::findOrFail($id);
-            $comment->delete();
-
-            return redirect()->back()->with('message_success', trans('message_success'));
-        } catch (Exception $exception) {
-            return redirect()->back()->with('message_error', trans('message_error'));
-        }
+            return abort(config('setting.errors404'));
     }
 
     public function deleteProductDetail($id)
     {
-        try {
+        if (Auth::user()->can('deleteProductDetail', Product::class)) {
             $productDetail = ProductDetail::findOrFail($id);
             $productDetail->delete();
 
             return redirect()->back()->with('message_success', trans('message_success'));
-        } catch (Exception $exception) {
-            return redirect()->back()->with('message_error', trans('message_error'));
         }
+
+            return abort(config('setting.errors404'));
     }
 }

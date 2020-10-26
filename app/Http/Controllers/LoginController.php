@@ -21,7 +21,7 @@ class LoginController extends Controller
             'password' => $request->password,
         ];
         if (Auth::attempt($account, $request->remember)) {
-            return redirect()->back();
+            return redirect()->route('user.home');
         }
 
         return redirect()->route('user.getLogin');
