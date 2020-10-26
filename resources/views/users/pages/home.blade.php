@@ -35,13 +35,14 @@
                                 </div>
                                 <h3><a href="#">{{ $product->name }}</a></h3>
                                 <div class="pricing">
-                                    <p class="price"><span>
-                                @if ($product->current_price != 0)
-                                    {{ number_format($product->current_price) . trans('admin.money.vi') }}
-                                @else
-                                    {{ $product->original_price }}
-                                @endif
-                                </span></p>
+                                    <p class="price">
+                                        @if ($product->original > $product->current_price)
+                                            <span class="mr-2 price-dc">{{ number_format($product->orignal_price) . trans('admin.money.vi') }}</span>
+                                            <span class="price-sale">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                                        @else
+                                            <span class="price-sale">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                                        @endif
+                                    </p>
                                 </div>
                                 <p class="bottom-area d-flex px-3">
                                     <a href="{{ route('user.product.show', $product->id) }}" class="add-to-cart text-center py-2 mr-1"><span>{{ trans('add_to_cart') }} <i class="ion-ios-add ml-1"></i></span></a>

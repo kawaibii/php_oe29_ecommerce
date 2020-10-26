@@ -149,6 +149,7 @@
     "manufactured_buy" : " Manufactured Buy ",
     "menu" : "Menu",
     "men_collection" : "Men's Collection",
+    "message_cart" : "You have not entered the shoe size",
     "message_success" : "process success",
     "message_error" : "Sorry, System upgrate",
     "message_error_price" : "The selling price is higher than the original price",

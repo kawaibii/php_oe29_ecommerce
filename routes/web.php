@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'localization'], function() {
+Route::group(['middleware' => ['localization', 'localizationJS']], function() {
     Route::get('lang/{language}', 'LocalizationController@changeLanguage')->name('localization');
     Route::name('user.')->group(function() {
         Route::get('login', 'LoginController@getLogin')->name('getLogin');
