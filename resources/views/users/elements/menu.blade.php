@@ -28,6 +28,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-information">{{ trans('change_information') }}</a>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-password">{{ trans('change_password') }}</a>
+                            <a class="dropdown-item" href="{{ route('user.orderHistory') }}">{{ trans('user.menu.order_history') }}</a>
                             <a class="dropdown-item" href="{{ route('user.logout') }}" class="nav-link">{{ trans('logout') }}</a>
                         </div>
                     </li>

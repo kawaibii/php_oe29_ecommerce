@@ -105,4 +105,18 @@ class OrderController extends Controller
             'existsCancelled'
         ));
     }
+
+    public function userCancelOrder(Request $request)
+    {
+        try {
+            $order = Order::findOrFail($request->order_id);
+            $order->update([
+                'status' => config('order.status.cancelled'),
+            ]);
+
+            return redirect()->route('user.orderHistory');
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

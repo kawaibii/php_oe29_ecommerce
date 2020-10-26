@@ -23,7 +23,7 @@
                         <div class="content">
                             <div class="column">{{ $order->user->name }}</div>
                             <div class="column">{{ number_format($order->total_price) . " VND" }}</div>
-                            <div class="column">{{ $order->productDetails[0]->pivot->created_at }}</div>
+                            <div class="column">{{ $order->created_at }}</div>
                             <div class="column">
                                 @switch ($order->status)
                                     @case (config('order.status.pending'))
@@ -45,7 +45,7 @@
                                 @endswitch
                             </div>
                             @if ($order->status != config('order.status.pending'))
-                                <div class="column">{{ $order->productDetails[0]->pivot->updated_at }}</div>
+                                <div class="column">{{ $order->updated_at }}</div>
                             @endif
                         </div>
                     </div>
@@ -76,6 +76,13 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @if ($order->status == config('order.status.pending'))
+                        <form action="{{ route('user.cancelOrder') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                            <input type="submit" class="btn btn-danger btn-cancel" value="{{ trans('user.modals.order_detail.cancel_order') }}">
+                        </form>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">
