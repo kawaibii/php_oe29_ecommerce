@@ -20,7 +20,7 @@
                 <a href=""><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.product_management') }} <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="{{ route('products.index') }}">{{ trans('admin.menu.product_management.product') }}</a></li>
-                    <li><a href="#">{{ trans('admin.menu.product_management.category') }}</a></li>
+                    <li><a href="{{ route('categories.index')}}">{{ trans('admin.menu.product_management.category') }}</a></li>
                     <li><a href="{{ route('brands.index') }}">{{ trans('admin.menu.product_management.brand') }}</a></li>
                 </ul>
             </li>
