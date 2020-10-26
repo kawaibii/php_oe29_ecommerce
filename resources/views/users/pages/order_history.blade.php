@@ -13,6 +13,10 @@
     </div>
     <section class="ftco-section bg-light">
         <div class="container">
+            <div class="list-status">
+                <a href="{{ route('user.orderHistory') }}" class="btn btn-info">{{ trans('user.order_history.show_all') }}</a>
+                <a href="{{ route('user.orderHistoryByStatus') }}" class="btn btn-info">{{ trans('user.order_history.show_by_status') }}</a>
+            </div>
             <table class="table table-bordered table-striped">
                 <thead class="thead-primary">
                     <tr>

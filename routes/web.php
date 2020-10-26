@@ -38,6 +38,7 @@ Route::group(['middleware' => 'localization'], function() {
             Route::get('checkout', 'OrderController@getListItemsInCart')->name('listItemInCart');
             Route::post('checkout', 'OrderController@checkout')->name('checkout');
             Route::get('order-history', 'OrderController@getOrderHistory')->name('orderHistory');
+            Route::get('order-history-by-status', 'OrderController@getOrderHistoryByStatus')->name('orderHistoryByStatus');
         });
         Route::post('comment/product/{id}', 'ProductController@comment')->name('comment');
         Route::post('reply-comment/{commentId}/product/{productId}', 'ProductController@replyComment')->name('reply_comment');

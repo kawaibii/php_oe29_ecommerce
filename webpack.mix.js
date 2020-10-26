@@ -19,6 +19,7 @@ mix.js('resources/js/orderjs.js', 'public/js');
 mix.js('resources/js/product_detail.js', 'public/js');
 mix.js('resources/js/admin_supplier.js', 'public/js');
 mix.js('resources/js/showModal.js', 'public/js');
+mix.js('resources/js/order_history_by_status.js', 'public/js');
 mix.js('resources/js/admin_list_brand.js', 'public/js');
 mix.styles([
     'resources/css/admin_menu.css',
@@ -34,5 +35,6 @@ mix.styles([
     'resources/css/user_checkout.css',
     'resources/css/user_order_history.css',
     'resources/css/user_order_detail.css',
+    'resources/css/user_order_history_by_status.css',
     ], 'public/css/all.css'
 );
