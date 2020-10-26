@@ -160,14 +160,19 @@ class SupplierController extends Controller
             $product = Product::with(['productDetails'])->findOrFail($id);
             $productDetail = $product->productDetails->where('size', '=', $request->size)->first();
             $supplier = Supplier::findOrFail($request->supplier);
-            $price = 0;
-            if ($request->original_price > 0) {
+            if ($request->original_price <= $request->current_price && $request->current_price != 0) {
                 $product->update([
+                    'current_price' => $request->current_price,
                     'original_price' => $request->original_price,
                 ]);
-                $price = $request->original_price;
             } else {
-                $price = $product->original_price;
+                $data = [
+                    'id' => $id,
+                    'status' => config('setting.http_status.success'),
+                    'message' => trans('message_error_price'),
+                ];
+
+                return json_encode($data);
             }
             if (isset($productDetail)) {
                 $productDetail->update([
@@ -176,7 +181,7 @@ class SupplierController extends Controller
                 $supplier->products()->attach($product, [
                     'size' => $request->size,
                     'quantity' => $request->quantity,
-                    'unit_price' => $price * $request->quantity,
+                    'unit_price' => $request->unit_price * $request->quantity,
                     'paid' => config('setting.paid.payed'),
                 ]);
             } else {
@@ -188,7 +193,7 @@ class SupplierController extends Controller
                 $supplier->products()->attach($product, [
                     'size' => $request->size,
                     'quantity' => $request->quantity,
-                    'unit_price' => $price * $request->quantity,
+                    'unit_price' => $request->unit_price * $request->quantity,
                     'paid' => config('setting.paid.payed'),
                 ]);
             }

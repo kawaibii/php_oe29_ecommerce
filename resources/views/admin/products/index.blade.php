@@ -65,9 +65,10 @@
                                                         data-url={{ route('products.edit', $product->id) }}>
                                                     {{ trans('admin.edit') }}
                                                 </button>
-                                                <form action="{{ route('products.destroy', $product->id) }}"
+                                                <form class="delete-product"
+                                                      action="{{ route('products.destroy', $product->id) }}"
                                                       data-message="{{ trans('confirm_delete', ['name' => $product->name]) }}"
-                                                      method="post" onsubmit="deleteProduct(this)">
+                                                      method="post">
                                                     @csrf
                                                     @method("DELETE")
                                                     <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>

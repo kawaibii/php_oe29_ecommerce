@@ -124,6 +124,7 @@ class OrderController extends Controller
                     'status' => config('order.status.approved'),
                 ]);
                 $data['id'] = $order->id;
+                $data['approved'] = trans('admin.approved');
                 DB::commit();
 
                 return json_encode($data);
@@ -157,6 +158,7 @@ class OrderController extends Controller
                    'status' => config('order.status.rejected')
                 ]);
                 $data['id'] = $order->id;
+                $data['rejected'] = trans('admin.rejected');
                 DB::commit();
 
                 return json_encode($data);
@@ -173,6 +175,7 @@ class OrderController extends Controller
                     'status' => config('order.status.rejected')
                 ]);
                 $data['id'] = $order->id;
+                $data['rejected'] = trans('admin.rejected');
                 DB::commit();
 
                 return json_encode($data);

@@ -16,8 +16,18 @@
                  <input type="text" id="quantity" class="form-control" name="quantity">
              </div>
              <div class="form-group">
+                 <label for="unit_price">{{ trans('admin.product.unit_price') }}</label>
+                 <span id="show_errors" class="show-unit-price"></span>
+                 <input type="text" id="unit_price" class="form-control" name="unit_price" >
+             </div>
+             <div class="form-group">
+                 <label for="current_price">{{ trans('admin.product.current_price') }}</label>
+                 <span id="show_errors" class="show-current-price"></span>
+                 <input type="text" id="current_price"  class="form-control" name="current_price" >
+             </div>
+             <div class="form-group">
                  <label for="original_price">{{ trans('admin.product.original_price') }}</label>
-                 <span id="show_errors" class="show-original"></span>
+                 <span id="show_errors" class="show-original-price"></span>
                  <input type="text" id="original_price" class="form-control" name="original_price" >
              </div>
              <div class="save-data"></div>

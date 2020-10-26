@@ -23,12 +23,14 @@
                 <i class="fa fa-user fa-fw"></i><b class="caret"></b>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li>
-                    <a href="#"><i class="fa fa-key" aria-hidden="true"></i> {{ trans('admin.header.change_pasword') }}</a>
-                </li>
+                @auth
+                    <li>
+                        <a href="#"><i class="fa fa-key" aria-hidden="true"></i> {{ Auth::user()->name }}</a>
+                    </li>
+                @endauth
                 <li class="divider"></li>
                 <li>
-                    <a href="#"><i class="fa fa-sign-out fa-fw"></i> {{ trans('admin.header.logout') }}</a>
+                    <a href="{{ route('user.logout') }}"><i class="fa fa-sign-out fa-fw"></i> {{ trans('admin.header.logout') }}</a>
                 </li>
             </ul>
         </li>

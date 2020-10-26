@@ -29,14 +29,14 @@ $(document).on("click", ".order", function () {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    success : function (data) {
-                        let json = JSON.parse(data);
-                        alert(json.message);
+                    success : function (response) {
+                        let data = JSON.parse(response);
+                        alert(data.message);
                         $(".status-order div").each(function (){
-                            if ($(this).data('id') == json.id) {
+                            if ($(this).data('id') == data.id) {
                                 $(this).removeClass();
                                 $(this).addClass("alert alert-info");
-                                $(this).text("approved");
+                                $(this).text(data.approved);
                             }
                         });
                         $("#detail-Order").modal('hide');
@@ -58,14 +58,14 @@ $(document).on("click", ".order", function () {
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        success : function (data) {
-                            let json = JSON.parse(data);
-                            alert(json.message);
+                        success : function (response) {
+                            let data = JSON.parse(response);
+                            alert(data.message);
                             $(".status-order div").each(function (){
-                                if ($(this).data('id') == json.id) {
+                                if ($(this).data('id') == data.id) {
                                     $(this).removeClass();
                                     $(this).addClass("alert alert-danger");
-                                    $(this).text("Rrejected");
+                                    $(this).text(data.rejected);
                                     $("#detail-Order").modal('hide');
                                 }
                             });

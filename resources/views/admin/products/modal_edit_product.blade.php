@@ -65,8 +65,8 @@
                         @error('image')
                             <span id = "show_errors">* {{ $errors->first('image') }}</span>
                         @enderror
-                        <input type="file" id="file-input-edit" class="form-control" name="images[]" multiple >
-                        <div id="preview"></div>
+                        <input type="file" id="edit-browse" class="form-control" name="images[]" multiple>
+                        <div id="edit-preview"></div>
                     </div>
                     <input value="edit" hidden name="define">
                     <button class="btn btn-primary" type="submit" >{{ trans('admin.edit') }}</button>
