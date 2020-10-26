@@ -8,6 +8,7 @@ use App\Http\Requests\ChangeInformationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Product;
+use Alert;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,7 @@ class HomeController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
         ]);
+        alert()->success(trans('user.sweetalert.updated'), trans('user.sweetalert.change_information'));
 
         return redirect()->route('user.home')->with('message_success', trans('message_success'));
     }
@@ -40,6 +42,7 @@ class HomeController extends Controller
             $user->update([
                 'password' => bcrypt($request->new_password),
             ]);
+            alert()->success(trans('user.sweetalert.updated'), trans('user.sweetalert.change_password'));
 
             return redirect()->route('user.home')->with('message_success', trans('message_success'));
         } else {

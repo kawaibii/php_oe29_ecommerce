@@ -10,7 +10,9 @@
 </head>
 <body class="goto-here">
     @yield('content')
+    @include('sweetalert::alert')
     <script src="{{ asset('bower_components/bower_project1/admin/js/jquery.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/admin/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bower_components/bower_project1/sweetalert2.all.js') }}"></script>
 </body>
 </html>

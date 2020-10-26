@@ -51,6 +51,7 @@ class CartController extends Controller
                 Session::put('numberOfItemInCart', (int) $request->quantity);
                 Session::save();
             }
+            alert()->success(trans('user.sweetalert.done'), trans('user.sweetalert.add_to_cart'));
 
             return redirect()->back();
         }
