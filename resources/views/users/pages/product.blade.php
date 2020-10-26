@@ -13,8 +13,8 @@
         <section class="ftco-section bg-light">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8 col-lg-10 order-md-last">
-                        <div class="row">
+                    <div class="col-md-8 col-lg-10 order-md-last" >
+                        <div class="row" id="list-product">
                             @foreach ($products as $product)
                             <div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex">
                                 <div class="product d-flex flex-column">
@@ -38,8 +38,12 @@
                                         <h3><a href="#">{{ $product->name }}</a></h3>
                                         <div class="pricing">
                                             <p class="price">
-                                                <span class="original-price">{{ number_format($product->original_price) . " VND" }}</span>
-                                                <span class="current-price">{{ number_format($product->current_price) . " VND" }}</span>
+                                                @if ($product->original_price > $product->current_price)
+                                                    <span class="original-price">{{ number_format($product->original_price) . trans('admin.money.vi') }}</span>
+                                                    <span class="current-price">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                                                @else
+                                                    <span class="current-price">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                                                @endif
                                             </p>
                                         </div>
                                         <p class="bottom-area d-flex px-3">
@@ -82,10 +86,14 @@
                                 </div>
                                 @endforeach
                             </div>
+                            @include('users.elements.range_price_product')
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
+@endsection
+
+@section('js')
 @endsection
