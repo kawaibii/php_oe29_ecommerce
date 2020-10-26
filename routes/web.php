@@ -47,23 +47,24 @@ Route::group(['middleware' => 'localization'], function() {
     });
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');
-        Route::group(['prefix' => 'manage-product'], function () {
+        Route::group(['prefix' => 'manage-product', 'middleware' => 'role:' . config('role.admin.product')], function () {
             Route::resource('products', 'ProductController')->names('products');
             Route::delete('delete-image/{id}', 'ProductController@deleteImage')->name('delete.image');
             Route::delete('delete-comment/{id}', 'ProductController@deleteComment')->name('delete.comment');
             Route::delete('delete-productDetail/{id}', 'ProductController@deleteProductDetail')->name('delete.productDetail');
         });
-        Route::group(['prefix' => 'manage-order'], function () {
+        Route::group(['prefix' => 'manage-order', 'middleware' => 'role:' . config('role.admin.order')], function () {
             Route::resource('orders', 'OrderController')->names('orders');
             Route::patch('order/{id}/approved', 'OrderController@approvedOrder')->name('orders.approved');
             Route::patch('order/{id}/rejected', 'OrderController@rejectedOrder')->name('orders.rejected');
         });
-        Route::group(['prefix' => 'manage-supplier'], function () {
+        Route::group(['prefix' => 'manage-supplier', 'middleware' => 'role:' . config('role.admin.supplier')], function () {
            Route::resource('suppliers', 'SupplierController')->names('suppliers');
            Route::get('import-product/{id}', 'SupplierController@showProduct')->name('import.product');
            Route::get('view-modal/product/{productId}/supplier/{supplierId}', 'SupplierController@showInfoProduct')->name('show.modal');
            Route::post('import-product/{id}', 'SupplierController@updateOrCreateProductDetails')->name('action.import');
         });
         Route::resource('brands', 'BrandController')->except(['create', 'show', 'edit']);
+        Route::resource('categories', 'CategoryController')->except(['create', 'show', 'edit']);
     });
 });
