@@ -29,7 +29,7 @@
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-information">{{ trans('change_information') }}</a>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-password">{{ trans('change_password') }}</a>
                             <a class="dropdown-item" href="{{ route('user.orderHistory') }}">{{ trans('user.menu.order_history') }}</a>
-                            @if (Auth::user()->id > config('role.user'))
+                            @if (Auth::user()->role_id > config('role.user'))
                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}" class="nav-link">{{ trans('admin') }}</a>
                             @endif
                             <a class="dropdown-item" href="{{ route('user.logout') }}" class="nav-link">{{ trans('logout') }}</a>

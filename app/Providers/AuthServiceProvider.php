@@ -10,6 +10,10 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Gate;
 use App\Models\Supplier;
 use App\Models\Category;
+use App\Policies\ProductPolicy;
+use App\Models\Product;
+use App\Policies\OrderPolicy;
+use App\Models\Order;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -22,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
         Supplier::class => SupplierPolicy::class,
         Comment::class => CommentPolicy::class,
         Category::class => CategoryPolicy::class,
+        Product::class => ProductPolicy::class,
+        Order::class => OrderPolicy::class,
     ];
 
     /**

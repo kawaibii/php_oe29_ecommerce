@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -17,14 +18,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        try {
+        if (Auth::user()->can('viewAny', Order::class)) {
             $orders = Order::OrderBy('status')->withCount('productDetails')->get();
 
             return view('admin.orders.index', compact('orders'));
-        } catch (Exception $exception) {
-            return redirect()->back()->with('message_error', trans('message_error'));
         }
 
+            return abort(config('setting.errors404'));
     }
 
     /**
