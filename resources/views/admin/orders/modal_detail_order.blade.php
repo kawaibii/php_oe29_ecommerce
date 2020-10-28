@@ -47,7 +47,12 @@
                                 @foreach ($productDetails as $key => $detail)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $detail->product->name }}</td>
+                                        <td>{{ $detail->product->name }}
+                                            @if ($detail->product->deleted_at != null)
+                                                <br>
+                                                <span id = "show_errors">* {{ trans('product_not_exists') }}</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $detail->size }}</td>
                                         <td>{{ $detail->pivot->quantity }}</td>
                                         <td>{{ number_format($detail->pivot->unit_price) . trans("admin.money.vi") }}</td>
