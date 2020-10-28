@@ -79,11 +79,14 @@ class ProductController extends Controller
     public function show($id)
     {
         if (Auth::user()->can('view', Product::class)) {
-            $product = Product::with(['images', 'productDetails'])->find($id);
-            $images = $product->images()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
-            $productDetails = $product->productDetails()->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.product_detail'));
+            $product = Product::with(['images', 'productDetails', 'comments'])->find($id);
+            $images = $product->images()
+                ->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
+            $productDetails = $product->productDetails()
+                ->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.product_detail'));
+            $comments = $product->comments;
 
-            return view('admin.products.detail_product', compact('product','images', 'productDetails'));
+            return view('admin.products.detail_product', compact('product','images', 'productDetails', 'comments'));
         }
 
             return abort(config('setting.errors404'));

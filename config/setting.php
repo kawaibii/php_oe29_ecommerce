@@ -40,7 +40,7 @@
             ],
         ],
 
-    'number_paginate' => '5',
+    'number_paginate' => '8',
     'rate' => 5,
     'errors404' => 404,
     'number_product' => '8',
