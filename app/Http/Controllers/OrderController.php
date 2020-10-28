@@ -49,6 +49,7 @@ class OrderController extends Controller
             Session::forget('cart');
             Session::forget('numberOfItemInCart');
             Session::save();
+            alert()->success(trans('user.sweetalert.saved'), trans('user.sweetalert.checkout'));
 
             return redirect()->route('user.orderHistory');
         } catch (Exception $e) {
@@ -113,6 +114,7 @@ class OrderController extends Controller
             $order->update([
                 'status' => config('order.status.cancelled'),
             ]);
+            alert()->success(trans('user.sweetalert.done'), trans('user.sweetalert.cancel_order'));
 
             return redirect()->route('user.orderHistory');
         } catch (Exception $e) {
