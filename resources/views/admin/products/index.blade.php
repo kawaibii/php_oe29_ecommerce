@@ -52,7 +52,11 @@
                                             <td class="center">{{ number_format($product->current_price) . trans('admin.money.vi') }}</td>
                                             <td class="center">{{ $product->images_count }}</td>
                                             <td class="center">
-                                                <img class="img-circle" src="{{ asset(config('setting.image.product') . $product->images->first()->image_link ) }}" width="100px" height="100px">
+                                                @if (count($product->images))
+                                                    <img class="img-circle" src="{{ asset(config('setting.image.product') . $product->images->first()->image_link ) }}" width="100px" height="100px">
+                                                @else
+                                                    {{ trans('product_not_image') }}
+                                                @endif
                                             </td>
                                             <td class="center">{{ $product->product_details_count }}</td>
                                             <td class="center">{{ $product->productDetails->sum('quantity') }}</td>

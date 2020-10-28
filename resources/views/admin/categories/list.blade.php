@@ -45,8 +45,8 @@
                                                             @endforeach
                                                         @endif
                                                     </td>
-                                                    <td>{{ $category->created_at }}</td>
-                                                    <td>{{ $category->updated_at }}</td>
+                                                    <td>{{  time_elapsed_string(strtotime($category->created_at)) }}</td>
+                                                    <td>{{  time_elapsed_string(strtotime($category->updated_at)) }}</td>
                                                     <td>
                                                         @include('admin.categories.modals.edit')
                                                         @include('admin.categories.modals.delete')

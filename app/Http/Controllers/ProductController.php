@@ -60,6 +60,9 @@ class ProductController extends Controller
 
     public function comment(CommentRequest $request, $id)
     {
+        $product = Product::with(['comments'])->find($id);
+        $comment = $product->comments->where('user_id', Auth::user()->id)->first();
+        if (empty($comment)) {
         Comment::create([
             'product_id' => $id,
             'user_id' => Auth::user()->id,
@@ -67,6 +70,13 @@ class ProductController extends Controller
             'rate' => $request->rating,
             'status' => config('setting.comment.accept'),
         ]);
+        } else {
+            $comment->update([
+                'message' => $request->comment,
+                'rate' => $request->rating,
+                'status' => config('setting.comment.accept'),
+            ]);
+        }
         $avg = Comment::where([['product_id', '=', $id], ['parent_id', '=', null]])->avg('rate');
         Product::find($id)->update([
            'rate' => round($avg),
@@ -91,8 +101,14 @@ class ProductController extends Controller
 
     public function deleteComment($id)
     {
-        $comment = Comment::findOrFail($id);
+        $comment = Comment::with(['replies'])->findOrFail($id);
+        $replies = $comment->replies;
         if (Auth::user()->can('delete', $comment)) {
+            if ($replies) {
+                foreach ($replies as $reply) {
+                    $reply->delete();
+                }
+            }
             $comment->delete();
 
             return redirect()->back();

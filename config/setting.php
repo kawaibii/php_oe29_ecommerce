@@ -18,6 +18,7 @@
             'user1' => "bower_components/bower_project1/user/images/person_1.jpg",
             'slide1' => 'bower_components/bower_project1/user/images/bg_1.png',
             'slide2' => 'bower_components/bower_project1/user/images/bg_2.png',
+            'default' => 'bower_components/bower_project1/user/images/product_1.jpg',
         ],
 
         'http_status' => [

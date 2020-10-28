@@ -174,6 +174,11 @@ class ProductController extends Controller
             }
 
             return true;
+        } else {
+            $image = Image::create([
+                'product_id' => $product->id,
+                'image_link' => config('setting.image.default'),
+            ]);
         }
 
         return false;
