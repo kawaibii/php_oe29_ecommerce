@@ -7,6 +7,7 @@ use App\Models\ProductDetail;
 use App\Models\Product;
 use Session;
 use Auth;
+use Alert;
 
 class CartController extends Controller
 {
@@ -14,6 +15,16 @@ class CartController extends Controller
     {
         $productDetail = ProductDetail::where('product_id', $request->product_id)->where('size', $request->size)->first();
         if ($productDetail) {
+            if ($request->quantity <= 0) {
+                alert()->error(trans('user.sweetalert.whoops'), trans('user.sweetalert.quantity_greater_zero'));
+
+                return redirect()->back();
+            }
+            if ($request->quantity > $productDetail->quantity) {
+                alert()->error(trans('user.sweetalert.whoops'), trans('user.sweetalert.quantity_not_enough'));
+
+                return redirect()->back();
+            }
             $cart = Session::get('cart');
             if ($cart) {
                 $numberOfItemInCart = Session::get('numberOfItemInCart');
@@ -52,9 +63,9 @@ class CartController extends Controller
                 Session::save();
             }
             alert()->success(trans('user.sweetalert.done'), trans('user.sweetalert.add_to_cart'));
-
-            return redirect()->back();
         }
+
+        return redirect()->back();
     }
 
     public function cart() {
