@@ -35,6 +35,7 @@
                                         <th>{{ trans('user.order_history.status') }}</th>
                                         <th>{{ trans('user.order_history.note') }}</th>
                                         <th>{{ trans('user.order_history.time_order') }}</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,6 +50,9 @@
                                                 <td><span class="label label-primary">{{ trans('user.order.pending') }}</span></td>
                                                 <td>{{ $order->note }}</td>
                                                 <td>{{ $order->created_at }}</td>
+                                                <td>
+                                                    @include ('users.modals.order_detail')
+                                                </td>
                                             </tr>
                                         @endif
                                     @endforeach
@@ -66,6 +70,7 @@
                                         <th>{{ trans('user.order_history.status') }}</th>
                                         <th>{{ trans('user.order_history.note') }}</th>
                                         <th>{{ trans('user.order_history.time_order') }}</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,6 +85,9 @@
                                                 <td><span class="label label-success">{{ trans('user.order.approved') }}</span></td>
                                                 <td>{{ $order->note }}</td>
                                                 <td>{{ $order->created_at }}</td>
+                                                <td>
+                                                    @include ('users.modals.order_detail')
+                                                </td>
                                             </tr>
                                         @endif
                                     @endforeach
@@ -97,6 +105,7 @@
                                         <th>{{ trans('user.order_history.status') }}</th>
                                         <th>{{ trans('user.order_history.note') }}</th>
                                         <th>{{ trans('user.order_history.time_order') }}</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,6 +120,9 @@
                                                 <td><span class="label label-danger">{{ trans('user.order.rejected') }}</span></td>
                                                 <td>{{ $order->note }}</td>
                                                 <td>{{ $order->created_at }}</td>
+                                                <td>
+                                                    @include ('users.modals.order_detail')
+                                                </td>
                                             </tr>
                                         @endif
                                     @endforeach
@@ -128,6 +140,7 @@
                                         <th>{{ trans('user.order_history.status') }}</th>
                                         <th>{{ trans('user.order_history.note') }}</th>
                                         <th>{{ trans('user.order_history.time_order') }}</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -142,6 +155,9 @@
                                                 <td><span class="label label-default">{{ trans('user.order.cancelled') }}</span></td>
                                                 <td>{{ $order->note }}</td>
                                                 <td>{{ $order->created_at }}</td>
+                                                <td>
+                                                    @include ('users.modals.order_detail')
+                                                </td>
                                             </tr>
                                         @endif
                                     @endforeach
