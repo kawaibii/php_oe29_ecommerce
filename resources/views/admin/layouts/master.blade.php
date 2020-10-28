@@ -30,6 +30,8 @@
     <script src="{{ asset('bower_components/bower_project1/admin/js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/admin/js/raphael.min.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/admin/js/startmin.js') }}"></script>
+    <script src="{{ asset('bower_components/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('bower_components/highcharts/modules/exporting.js') }}"></script>
     @yield('js')
 </body>
 </html>
