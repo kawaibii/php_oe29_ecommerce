@@ -26,11 +26,15 @@
                             </p>
                         </div>
                         <p class="price">
-                            <span class="original-price">{{ number_format($product->original_price) . " VND" }}</span>
-                            <span class="current-price">{{ number_format($product->current_price) . " VND" }}</span>
+                            @if ($product->original_price > $product->current_price)
+                                <span class="original-price">{{ number_format($product->original_price) . trans('admin.money.vi') }}</span>
+                                <span class="current-price">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                            @else
+                                <span class="current-price">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                            @endif
                         </p>
                         <p>{!! $product->description !!}</p>
-                        <form action="{{ route('user.addToCart') }}" method="POST">
+                        <form class="add-to-cart" action="{{ route('user.addToCart') }}" method="POST">
                             @csrf
                             <div class="row mt-4">
                                 <div class="wrap-size">

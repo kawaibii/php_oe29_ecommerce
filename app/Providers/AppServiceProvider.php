@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         view()->composer(['users.components.homes.introduce_product_component'], function ($view) {
-            $product = Product::where('current_price', '>', 0)->first();
+            $product = Product::whereColumn('original_price', '>', 'current_price')->first();
             $view->with('product', $product);
         });
     }

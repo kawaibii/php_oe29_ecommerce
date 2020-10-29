@@ -14,7 +14,7 @@
                                     {{ trans('infor_new_shoes') }}
                                 </p>
 
-                                <p><a href="#" class="btn-custom">{{ trans('discover_now') }}</a></p>
+                                <p><a href="{{ route('user.product') }}" class="btn-custom">{{ trans('discover_now') }}</a></p>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                 <p class="mb-4">
                                     {{ trans('infor_new_shoes') }}
                                 </p>
-                                <p><a href="#" class="btn-custom">{{ trans('discover_now') }}</a></p>
+                                <p><a href="{{ route('user.product') }}" class="btn-custom">{{ trans('discover_now') }}</a></p>
                             </div>
                         </div>
                     </div>

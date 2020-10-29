@@ -66,3 +66,22 @@ $(document).ready(function() {
         $("#image-show").attr("src", src);
     });
 });
+
+function trans(key, replace = {}) {
+    let translation = key.split('.').reduce((t, i) => t[i] || null, JSON.parse(translations));
+
+    for (var placeholder in replace) {
+        translation = translation.replace(`:${placeholder}`, replace[placeholder]);
+    }
+
+    return translation;
+}
+
+$(document).on("submit", ".add-to-cart", function () {
+    if (parseInt($("#quantity-size").text()) > 0) {
+        return true;
+    }
+    alert(trans('message_cart'));
+
+    return false;
+});

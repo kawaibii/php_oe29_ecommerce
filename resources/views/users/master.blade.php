@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ trans('language.title', ['name' => 'kawabii']) }}</title>
+    <title>{{ trans('title', ['name' => 'kawabii']) }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ asset('bower_components/bower_project1/user/googleapi.css') }}" rel="stylesheet">
@@ -45,6 +45,9 @@
     <script src="{{ asset('bower_components/bower_project1/user/js/main.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/sweetalert2.all.js') }}"></script>
     <script src="{{ asset('js/showModal.js') }}"></script>
+    <script>
+        window.translations = {!! $translation !!};
+    </script>
     @yield("js")
 </body>
 </html>

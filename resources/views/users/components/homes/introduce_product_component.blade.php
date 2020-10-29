@@ -12,8 +12,13 @@
                 <div class="text-deal">
                     <h2><a href="{{ route('user.product.show', $product->id) }}">{{ $product->name }}</a></h2>
                     <p class="price">
-                        <span class="mr-2 price-dc">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
-                        <span class="price-sale">{{ number_format($product->original_price) . trans('admin.money.vi') }}</span></p>
+                        @if ($product->original_price > $product->current_price)
+                            <span class="mr-2 price-dc">{{ number_format($product->original_price) . trans('admin.money.vi') }}</span>
+                            <span class="price-sale">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                        @else
+                            <span class="price-sale">{{ number_format($product->current_price) . trans('admin.money.vi') }}</span>
+                        @endif
+                    </p>
                     <ul class="thumb-deal d-flex mt-4">
                         @foreach ($product->images as $image)
                             <li class="img" style="background-image: url({{ config('setting.image.product') . $image->image_link }});"></li>
