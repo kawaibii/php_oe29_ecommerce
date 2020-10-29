@@ -109,13 +109,20 @@ class OrderController extends Controller
             if ($order->status != config('order.status.approved')) {
                 $productDetails = $order->productDetails;
                 foreach ($productDetails as $product) {
-                    if ($product->quantity >= $product->pivot->quantity) {
-                        $product->update([
-                            'quantity' => $product->quantity - $product->pivot->quantity,
-                        ]);
+                    if($product->product->deleted_at == null) {
+                        if ($product->quantity >= $product->pivot->quantity) {
+                            $product->update([
+                                'quantity' => $product->quantity - $product->pivot->quantity,
+                            ]);
+                        } else {
+                            $data['status'] = config('setting.http_status.error');
+                            $data['message'] = trans('admin.order.not_enough');
+
+                            return json_encode($data);
+                        }
                     } else {
                         $data['status'] = config('setting.http_status.error');
-                        $data['message'] = trans('admin.order.not_enough');
+                        $data['message'] = trans('product_not_exists');
 
                         return json_encode($data);
                     }

@@ -18,7 +18,7 @@ $(document).on("click", ".order", function () {
         },
         error : function (data) {
             $(".loader").hide();
-            alert("not working");
+            alert("Product not exists");
         },
         complete : function () {
             $(".approved-order").click(function () {

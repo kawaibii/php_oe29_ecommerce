@@ -165,6 +165,7 @@
     "price_range" : "Tìm theo giá tiền",
     "price_to" : "Đến giá",
     "product" : "Sản phẩm",
+    "product_not_exists" : "Sản phẩm đã bị xóa hoặc không tồn tại.",
     "quantity" : "Số lương",
     "register_account": "Đăng ký tài khoản",
     "remember_me": "Nhớ mật khẩu",

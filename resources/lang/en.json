@@ -165,6 +165,7 @@
     "price_range" : "Price range",
     "price_to" : "Price to :",
     "product" : "Product",
+    "product_not_exists" : "Product not exists.",
     "quantity" : "Quantity",
     "register_account": "Register a account",
     "remember_me": "Remember Me",
