@@ -7,17 +7,17 @@
          <div class="modal-body">
              <div class="form-group">
                  <label for="name">{{ trans('admin.product_size') }}</label>
-                 <span id="show_errors" class="show-size"></span>
+                 <span id="show_errors" class="show-size">*</span>
                  <input type="text" id="size" class="form-control" name="size" >
              </div>
              <div class="form-group">
                  <label for="original_price">{{ trans('admin.quantity') }}</label>
-                 <span id="show_errors" class="show-quantity"></span>
+                 <span id="show_errors" class="show-quantity">*</span>
                  <input type="text" id="quantity" class="form-control" name="quantity">
              </div>
              <div class="form-group">
                  <label for="unit_price">{{ trans('admin.product.unit_price') }}</label>
-                 <span id="show_errors" class="show-unit-price"></span>
+                 <span id="show_errors" class="show-unit-price">*</span>
                  <input type="text" id="unit_price" class="form-control" name="unit_price" >
              </div>
              <div class="form-group">
@@ -27,7 +27,7 @@
              </div>
              <div class="form-group">
                  <label for="original_price">{{ trans('admin.product.original_price') }}</label>
-                 <span id="show_errors" class="show-original-price"></span>
+                 <span id="show_errors" class="show-original-price">* {{ trans('message_error_price') }}</span>
                  <input type="text" id="original_price" class="form-control" name="original_price" >
              </div>
              <div class="save-data"></div>

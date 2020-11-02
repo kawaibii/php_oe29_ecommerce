@@ -1,3 +1,4 @@
+@if ($product)
 <section class="ftco-section ftco-deal bg-primary">
     <div class="container">
         <div class="row">
@@ -29,3 +30,4 @@
         </div>
     </div>
 </section>
+@endif
