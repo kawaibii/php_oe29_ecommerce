@@ -59,9 +59,12 @@ class OrderController extends Controller
 
     public function getOrderHistory()
     {
-        $orders = Auth::user()->orders()
+        $orders = Auth::user()
+            ->orders()
             ->orderBy('created_at', 'desc')
-            ->with('productDetails.product')
+            ->with(['productDetails.product' => function ($query) {
+                $query->withTrashed();
+            }])
             ->paginate(config('setting.paginate.order'));
 
         return view('users.pages.order_history', compact('orders'));
@@ -69,13 +72,16 @@ class OrderController extends Controller
 
     public function getOrderHistoryByStatus()
     {
-        $orders = Auth::user()->orders()
+        $orders = Auth::user()
+            ->orders()
             ->orderBy('created_at', 'desc')
-            ->with('productDetails.product')
+            ->with(['productDetails.product' => function ($query) {
+                $query->withTrashed();
+            }])
             ->get();
         $existsPending = false;
         $existsApproved = false;
-        $existsRejected= false;
+        $existsRejected = false;
         $existsCancelled = false;
         foreach ($orders as $order) {
             switch ($order->status) {
@@ -120,5 +126,29 @@ class OrderController extends Controller
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public function deleteProductNotExistInOrder(Request $request)
+    {
+        try {
+            $order = Order::findOrFail($request->order_id);
+            foreach ($order->productDetails as $productDetail) {
+                if ($request->product_detail_id == $productDetail->pivot->product_detail_id) {
+                    $total = $request->total_price - ($productDetail->pivot->quantity * $productDetail->pivot->unit_price);
+
+                    break;
+                }
+            }
+            $order->productDetails()->detach($request->product_detail_id);
+            $order->update([
+                'total_price' => $total,
+            ]);
+            alert()->success(trans('user.sweetalert.saved'));
+
+            return redirect()->back();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
     }
 }

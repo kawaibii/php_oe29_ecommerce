@@ -67,7 +67,23 @@
                             @foreach ($order->productDetails as $productDetail)
                                 <tr>
                                     <td>{{ ++$index }}</td>
-                                    <td>{{ $productDetail->product->name }}</td>
+                                    <td>
+                                        <div>{{ $productDetail->product->name }}</div>
+                                        @if ($productDetail->product->deleted_at != null)
+                                            <div>
+                                                <span class="text text-danger">* {{ trans('user.modals.order_detail.product_not_exist') }}</span>
+                                                @if ($order->status == config('order.status.pending'))
+                                                    <form action="{{ route('user.deleteProductInOrder') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="product_detail_id" value="{{ $productDetail->id }}">
+                                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                                        <input type="hidden" name="total_price" value="{{ $order->total_price }}">
+                                                        <input type="submit" class="btn btn-danger" value="{{ trans('user.modals.order_detail.delete') }}">
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </td>
                                     <td>{{ $productDetail->size }}</td>
                                     <td>{{ $productDetail->pivot->quantity }}</td>
                                     <td>{{ number_format($productDetail->pivot->unit_price) . " VND" }}</td>
