@@ -5,6 +5,8 @@
 /public/mix-manifest.json
 /public/hot
 /public/storage
+/public/converage
+/public/Policies
 /public/coverage
 /.idea
 /storage/*.key
