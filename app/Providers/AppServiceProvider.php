@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 use App\Models\Product;
+use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Brand\BrandRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +18,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            BrandRepositoryInterface::class,
+            BrandRepository::class
+        );
     }
 
     /**
