@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Comment;
-use App\Models\Image;
 use App\Models\Product;
-use App\Models\ProductDetail;
 use App\Http\Requests\ProductRequest;
+use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Image\ImageRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
 
 class ProductController extends Controller
 {
@@ -21,27 +20,33 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $productRepo, $brandRepo, $categoryRepo, $imageRepo, $productDetailRepo;
+
+    function __construct(
+        ProductRepositoryInterface $productRepo,
+        BrandRepositoryInterface $brandRepo,
+        CategoryRepositoryInterface  $categoryRepo,
+        ImageRepositoryInterface  $imageRepo,
+        ProductDetailRepositoryInterface $productDetailRepo
+    ){
+        $this->productRepo = $productRepo;
+        $this->brandRepo = $brandRepo;
+        $this->categoryRepo = $categoryRepo;
+        $this->productDetailRepo = $productDetailRepo;
+        $this->imageRepo = $imageRepo;
+    }
+
     public function index()
     {
         if (Auth::user()->can('viewAny', Product::class)) {
-            $categories = Category::select('id', 'name')->get();
-            $brands = Brand::select('id', 'name')->get();
-            $products = Product::withCount(['images', 'productDetails'])->get();
+            $categories = $this->categoryRepo->getAll();
+            $brands = $this->brandRepo->getAll();
+            $products = $this->productRepo->getCountImageAndProductDetail();
 
             return view('admin.products.index', compact('products', 'categories', 'brands'));
         }
 
             return abort(config('setting.errors404'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -53,7 +58,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         if (Auth::user()->can('create', Product::class)) {
-            $product = Product::create([
+            $data = [
                 'name' => $request->name,
                 'description' => $request->description,
                 'rate' => config('setting.rate'),
@@ -61,7 +66,8 @@ class ProductController extends Controller
                 'current_price' => $request->current_price,
                 'category_id' => $request->category,
                 'brand_id' => $request->brand,
-            ]);
+            ];
+            $product = $this->productRepo->create($data);
             $this->uploadImage($request, $product);
 
             return redirect()->back()->with('message_success', trans('message_success'));
@@ -76,10 +82,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function show($id)
     {
         if (Auth::user()->can('view', Product::class)) {
-            $product = Product::with(['images', 'productDetails', 'comments'])->find($id);
+            $data  = [
+                'images',
+                'productDetails',
+                'comments',
+            ];
+            $product = $this->productRepo->getRelated($id, $data);
             $images = $product->images()
                 ->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
             $productDetails = $product->productDetails()
@@ -100,7 +112,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::findorFail($id);
+        $product = $this->productRepo->find($id);
         $data = [
             'name' => $product->name,
             'current_price' => $product->current_price,
@@ -124,8 +136,8 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         if (Auth::user()->can('update', Product::class)) {
-            $product = Product::findOrFail($id);
-            $product->update([
+            $product = $this->productRepo->find($id);
+            $data = [
                 'name' => $request->name,
                 'description' => $request->description,
                 'rate' => $product->rate,
@@ -133,7 +145,8 @@ class ProductController extends Controller
                 'current_price' => $request->current_price,
                 'category_id' => $request->category,
                 'brand_id' => $request->brand,
-            ]);
+            ];
+            $this->productRepo->update($id, $data);
             $this->uploadImage($request, $product);
 
             return redirect()->back()->with('message_success', trans('success'));
@@ -151,8 +164,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         if (Auth::user()->can('delete', Product::class)) {
-            $product = Product::findOrFail($id);
-            $product->delete();
+            $this->productRepo->delete($id);
 
             return redirect()->back()->with('message_success', trans('message_success'));
         }
@@ -160,25 +172,29 @@ class ProductController extends Controller
             return abort(config('setting.errors404'));
     }
 
-    public function uploadImage($request, $product)
+    public function uploadImage(Request $request,Product $product)
     {
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
                 $name = time() . "_" . $file->getClientOriginalName();
                 $path = public_path(config('setting.image.product'));
-                $image = Image::create([
+                $data = [
                     'product_id' => $product->id,
                     'image_link' => $name,
-                ]);
+                ];
+                $this->imageRepo->create($data);
                 $file->move($path, $name);
             }
 
             return true;
         } else {
-            $image = Image::create([
+            $data = [
                 'product_id' => $product->id,
                 'image_link' => config('setting.image.default'),
-            ]);
+            ];
+            $this->imageRepo->create($data);
+
+            return  true;
         }
 
         return false;
@@ -187,7 +203,7 @@ class ProductController extends Controller
     public function deleteImage($id)
     {
         if (Auth::user()->can('deleteImage', Product::class)) {
-            $image = Image::findorFail($id);
+            $image = $this->imageRepo->find($id);
             if (file_exists(config('setting.image.product') . $image->image_link)) {
                 unlink(config('setting.image.product') . $image->image_link);
             }
@@ -202,8 +218,7 @@ class ProductController extends Controller
     public function deleteProductDetail($id)
     {
         if (Auth::user()->can('deleteProductDetail', Product::class)) {
-            $productDetail = ProductDetail::findOrFail($id);
-            $productDetail->delete();
+            $this->productDetailRepo->delete($id);
 
             return redirect()->back()->with('message_success', trans('message_success'));
         }
