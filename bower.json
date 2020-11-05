@@ -18,6 +18,7 @@
   "dependencies": {
     "bower_project1": "git@github.com:kawaibii/bower_project1.git",
     "bootstrap-sweetalert": "^1.0.1",
-    "highcharts": "^8.2.2"
+    "highcharts": "^8.2.2",
+    "ckeditor": "^4.15.0"
   }
 }

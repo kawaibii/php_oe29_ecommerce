@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::group(['middleware' => ['localization', 'localizationJS']], function() {
     Route::get('lang/{language}', 'LocalizationController@changeLanguage')->name('localization');
     Route::name('user.')->group(function() {
