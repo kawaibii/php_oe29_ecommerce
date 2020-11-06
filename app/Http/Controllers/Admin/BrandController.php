@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Http\Requests\CreateBrandRequest;
 use App\Http\Requests\EditBrandRequest;
+use App\Repositories\Brand\BrandRepositoryInterface;
+use App\Repositories\Brand\BrandRepository;
 
 class BrandController extends Controller
 {
+    protected $brandRepo;
+
+    public function __construct(BrandRepositoryInterface $brandRepo)
+    {
+        $this->brandRepo = $brandRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +26,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::all();
+        $brands = $this->brandRepo->getAll();
 
         return view('admin.brands.list', compact('brands'));
     }
@@ -40,7 +49,7 @@ class BrandController extends Controller
      */
     public function store(CreateBrandRequest $request)
     {
-        $brand = Brand::create([
+        $this->brandRepo->create([
             'name' => $request->name_of_create,
         ]);
 
@@ -78,15 +87,11 @@ class BrandController extends Controller
      */
     public function update(EditBrandRequest $request, $id)
     {
-        try {
-            $brand = Brand::findOrFail($id);
-            $brand->name = $request->name_of_edit;
-            $brand->save();
+        $this->brandRepo->update($id, [
+            'name' => $request->name_of_edit,
+        ]);
 
-            return redirect()->back();
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
+        return redirect()->back();
     }
 
     /**
@@ -97,13 +102,8 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $brand = Brand::findOrFail($id);
-            $brand->delete();
+        $this->brandRepo->delete($id);
 
-            return redirect()->back();
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
+        return redirect()->back();
     }
 }
