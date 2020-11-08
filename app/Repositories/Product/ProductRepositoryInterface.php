@@ -7,4 +7,6 @@ interface ProductRepositoryInterface
     public function getCountImageAndProductDetail();
 
     public function getRelated($id, $data);
+
+    public function getLasted();
 }

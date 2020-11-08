@@ -29,4 +29,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         return false;
     }
+
+    public function getLasted()
+    {
+        $products = Product::with('images')
+            ->orderBy('created_at', 'DESC')
+            ->take(config('setting.number_product'))
+            ->get();
+
+        return $products;
+    }
 }
