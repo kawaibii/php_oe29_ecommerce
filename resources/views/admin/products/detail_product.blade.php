@@ -41,7 +41,7 @@
                                 </p>
                                 <p class="item-product">
                                     <span id="infor">{{ trans('admin.quantity') }}</span>
-                                    {{ $product->productDetails->sum('quantity') }}
+                                        {{ $product->productDetails->sum('quantity') }}
                                 </p>
                                 <div class="row item-product">
                                     <div class="col-md-4">
@@ -88,13 +88,15 @@
                                         <div class="img">
                                             <img class="img-circle item-image" src="{{ asset(config('setting.image.product') . $image->image_link) }}">
                                         </div>
-                                        <form class="delete-product"
+                                        <form class="delete-product delete-image"
                                               action="{{ route('delete.image', $image->id) }}"
                                               data-message ="{{ trans('admin.delete') . trans('admin.image') }}"
                                               method="post" >
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-warning btn-circle"><i class="fa fa-times"></i></button>
+                                            <button type="submit" class="btn btn-warning btn-circle " id="delete-image">
+                                                <i class="fa fa-times"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 @endforeach
@@ -136,7 +138,7 @@
                                                                   method="post">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button class="btn btn-danger" type="submit">{{ trans('admin.delete') }}</button>
+                                                                <button class="btn btn-danger" dusk="delete-productdetail" type="submit">{{ trans('admin.delete') }}</button>
                                                             </form>
                                                         </td>
                                                     </tr>

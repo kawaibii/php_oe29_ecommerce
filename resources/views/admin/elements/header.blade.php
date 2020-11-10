@@ -10,7 +10,7 @@
 
     <ul class="nav navbar-right navbar-top-links">
         <li class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dusk="language">
                 {{ trans('language') }}
             </button>
             <div class="dropdown-menu">
@@ -18,22 +18,18 @@
                 <a class="dropdown-item" href="{{ route('localization', ['vi']) }}">{{ trans('language.vietnamese') }}</a>
             </div>
         </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i><b class="caret"></b>
+        @auth
+        <li class="dropdown" id="information">
+            <a class="dropdown-toggle " data-toggle="dropdown" href="#" dusk="logout">
+                {{ Auth::user()->name }}
             </a>
             <ul class="dropdown-menu dropdown-user">
-                @auth
-                    <li>
-                        <a href="#"><i class="fa fa-key" aria-hidden="true"></i> {{ Auth::user()->name }}</a>
-                    </li>
-                @endauth
-                <li class="divider"></li>
                 <li>
-                    <a href="{{ route('user.logout') }}"><i class="fa fa-sign-out fa-fw"></i> {{ trans('admin.header.logout') }}</a>
+                    <a href="{{ route('user.logout') }}"><i class="fa fa-sign-out fa-fw"></i>{{ trans('admin.header.logout') }}</a>
                 </li>
             </ul>
         </li>
+        @endauth
     </ul>
     @include('admin.elements.menu')
 </nav>
