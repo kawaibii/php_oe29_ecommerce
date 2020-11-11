@@ -12,12 +12,12 @@
                         <span class="text">{{ config('information_shop.email_shop') }}</span>
                     </div>
                     <div class="col-md-2 pr-4 d-flex topper align-items-center text-lg-right">
-                        <a href="{{ route('localization', 'en') }}">
+                        <a href="{{ route('localization', 'en') }}" dusk="english">
                             <span class="text">{{ trans('language.english') }}</span>
                         </a>
                     </div>
                     <div class="col-md-2 pr-4 d-flex topper align-items-center text-lg-right">
-                        <a href="{{ route('localization', 'vi') }}">
+                        <a href="{{ route('localization', 'vi') }}" dusk="vietnamese">
                             <span class="text">{{ trans('language.vietnamese') }}</span>
                         </a>
                     </div>
