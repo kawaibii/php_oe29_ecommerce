@@ -11,18 +11,39 @@
                 </span>
                 </div>
             <li>
-                <a href="#" class="active"><i class="fa fa-dashboard fa-fw"></i> {{ trans('admin.menu.dashboard') }}</a>
+                <a href="#" class="active">
+                    <i class="fa fa-dashboard fa-fw"></i>
+                    {{ trans('admin.menu.dashboard') }}
+                </a>
             </li>
             <li>
-                <a href="#" ><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.user_management') }}</a>
+                <a href="#" >
+                    <i class="fa fa-table fa-fw"></i>
+                    {{ trans('admin.menu.user_management') }}
+                </a>
             </li>
             @can('viewAny', App\Models\Product::class)
                 <li>
-                    <a href=""><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.product_management') }} <span class="fa arrow"></span></a>
+                    <a href=""><i class="fa fa-table fa-fw"></i>
+                        {{ trans('admin.menu.product_management') }}
+                        <span class="fa arrow"></span>
+                    </a>
                     <ul class="nav nav-second-level">
-                        <li><a href="{{ route('products.index') }}">{{ trans('admin.menu.product_management.product') }}</a></li>
-                        <li><a href="{{ route('categories.index')}}">{{ trans('admin.menu.product_management.category') }}</a></li>
-                        <li><a href="{{ route('brands.index') }}">{{ trans('admin.menu.product_management.brand') }}</a></li>
+                        <li>
+                            <a href="{{ route('products.index') }}">
+                                {{ trans('admin.menu.product_management.list_product') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('categories.index')}}">
+                                {{ trans('admin.menu.product_management.category') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('brands.index') }}">
+                                {{ trans('admin.menu.product_management.brand') }}
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endcan
@@ -33,7 +54,10 @@
             @endcan
             @can('viewAny', App\Models\Supplier::class)
                 <li>
-                    <a href="{{ route('suppliers.index') }}"><i class="fa fa-table fa-fw"></i> {{ trans('admin.menu.supplier_management') }}</a>
+                    <a href="{{ route('suppliers.index') }}">
+                        <i class="fa fa-table fa-fw"></i>
+                        {{ trans('admin.menu.supplier_management') }}
+                    </a>
                 </li>
             @endcan
         </ul>
