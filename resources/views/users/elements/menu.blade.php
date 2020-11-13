@@ -12,7 +12,7 @@
                 <li class="nav-item"><a href="{{ route('user.about') }}" class="nav-link">{{ trans('about') }}</a></li>
                 <li class="nav-item"><a href="{{ route('user.contact') }}" class="nav-link">{{ trans('contact') }}</a></li>
                 <li class="nav-item cta cta-colored">
-                    <a href="{{ route('user.cart') }}" class="nav-link">
+                    <a href="{{ route('user.cart') }}" class="nav-link" dusk="cart">
                         <span class="icon-shopping_cart"></span>
                         @if(Session::has('numberOfItemInCart'))
                             <span class="badge">{{ Session::get('numberOfItemInCart') }}</span>
@@ -24,11 +24,11 @@
                 <li class="nav-item">
                     @if (Auth::check())
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" dusk="user-active">{{ Auth::user()->name }}</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-information">{{ trans('change_information') }}</a>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-password">{{ trans('change_password') }}</a>
-                            <a class="dropdown-item" href="{{ route('user.orderHistory') }}">{{ trans('user.menu.order_history') }}</a>
+                            <a class="dropdown-item" href="{{ route('user.orderHistory') }}" dusk="order-history">{{ trans('user.menu.order_history') }}</a>
                             @if (Auth::user()->role_id > config('role.user'))
                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}" class="nav-link">{{ trans('admin') }}</a>
                             @endif

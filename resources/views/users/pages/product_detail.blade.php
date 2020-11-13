@@ -66,7 +66,7 @@
                             </div>
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="size" id="add-size" value="">
-                            <input type="submit" class="btn btn-black py-3 px-5 mr-2" value="{{ trans('user.product_detail.add_to_cart') }}">
+                            <input type="submit" class="btn btn-black py-3 px-5 mr-2" value="{{ trans('user.product_detail.add_to_cart') }}" dusk="add-to-cart" id="add-to-cart">
                             <a href="#" class="btn btn-primary py-3 px-5">{{ trans('user.product_detail.buy_now') }}</a>
                         </form>
                     </div>
