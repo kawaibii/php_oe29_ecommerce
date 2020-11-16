@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Controller;
+namespace Tests\Unit\Http\Controllers;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Requests\ChangeInformationRequest;
