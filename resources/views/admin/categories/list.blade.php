@@ -36,13 +36,7 @@
                                                     <td>{{ $category->name }}</td>
                                                     <td>
                                                         @if ($category->parent_id != null)
-                                                            @foreach ($parents as $parent)
-                                                                @if ($parent->id == $category->parent_id)
-                                                                    {{ $parent->name }}
-
-                                                                    @break
-                                                                @endif
-                                                            @endforeach
+                                                            {{ $category->parent->name }}
                                                         @endif
                                                     </td>
                                                     <td>{{  time_elapsed_string(strtotime($category->created_at)) }}</td>
@@ -63,6 +57,8 @@
             </div>
         </div>
     </div>
+
+    <div class="show-errors" data-modal="{{ $errors->first('show_modal') }}"></div>
 @endsection
 
 @section('js')

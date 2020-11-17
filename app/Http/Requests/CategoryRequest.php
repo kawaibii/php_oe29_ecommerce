@@ -32,4 +32,13 @@ class CategoryRequest extends FormRequest
             'parent_id' => 'bail|nullable|numeric',
         ];
     }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($validator->errors()->all()) {
+                $validator->errors()->add('show_modal', $this->input('define'));
+            }
+        });
+    }
 }

@@ -3,128 +3,60 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
 use Auth;
-use PHPUnit\Exception;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $category;
+
+    function __construct(CategoryRepositoryInterface $category)
+    {
+        $this->category = $category;
+    }
+
     public function index()
     {
         if (Auth::user()->can('viewAny', Category::class)) {
-            $categories = Category::all();
-            $parents = Category::where('parent_id', null)->get();
+            $categories = $this->category->getAll();
 
-            return view('admin.categories.list', compact('categories', 'parents'));
+            return view('admin.categories.list', compact('categories'));
         }
-
-        return abort(config('setting.errors404'));
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(CategoryRequest $request)
     {
         if (Auth::user()->can('create', Category::class)) {
-            if ($request->parent_id == null) {
-                $category = Category::create([
-                    'name' => $request->name,
-                    'parent_id' => null,
-                ]);
-            } else {
-                try {
-                    $parent = Category::findOrFail($request->parent_id);
-                    $category = Category::create([
-                        'name' => $request->name,
-                        'parent_id' => $parent->id,
-                    ]);
-                } catch (Exception $e) {
-                    return $e->getMessage();
-                }
+            $data = [
+                'name' => $request->name,
+                'parent_id' => $request->parent_id,
+            ];
+            if (empty($this->category->find($request->parent_id)) && $request->parent_id != null) {
+                return redirect()->back()->withErrors(['show_modal' => $request->define, 'name' => trans('Category_not_found')]);
             }
+            $this->category->create($data);
 
             return redirect()->back();
         }
-
-        return abort(config('setting.errors404'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(CategoryRequest $request, $id)
     {
         if (Auth::user()->can('update', Category::class)) {
-            try {
-                $category = Category::findOrFail($id);
-                if ($request->parent_id == null) {
-                    $category->update([
-                        'name' => $request->name,
-                        'parent_id' => null,
-                    ]);
-                } else {
-                    $parent = Category::findOrFail($request->parent_id);
-                    $category->update([
-                        'name' => $request->name,
-                        'parent_id' => $request->parent_id,
-                    ]);
-                }
-
-                return redirect()->back();
-            } catch (Exception $e) {
-                return $e->getMessage();
+            $data = [
+                'name' => $request->name,
+                'parent_id' => $request->parent_id,
+            ];
+            if ($request->parent_id != null && empty($this->category->find($id))) {
+                return redirect()->back()->withErrors(['show_modal' => $request->define, 'name' => trans('Category_not_found')]);
             }
-        }
+            $this->category->update($id, $data);
 
-        return abort(config('setting.errors404'));
+            return redirect()->back();
+        }
     }
 
     /**
@@ -136,20 +68,17 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         if (Auth::user()->can('delete', Category::class)) {
-            try {
-                $parentCategory = Category::findOrFail($id);
-                $categories = Category::with('children')->findOrFail($id);
-                foreach ($categories->children as $child) {
-                    $child->update([
-                        'parent_id' => null,
-                    ]);
+            $attribute = ['children'];
+            $data = ['parent_id' => null];
+            $category = $this->category->find($id, $attribute);
+            if (count($category->children)) {
+                foreach ($category->children as $child) {
+                    $this->category->update($child->id, $data);
                 }
-                $parentCategory->delete();
-
-                return redirect()->back();
-            } catch (Exception $e) {
-                return $e->getMessage();
             }
+            $this->category->delete($id);
+
+            return redirect()->back();
         }
     }
 }
