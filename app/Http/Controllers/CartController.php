@@ -3,17 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProductDetail;
-use App\Models\Product;
+use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 use Session;
 use Auth;
 use Alert;
 
 class CartController extends Controller
 {
+    protected $product, $productDetail;
+
+    function __construct(ProductRepositoryInterface $product, ProductDetailRepositoryInterface $productDetails)
+    {
+        $this->product = $product;
+        $this->productDetail = $productDetails;
+    }
+
     public function add(Request $request)
     {
-        $productDetail = ProductDetail::where('product_id', $request->product_id)->where('size', $request->size)->first();
+        $data = [
+            ['product_id', $request->product_id],
+            ['size', $request->size],
+        ];
+        $productDetail = $this->productDetail->where($data)->first();
         if ($productDetail) {
             if ($request->quantity <= 0) {
                 alert()->error(trans('user.sweetalert.whoops'), trans('user.sweetalert.quantity_greater_zero'));
@@ -75,7 +87,7 @@ class CartController extends Controller
         if (Session::has('numberOfItemInCart') && Session::get('numberOfItemInCart') > 0) {
             $cart = Session::get('cart');
             foreach ($cart as $item) {
-                $product = Product::findOrFail($item['product_id']);
+                $product = $this->product->find($item['product_id']);
                 array_push($productNames, $product->name);
                 $image = $product->images->first()->image_link;
                 array_push($images, $image);
@@ -88,7 +100,7 @@ class CartController extends Controller
     public function deleteOneProduct(Request $request)
     {
         try {
-            $productDetail = ProductDetail::findOrFail($request->product_detail_id);
+            $productDetail = $this->productDetail->find($request->product_detail_id);
             $cart = Session::get('cart');
             $numberOfItemInCart = Session::get('numberOfItemInCart');
             $newCart = [];

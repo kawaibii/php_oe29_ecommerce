@@ -62,5 +62,10 @@ abstract class BaseRepository implements RepositoryInterface
 
         return false;
     }
+
+    public function where($attributes = [])
+    {
+        return $this->model->where($attributes);
+    }
 }
 
