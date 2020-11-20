@@ -4,17 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
-use App\Models\Product;
-use App\Models\ProductDetail;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ImportProductRequest;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Exception;
+use App\Repositories\Supplier\SupplierRepository;
+use App\Repositories\Supplier\SupplierRepositoryInterface;
+use App\Repositories\Product\ProductRepository;
+use App\Repositories\Product\ProductRepositoryInterface;
 
 class SupplierController extends Controller
 {
+    protected $supplierRepo;
+    protected $productRepo;
+
+    public function __construct(
+        SupplierRepositoryInterface $supplierRepo,
+        ProductRepositoryInterface $productRepo
+    )
+    {
+        $this->supplierRepo = $supplierRepo;
+        $this->productRepo = $productRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,22 +37,12 @@ class SupplierController extends Controller
     public function index()
     {
         if (Auth::user()->can('viewAny', Supplier::class)) {
-            $suppliers = Supplier::all();
+            $suppliers = $this->supplierRepo->getAll();
 
             return view('admin.suppliers.index', compact('suppliers'));
         }
 
         return abort(config('setting.errors404'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -50,23 +54,12 @@ class SupplierController extends Controller
     public function store(SupplierRequest $request)
     {
         if (Auth::user()->can('create', Supplier::class)) {
-            Supplier::create($request->all());
+            $this->supplierRepo->create($request->all());
 
             return redirect()->back()->with('message_success', trans('message_success'));
         }
 
         return abort(config('setting.errors404'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -78,7 +71,7 @@ class SupplierController extends Controller
     public function edit($id)
     {
         if (Auth::user()->can('view', Supplier::class)) {
-            $supplier = Supplier::find($id);
+            $supplier = $this->supplierRepo->find($id);
             if (empty($supplier)) {
                 $data = [
                     'status' => config('setting.http_status.errors'),
@@ -110,7 +103,7 @@ class SupplierController extends Controller
     public function update(SupplierRequest $request, $id)
     {
         if (Auth::user()->can('update', Supplier::class)) {
-            Supplier::find($id)->update($request->all());
+            $supplier = $this->supplierRepo->update($id, $request->all());
 
             return redirect()->back()->with('message_success', trans('message_success'));
         }
@@ -127,8 +120,7 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         if (Auth::user()->can('delete', Supplier::class)) {
-            $supplier = Supplier::findOrFail($id);
-            $supplier->delete();
+            $supplier = $this->supplierRepo->delete($id);
 
             return redirect()->back()->with('message_success', trans('message_success'));
         }
@@ -139,8 +131,8 @@ class SupplierController extends Controller
     public function showProduct($id)
     {
         if (Auth::user()->can('importProduct', Supplier::class)) {
-            $supplier = Supplier::findOrFail($id);
-            $products = Product::all();
+            $supplier = $this->supplierRepo->find($id);
+            $products = $this->productRepo->getAll();
 
             return view('admin.suppliers.import_product', compact('supplier', 'products'));
         }
@@ -148,7 +140,7 @@ class SupplierController extends Controller
 
     public function showInfoProduct($productId, $supplierId)
     {
-        $product = Product::findOrFail($productId);
+        $product = $this->productRepo->find($productId);
 
         return view('admin.suppliers.modal_import_product', compact('product', 'supplierId'));
     }
@@ -157,9 +149,9 @@ class SupplierController extends Controller
     {
         DB::beginTransaction();
         try {
-            $product = Product::with(['productDetails'])->findOrFail($id);
+            $product = $this->productRepo->find($id, ['productDetails']);
             $productDetail = $product->productDetails->where('size', '=', $request->size)->first();
-            $supplier = Supplier::findOrFail($request->supplier);
+            $supplier = $this->supplierRepo->find($request->supplier);
             if ($request->original_price <= $request->current_price && $request->current_price != 0) {
                 $product->update([
                     'current_price' => $request->current_price,
@@ -181,7 +173,7 @@ class SupplierController extends Controller
                 $supplier->products()->attach($product, [
                     'size' => $request->size,
                     'quantity' => $request->quantity,
-                    'unit_price' => $request->unit_price * $request->quantity,
+                    'unit_price' => $request->unit_price,
                     'paid' => config('setting.paid.payed'),
                 ]);
             } else {
@@ -193,7 +185,7 @@ class SupplierController extends Controller
                 $supplier->products()->attach($product, [
                     'size' => $request->size,
                     'quantity' => $request->quantity,
-                    'unit_price' => $request->unit_price * $request->quantity,
+                    'unit_price' => $request->unit_price,
                     'paid' => config('setting.paid.payed'),
                 ]);
             }

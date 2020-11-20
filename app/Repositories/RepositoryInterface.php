@@ -6,7 +6,7 @@ interface RepositoryInterface
 {
     public function getAll();
 
-    public function find($id);
+    public function find($id, $attributes = []);
 
     public function create($attributes = []);
 

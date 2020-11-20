@@ -15,6 +15,8 @@ use App\Repositories\Image\ImageRepositoryInterface;
 use App\Repositories\Image\ImageRepository;
 use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
 use App\Repositories\ProductDetails\ProductDetailRepository;
+use App\Repositories\Supplier\SupplierRepositoryInterface;
+use App\Repositories\Supplier\SupplierRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -53,6 +55,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(
             UserRepositoryInterface::class,
             UserRepository::class
+        );
+
+        $this->app->singleton(
+            SupplierRepositoryInterface::class,
+            SupplierRepository::class
         );
     }
 

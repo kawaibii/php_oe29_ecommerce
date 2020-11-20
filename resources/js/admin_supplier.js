@@ -16,14 +16,18 @@ $(document).on("click", ".edit-supplier", function () {
          url : $(this).data('url'),
          type : "GET",
          success : function (data) {
-             $(".loader").hide();
-             let supplier = JSON.parse(data);
-             $("#form-edit").attr('action', supplier.url);
-             $("#edit-name").val(supplier.name);
-             $("#edit-phone").val(supplier.phone);
-             $("#edit-address").val(supplier.address);
-             CKEDITOR.instances['edit-description'].setData(supplier.description);
-             $("#modal-edit-supplier").modal("show");
+            $(".loader").hide();
+            let supplier = JSON.parse(data);
+            if (supplier.status == 404) {
+                alert(supplier.message);
+            } else {
+                $("#form-edit").attr('action', supplier.url);
+                $("#edit-name").val(supplier.name);
+                $("#edit-phone").val(supplier.phone);
+                $("#edit-address").val(supplier.address);
+                CKEDITOR.instances['edit-description'].setData(supplier.description);
+                $("#modal-edit-supplier").modal("show");
+            }
          },
       });
 });
