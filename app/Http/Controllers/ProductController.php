@@ -4,27 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\ReplyCommentRequest;
-use App\Models\Comment;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\Image;
-use App\Models\ProductDetail;
+use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    function __construct()
-    {
-        $categories = Category::where('parent_id', null)->get();
-        $children = Category::where('parent_id', '<>', null)->get();
+    protected $comment, $product, $category, $productDetails;
+    function __construct (
+        CommentRepositoryInterface $comment,
+        ProductDetailRepositoryInterface $productDetails,
+        CategoryRepositoryInterface $category,
+        ProductRepositoryInterface $product
+    ) {
+        $this->productDetails = $productDetails;
+        $this->category = $category;
+        $this->product = $product;
+        $this->comment = $comment;
+        $categories = $this->category->getAll();
         view()->share('categories', $categories);
-        view()->share('children', $children);
     }
 
     public function index()
     {
-        $products = Product::paginate(config('setting.paginate.product'));
+        $products = $this->product->paginate(config('setting.paginate.product'));
 
         return view('users.pages.product', compact('products'));
     }
@@ -32,7 +38,12 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::with(['images','productDetails','comments'])->findOrFail($id);
+            $data = [
+                'comments',
+                'images',
+                'productDetails',
+            ];
+            $product = $this->product->getRelated($id, $data);
             $images = $product->images;
             $productDetails = $product->productDetails;
             $comments = $product->comments->where('parent_id', '=', null);
@@ -46,7 +57,7 @@ class ProductController extends Controller
     public function quantity($id)
     {
         try {
-            $productDetails = ProductDetail::findOrFail($id);
+            $productDetails = $this->productDetails->find($id);
             $data = [
                 'quantity' => $productDetails->quantity,
                 'size' => $productDetails->size,
@@ -60,56 +71,65 @@ class ProductController extends Controller
 
     public function comment(CommentRequest $request, $id)
     {
-        $product = Product::with(['comments'])->find($id);
+        $data = ['comments'];
+        $product = $this->product->find($id, $data);
         $comment = $product->comments->where('user_id', Auth::user()->id)->first();
         if (empty($comment)) {
-        Comment::create([
-            'product_id' => $id,
-            'user_id' => Auth::user()->id,
-            'message' => $request->comment,
-            'rate' => $request->rating,
-            'status' => config('setting.comment.accept'),
-        ]);
-        } else {
-            $comment->update([
+            $data = [
+                'product_id' => $id,
+                'user_id' => Auth::user()->id,
                 'message' => $request->comment,
                 'rate' => $request->rating,
                 'status' => config('setting.comment.accept'),
-            ]);
+            ];
+            $this->comment->create($data);
+        } else {
+            $data = [
+                'message' => $request->comment,
+                'rate' => $request->rating,
+                'status' => config('setting.comment.accept'),
+            ];
+            $this->comment->update($comment->id, $data);
         }
-        $avg = Comment::where([['product_id', '=', $id], ['parent_id', '=', null]])->avg('rate');
-        Product::find($id)->update([
-           'rate' => round($avg),
-        ]);
+        $attributeRate = [
+            ['product_id', '=', $id],
+            ['parent_id', '=', null],
+        ];
+        $avg = $this->comment->where($attributeRate)->avg('rate');
+        $dataRate = [
+            'rate' => round($avg),
+        ];
+        $this->product->update($id, $dataRate);
 
         return redirect()->back();
     }
 
     public function replyComment(ReplyCommentRequest $request, $commentId, $productId)
     {
-        Comment::create([
+        $data = [
             'product_id' => $productId,
             'user_id' => Auth::user()->id,
             'parent_id' => $commentId,
             'message' => $request->reply,
             'rate' => config('setting.rate'),
             'status' => config('setting.comment.accept')
-        ]);
+        ];
+        $this->comment->create($data);
 
         return redirect()->back();
     }
 
     public function deleteComment($id)
     {
-        $comment = Comment::with(['replies'])->findOrFail($id);
+        $comment = $this->comment->find($id, ['replies']);
         $replies = $comment->replies;
         if (Auth::user()->can('delete', $comment)) {
             if ($replies) {
                 foreach ($replies as $reply) {
-                    $reply->delete();
+                    $this->comment->delete($reply->id);
                 }
             }
-            $comment->delete();
+            $this->comment->delete($id);
 
             return redirect()->back();
         }
@@ -119,24 +139,17 @@ class ProductController extends Controller
 
     public function getProductByCategory($id)
     {
-        $products = Product::where('category_id', $id)->paginate(config('setting.paginate.product'));
-        $categories = Category::where('parent_id', null)->get();
-        $children = Category::where('parent_id', '<>', null)->get();
+        $data = [
+            ['category_id', $id],
+        ];
+        $products = $this->product->where($data)->paginate(config('setting.paginate.product'));
 
-        return view('users.pages.product', compact('products', 'categories', 'children'));
+        return view('users.pages.product', compact('products'));
     }
 
     public function filterByPrice(Request $request)
     {
-        if ($request->price_to == 0) {
-            $products = Product::where('current_price', '>=', $request->price_from)
-                ->orderBy('current_price')
-                ->paginate(config('setting.paginate.product'));
-        } else {
-            $products = Product::whereBetween('current_price', [$request->price_from, $request->price_to])
-                ->orderBy('current_price')
-                ->paginate(config('setting.paginate.product'));
-        }
+        $products = $this->product->filterWhere($request->price_from, $request->price_to);
 
         return view('users.pages.product', compact('products'));
     }

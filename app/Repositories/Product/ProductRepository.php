@@ -39,4 +39,26 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
         return $products;
     }
+
+    public function paginate($number = 0)
+    {
+        if ($number > 0) {
+            return Product::paginate($number);
+        }
+
+        return Product::paginate(config('setting.paginate.product'));
+    }
+
+    public function filterWhere($priceFrom, $priceTo)
+    {
+        if ($priceTo == 0) {
+            return Product::where('current_price', '>=', $priceFrom)
+                ->orderBy('current_price')
+                ->paginate(config('setting.paginate.product'));
+        }
+
+        return Product::whereBetween('current_price', [$priceFrom, $priceTo])
+            ->orderBy('current_price')
+            ->paginate(config('setting.paginate.product'));
+    }
 }

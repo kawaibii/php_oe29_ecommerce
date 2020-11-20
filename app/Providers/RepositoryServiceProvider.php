@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Comment\CommentRepository;
+use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -60,6 +62,7 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+
             SupplierRepositoryInterface::class,
             SupplierRepository::class
         );
@@ -67,6 +70,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(
             OrderRepositoryInterface::class,
             OrderRepository::class
+        );
+
+        $this->app->singleton(
+            CommentRepositoryInterface::class,
+            CommentRepository::class
         );
     }
 
