@@ -19,152 +19,55 @@
             </div>
             <div class="group-tabs">
                 <ul class="nav nav-pills">
-                    <li class="tab-status active"><a href="#pending" data-toggle="tab">{{ trans('user.order.pending') }}</a></li>
-                    <li class="tab-status"><a href="#approved" data-toggle="tab">{{ trans('user.order.approved') }}</a></li>
-                    <li class="tab-status"><a href="#rejected" data-toggle="tab">{{ trans('user.order.rejected') }}</a></li>
-                    <li class="tab-status"><a href="#cancelled" data-toggle="tab">{{ trans('user.order.cancelled') }}</a></li>
+                    @foreach (config('order.status') as $key => $value)
+                        <li
+                            class="tab-status
+                            @if ($value == config('order.status.pending'))
+                                {{ "active" }}
+                            @endif">
+                            <a href="#{{ $key }}" data-toggle="tab">{{ trans('user.order.' .  $key) }}</a>
+                        </li>
+                    @endforeach
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane show fade in active" id="pending" active>
-                        @if ($existsPending)
+                    @foreach (config('order.status') as $key => $status)
+                        <div class="
+                            tab-pane fade in active
+                            @if ($status == config('order.status.pending'))
+                                {{ "show" }}
+                            @endif"
+                             id="{{ $key }}" >
                             <table class="table table-bordered table-striped">
                                 <thead class="thead-primary">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ trans('user.order_history.total_payment') }}</th>
-                                        <th>{{ trans('user.order_history.status') }}</th>
-                                        <th>{{ trans('user.order_history.note') }}</th>
-                                        <th>{{ trans('user.order_history.time_order') }}</th>
-                                        <th></th>
-                                    </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>{{ trans('user.order_history.total_payment') }}</th>
+                                    <th>{{ trans('user.order_history.status') }}</th>
+                                    <th>{{ trans('user.order_history.note') }}</th>
+                                    <th>{{ trans('user.order_history.time_order') }}</th>
+                                    <th></th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $index = 0;
-                                    @endphp
-                                    @foreach ($orders as $order)
-                                        @if($order->status == config('order.status.pending'))
-                                            <tr>
-                                                <td>{{ ++$index }}</td>
-                                                <td>{{ number_format($order->total_price) . " VND" }}</td>
-                                                <td><span class="label label-primary">{{ trans('user.order.pending') }}</span></td>
-                                                <td>{{ $order->note }}</td>
-                                                <td>{{ $order->created_at }}</td>
-                                                <td>
-                                                    @include ('users.modals.order_detail')
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @endif
-                    </div>
-                    <div class="tab-pane fade" id="approved">
-                        @if ($existsApproved)
-                            <table class="table table-bordered table-striped">
-                                <thead class="thead-primary">
+                                @php
+                                    $number = 1;
+                                @endphp
+                                @foreach ($orders->where('status', $status) as $order)
                                     <tr>
-                                        <th>#</th>
-                                        <th>{{ trans('user.order_history.total_payment') }}</th>
-                                        <th>{{ trans('user.order_history.status') }}</th>
-                                        <th>{{ trans('user.order_history.note') }}</th>
-                                        <th>{{ trans('user.order_history.time_order') }}</th>
-                                        <th></th>
+                                        <td>{{ $number++ }}</td>
+                                        <td>{{ number_format($order->total_price) . trans('admin.money.vi') }}</td>
+                                        <td><span class="label label-primary">{{ trans('user.order.' . $key) }}</span></td>
+                                        <td>{{ $order->note }}</td>
+                                        <td>{{ $order->created_at }}</td>
+                                        <td>
+                                            @include ('users.modals.order_detail')
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $index = 0;
-                                    @endphp
-                                    @foreach ($orders as $order)
-                                        @if($order->status == config('order.status.approved'))
-                                            <tr>
-                                                <td>{{ ++$index }}</td>
-                                                <td>{{ number_format($order->total_price) . " VND" }}</td>
-                                                <td><span class="label label-success">{{ trans('user.order.approved') }}</span></td>
-                                                <td>{{ $order->note }}</td>
-                                                <td>{{ $order->created_at }}</td>
-                                                <td>
-                                                    @include ('users.modals.order_detail')
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
+                                @endforeach
                                 </tbody>
                             </table>
-                        @endif
-                    </div>
-                    <div class="tab-pane fade" id="rejected">
-                        @if ($existsRejected)
-                            <table class="table table-bordered table-striped">
-                                <thead class="thead-primary">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ trans('user.order_history.total_payment') }}</th>
-                                        <th>{{ trans('user.order_history.status') }}</th>
-                                        <th>{{ trans('user.order_history.note') }}</th>
-                                        <th>{{ trans('user.order_history.time_order') }}</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $index = 0;
-                                    @endphp
-                                    @foreach ($orders as $order)
-                                        @if($order->status == config('order.status.rejected'))
-                                            <tr>
-                                                <td>{{ ++$index }}</td>
-                                                <td>{{ number_format($order->total_price) . " VND" }}</td>
-                                                <td><span class="label label-danger">{{ trans('user.order.rejected') }}</span></td>
-                                                <td>{{ $order->note }}</td>
-                                                <td>{{ $order->created_at }}</td>
-                                                <td>
-                                                    @include ('users.modals.order_detail')
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @endif
-                    </div>
-                    <div class="tab-pane fade" id="cancelled">
-                        @if ($existsCancelled)
-                            <table class="table table-bordered table-striped">
-                                <thead class="thead-primary">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ trans('user.order_history.total_payment') }}</th>
-                                        <th>{{ trans('user.order_history.status') }}</th>
-                                        <th>{{ trans('user.order_history.note') }}</th>
-                                        <th>{{ trans('user.order_history.time_order') }}</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $index = 0;
-                                    @endphp
-                                    @foreach ($orders as $order)
-                                        @if($order->status == config('order.status.cancelled'))
-                                            <tr>
-                                                <td>{{ ++$index }}</td>
-                                                <td>{{ number_format($order->total_price) . " VND" }}</td>
-                                                <td><span class="label label-default">{{ trans('user.order.cancelled') }}</span></td>
-                                                <td>{{ $order->note }}</td>
-                                                <td>{{ $order->created_at }}</td>
-                                                <td>
-                                                    @include ('users.modals.order_detail')
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @endif
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
