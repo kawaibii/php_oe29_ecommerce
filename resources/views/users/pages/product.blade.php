@@ -62,28 +62,30 @@
                             <div class="sidebar-box-2">
                                 <h2 class="heading">{{ trans('user.product.category') }}</h2>
                                 @foreach ($categories as $category)
-                                <div class="fancy-collapse-panel">
-                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="heading-{{ $category->id }}">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $category->id }}" aria-expanded="true" aria-controls="collapse-{{ $category->id }}">{{ $category->name }}</a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapse-{{ $category->id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ $category->id }}">
-                                                <div class="panel-body">
-                                                    <ul>
-                                                    @foreach ($children as $child)
-                                                        @if ($category->id == $child->parent_id)
-                                                            <li><a href="{{ route('user.product.filter_by_category', $child->id) }}">{{ $child->name }}</a></li>
-                                                        @endif
-                                                    @endforeach
-                                                    </ul>
+                                    @if ($category->parent_id == null)
+                                        <div class="fancy-collapse-panel">
+                                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading" role="tab" id="heading-{{ $category->id }}">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $category->id }}" aria-expanded="true" aria-controls="collapse-{{ $category->id }}">{{ $category->name }}</a>
+                                                        </h4>
+                                                    </div>
+                                                    @if (count($category->children) > 0)
+                                                        <div id="collapse-{{ $category->id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{ $category->id }}">
+                                                            <div class="panel-body">
+                                                                <ul>
+                                                                @foreach ($category->children as $child)
+                                                                    <li><a href="{{ route('user.product.filter_by_category', $child->id) }}">{{ $child->name }}</a></li>
+                                                                @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    @endif
                                 @endforeach
                             </div>
                             @include('users.elements.range_price_product')
