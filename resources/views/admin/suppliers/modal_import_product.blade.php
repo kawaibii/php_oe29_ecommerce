@@ -23,12 +23,12 @@
              <div class="form-group">
                  <label for="current_price">{{ trans('admin.product.current_price') }}</label>
                  <span id="show_errors" class="show-current-price"></span>
-                 <input type="text" id="current_price"  class="form-control" name="current_price" >
+                 <input type="text" id="current_price"  class="form-control" name="current_price" value="{{ $product->current_price }}">
              </div>
              <div class="form-group">
                  <label for="original_price">{{ trans('admin.product.original_price') }}</label>
                  <span id="show_errors" class="show-original-price">* {{ trans('message_error_price') }}</span>
-                 <input type="text" id="original_price" class="form-control" name="original_price" >
+                 <input type="text" id="original_price" class="form-control" name="original_price" value="{{ $product->original_price }}">
              </div>
              <div class="save-data"></div>
                  <button class="btn btn-primary submit-import"
