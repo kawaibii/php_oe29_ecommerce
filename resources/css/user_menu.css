@@ -21,3 +21,42 @@
     border-radius: 10px;
     margin-bottom: 25px;
 }
+
+#icon-notification {
+    font-size: 22px;
+    color: #000;
+    margin-top: 2px;
+}
+
+#detail-notify {
+    overflow: auto;
+    max-height: 245px;
+}
+
+#detail-notify::-webkit-scrollbar {
+    width: 3px;
+    background-color: #fff;
+}
+
+#detail-notify::-webkit-scrollbar-thumb {
+    background-color: #6c757d;
+}
+
+.nav-link {
+    letter-spacing: 0.5px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+#dropdown04 {
+    text-transform: none !important;
+}
+
+.unread {
+    background-color: #6495ed !important;
+}
+
+.unread:hover {
+    color: #fff !important;
+    background-color: #0000cd !important;
+}

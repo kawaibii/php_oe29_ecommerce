@@ -1,5 +1,5 @@
 {
-    "about" : "Thông tin về chúng tôi",
+    "about" : "Về chúng tôi",
     "add_to_cart" : "thêm giỏ hàng",
     "admin.action" : "Hành động",
     "admin.approved" : "Xác thực",
@@ -69,6 +69,10 @@
     "admin.money" : "Thành tiền",
     "admin.money.vi" : " VND",
     "admin.number_product_detail" : "Số sản phẩm",
+    "admin.notification.order_approved.title": "Đơn hàng được xác nhận",
+    "admin.notification.order_approved.content": "Một đơn hàng của bạn đã được xác nhận.",
+    "admin.notification.order_rejected.title": "Đơn hàng bị từ chối",
+    "admin.notification.order_rejected.content": "Một đơn hàng của bạn đã bị từ chối bởi Admin Ecommerce.",
     "admin.order.address" : "Địa chỉ",
     "admin.order.approved_error" : "Đơn hàng đã chấp nhận",
     "admin.order.data_order" : "Danh sách đơn hàng",

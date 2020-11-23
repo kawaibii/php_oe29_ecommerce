@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{ asset('bower_components/bower_project1/user/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/bower_project1/user/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/bower_project1/user/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/brands.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/solid.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/all.css') }}">
 </head>
 <body class="goto-here">

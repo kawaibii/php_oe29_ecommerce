@@ -10,23 +10,24 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ImportProductRequest;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Exception;
-use App\Repositories\Supplier\SupplierRepository;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
-use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
 
 class SupplierController extends Controller
 {
     protected $supplierRepo;
     protected $productRepo;
+    protected $productDetailRepo;
 
     public function __construct(
         SupplierRepositoryInterface $supplierRepo,
-        ProductRepositoryInterface $productRepo
-    )
-    {
+        ProductRepositoryInterface $productRepo,
+        ProductDetailRepositoryInterface $productDetailRepo
+    ) {
         $this->supplierRepo = $supplierRepo;
         $this->productRepo = $productRepo;
+        $this->productDetailRepo = $productDetailRepo;
     }
 
     /**
@@ -177,7 +178,7 @@ class SupplierController extends Controller
                     'paid' => config('setting.paid.payed'),
                 ]);
             } else {
-                $newProductDetails = ProductDetail::create([
+                $newProductDetails = $this->productDetailRepo->create([
                    'size' => $request->size,
                    'quantity' => $request->quantity,
                    'product_id' => $id,

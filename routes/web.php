@@ -42,6 +42,7 @@ Route::group(['middleware' => ['localization', 'localizationJS']], function() {
             Route::get('order-history-by-status', 'OrderController@getOrderHistoryByStatus')->name('orderHistoryByStatus');
             Route::post('cancel-order', 'OrderController@userCancelOrder')->name('cancelOrder');
             Route::post('delete-product-in-order', 'OrderController@deleteProductNotExistInOrder')->name('deleteProductInOrder');
+            Route::get('read-notification/{id}', 'NotificationController@read')->name('readNotification');
         });
         Route::post('comment/product/{id}', 'ProductController@comment')->name('comment');
         Route::post('reply-comment/{commentId}/product/{productId}', 'ProductController@replyComment')->name('reply_comment');
