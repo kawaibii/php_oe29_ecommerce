@@ -16,10 +16,14 @@ class Role
      */
     public function handle($request, Closure $next, $role)
     {
-        if (Auth::user()->role_id == $role || Auth::user()->role_id == config('role.admin.management')) {
-            return $next($request);
+        if (Auth::check()) {
+            if (Auth::user()->role_id == $role || Auth::user()->role_id == config('role.admin.management')) {
+                return $next($request);
+            }
+
+            return redirect()->back();
         }
 
-        return redirect()->back();
+        return redirect()->route('user.getLogin');
     }
 }

@@ -27,9 +27,9 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model->all();
     }
 
-    public function find($id)
+    public function find($id, $attributes = [])
     {
-        $result = $this->model->find($id);
+        $result = $this->model->with($attributes)->find($id);
 
         return $result;
     }
@@ -62,5 +62,5 @@ abstract class BaseRepository implements RepositoryInterface
 
         return false;
     }
-
 }
+

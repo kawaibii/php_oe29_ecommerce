@@ -92,16 +92,18 @@ class ProductController extends Controller
                 'comments',
             ];
             $product = $this->productRepo->getRelated($id, $data);
-            $images = $product->images()
-                ->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
-            $productDetails = $product->productDetails()
-                ->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.product_detail'));
-            $comments = $product->comments;
+            if ($product) {
+                $images = $product->images()
+                    ->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.image'));
+                $productDetails = $product->productDetails()
+                    ->where('product_id', $id)->paginate(config('setting.number_paginate'), ['*'], config('setting.paginate.product_detail'));
+                $comments = $product->comments;
 
-            return view('admin.products.detail_product', compact('product','images', 'productDetails', 'comments'));
-        }
+                return view('admin.products.detail_product', compact('product', 'images', 'productDetails', 'comments'));
+            }
 
             return abort(config('setting.errors404'));
+        }
     }
 
     /**
@@ -137,6 +139,7 @@ class ProductController extends Controller
     {
         if (Auth::user()->can('update', Product::class)) {
             $product = $this->productRepo->find($id);
+            if ($product) {
             $data = [
                 'name' => $request->name,
                 'description' => $request->description,
@@ -150,9 +153,10 @@ class ProductController extends Controller
             $this->uploadImage($request, $product);
 
             return redirect()->back()->with('message_success', trans('success'));
-        }
+            }
 
             return abort(config('setting.errors404'));
+        }
     }
 
     /**

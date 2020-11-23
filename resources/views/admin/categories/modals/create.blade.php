@@ -22,11 +22,12 @@
                         <label>{{ trans('admin.modal_create_category.parent') }}</label>
                         <select class="form-control" name="parent_id">
                             <option value="{{ null }}">{{ trans('admin.modal_create_category.none_parent') }}</option>
-                            @foreach ($parents as $parent)
+                            @foreach ($categories->where('parent_id', null) as $parent)
                                 <option value="{{ $parent->id }}">{{ $parent->name }}</option>
                             @endforeach
                         </select>
                     </div>
+                    <input class="hide" type="hidden" name="define" value="create">
                     <div class="form-group">
                         <input type="submit" class="btn btn-info" value="{{ trans('admin.modal_create_category.save') }}">
                     </div>
