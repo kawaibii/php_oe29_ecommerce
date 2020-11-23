@@ -17,6 +17,8 @@ use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
 use App\Repositories\ProductDetails\ProductDetailRepository;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
 use App\Repositories\Supplier\SupplierRepository;
+use App\Repositories\Order\OrderRepository;
+use App\Repositories\Order\OrderRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -60,6 +62,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(
             SupplierRepositoryInterface::class,
             SupplierRepository::class
+        );
+
+        $this->app->singleton(
+            OrderRepositoryInterface::class,
+            OrderRepository::class
         );
     }
 
