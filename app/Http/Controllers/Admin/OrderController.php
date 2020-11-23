@@ -8,9 +8,20 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 
 class OrderController extends Controller
 {
+    protected $orderRepo;
+    protected $productRepo;
+
+    public function __construct(OrderRepositoryInterface $orderRepo, ProductRepositoryInterface $productRepo)
+    {
+        $this->orderRepo = $orderRepo;
+        $this->productRepo = $productRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,33 +30,12 @@ class OrderController extends Controller
     public function index()
     {
         if (Auth::user()->can('viewAny', Order::class)) {
-            $orders = Order::OrderBy('status')->withCount('productDetails')->get();
+            $orders = $this->orderRepo->orderBy('status', 'productDetails');
 
             return view('admin.orders.index', compact('orders'));
         }
 
-            return abort(config('setting.errors404'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return abort(config('setting.errors404'));
     }
 
     /**
@@ -56,45 +46,11 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::with(['productDetails', 'user'])->findOrFail($id);
+        $order = $this->orderRepo->find($id, ['productDetails', 'user']);
         $productDetails = $order->productDetails;
         $user = $order->user;
 
         return view('admin.orders.modal_detail_order', compact('order', 'productDetails', 'user'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function approvedOrder($id)
@@ -105,13 +61,13 @@ class OrderController extends Controller
             'message' => trans('message_success'),
         ];
         try {
-            $order = Order::with('productDetails')->findOrFail($id);
+            $order = $this->orderRepo->find($id, ['productDetails']);
             if ($order->status != config('order.status.approved')) {
                 $productDetails = $order->productDetails;
                 foreach ($productDetails as $product) {
                     if($product->product->deleted_at == null) {
                         if ($product->quantity >= $product->pivot->quantity) {
-                            $product->update([
+                            $this->productRepo->update($id, [
                                 'quantity' => $product->quantity - $product->pivot->quantity,
                             ]);
                         } else {
@@ -127,7 +83,7 @@ class OrderController extends Controller
                         return json_encode($data);
                     }
                 }
-                $order->update([
+                $this->orderRepo->update($id, [
                     'status' => config('order.status.approved'),
                 ]);
                 $data['id'] = $order->id;
@@ -158,10 +114,10 @@ class OrderController extends Controller
             'message' => trans('message_success'),
         ];
         try {
-            $order = Order::with(['productDetails'])->findOrFail($id);
+            $order = $this->orderRepo->find($id, ['productDetails']);
             if ($order->status != config('order.status.rejected')
                 && $order->status != config('order.status.approved')) {
-                $order->update([
+                $this->orderRepo->update($id, [
                    'status' => config('order.status.rejected')
                 ]);
                 $data['id'] = $order->id;
@@ -173,12 +129,12 @@ class OrderController extends Controller
                 $productDetails = $order->productDetails;
                 foreach ($productDetails as $product) {
                     if ($product->quantity >= $product->pivot->quantity) {
-                        $product->update([
+                        $this->productRepo->update($id, [
                             'quantity' => $product->quantity + $product->pivot->quantity,
                         ]);
                     }
                 }
-                $order->update([
+                $this->orderRepo->update($id, [
                     'status' => config('order.status.rejected')
                 ]);
                 $data['id'] = $order->id;
