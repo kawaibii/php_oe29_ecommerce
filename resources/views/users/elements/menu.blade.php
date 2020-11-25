@@ -25,10 +25,10 @@
                     @if (Auth::check())
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             <i class="fas fa-comment" aria-hidden="true" id="icon-notification"></i>
-                            <span class="badge">{{ count(Auth::user()->notifications()->where('read_at', null)->get()) }}</span>
+                            <span class="badge" id="number-notification">{{ count(Auth::user()->notifications()->where('type', 'App\Notifications\Admin\CensoredOrderNotification')->where('read_at', null)->get()) }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right menu-notification" aria-labelledby="navbarDropdown" id="detail-notify">
-                            @foreach (Auth::user()->notifications as $notification)
+                            @foreach (Auth::user()->notifications->where('type', 'App\Notifications\Admin\CensoredOrderNotification') as $notification)
                                 <a class="dropdown-item @if($notification->read_at == null) unread @endif" href="{{ route('user.readNotification', [$notification->id]) }}">
                                     <span>{{ trans($notification->data['title']) }}</span><br>
                                     <small>{{ trans($notification->data['content']) }}</small>

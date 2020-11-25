@@ -21,6 +21,7 @@
     "highcharts": "^8.2.2",
     "ckeditor": "^4.15.0",
     "font-awesome": "^5.15.1",
-    "chart.js": "^2.9.4"
+    "chart.js": "^2.9.4",
+    "pusher-js": "pusher#^7.0.1"
   }
 }
