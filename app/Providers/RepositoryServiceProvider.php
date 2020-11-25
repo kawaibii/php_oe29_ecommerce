@@ -6,6 +6,8 @@ use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\Notification\NotificationRepository;
+use App\Repositories\Notification\NotificationRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -76,6 +78,11 @@ class RepositoryServiceProvider extends ServiceProvider
             CommentRepositoryInterface::class,
             CommentRepository::class
         );
+
+        $this->app->singleton(
+            NotificationRepositoryInterface::class,
+            NotificationRepository::class
+        );
     }
 
     /**
@@ -85,6 +92,11 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer(['admin.elements.header'], function ($view) {
+            $notificationRepository = $this->app->make(NotificationRepositoryInterface::class);
+            $notifications = $notificationRepository->getNotificationPending();
+
+            $view->with('notifications', $notifications);
+        });
     }
 }

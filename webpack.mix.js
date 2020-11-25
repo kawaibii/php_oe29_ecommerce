@@ -39,5 +39,6 @@ mix.styles([
     'resources/css/user_order_history_by_status.css',
     'resources/css/highcharts.css',
     'resources/css/admin_product_detail.css',
+    'resources/css/admin_header.css',
     ], 'public/css/all.css'
 );
