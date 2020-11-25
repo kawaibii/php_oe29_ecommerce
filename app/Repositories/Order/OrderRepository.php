@@ -35,4 +35,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
         return false;
     }
+
+    public function quantityOrderByStatus($status = [])
+    {
+        $statusOrder = empty($status) ? config('order.status.pending') : $status;
+
+        return trans('report_quantity_order') . Order::where('status', $statusOrder)->count();
+    }
 }
