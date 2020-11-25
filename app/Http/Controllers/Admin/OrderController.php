@@ -9,17 +9,24 @@ use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Order\OrderRepositoryInterface;
-use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Notifications\Admin\CensoredOrderNotification;
 
 class OrderController extends Controller
 {
+    protected $userRepo;
     protected $orderRepo;
-    protected $productRepo;
+    protected $productDetailRepo;
 
-    public function __construct(OrderRepositoryInterface $orderRepo, ProductRepositoryInterface $productRepo)
-    {
+    public function __construct(
+        UserRepositoryInterface $userRepo,
+        OrderRepositoryInterface $orderRepo,
+        ProductDetailRepositoryInterface $productDetailRepo
+    ) {
+        $this->userRepo = $userRepo;
         $this->orderRepo = $orderRepo;
-        $this->productRepo = $productRepo;
+        $this->productDetailRepo = $productDetailRepo;
     }
 
     /**
@@ -64,11 +71,11 @@ class OrderController extends Controller
             $order = $this->orderRepo->find($id, ['productDetails']);
             if ($order->status != config('order.status.approved')) {
                 $productDetails = $order->productDetails;
-                foreach ($productDetails as $product) {
-                    if($product->product->deleted_at == null) {
-                        if ($product->quantity >= $product->pivot->quantity) {
-                            $this->productRepo->update($id, [
-                                'quantity' => $product->quantity - $product->pivot->quantity,
+                foreach ($productDetails as $productDetail) {
+                    if ($productDetail->deleted_at == null) {
+                        if ($productDetail->quantity >= $productDetail->pivot->quantity) {
+                            $this->productDetailRepo->update($productDetail->id, [
+                                'quantity' => $productDetail->quantity - $productDetail->pivot->quantity,
                             ]);
                         } else {
                             $data['status'] = config('setting.http_status.error');
@@ -88,6 +95,13 @@ class OrderController extends Controller
                 ]);
                 $data['id'] = $order->id;
                 $data['approved'] = trans('admin.approved');
+                $user = $this->userRepo->find($order->user_id);
+                $notification = [
+                    'order_id' => $order->id,
+                    'title' => 'admin.notification.order_approved.title',
+                    'content' => 'admin.notification.order_approved.content',
+                ];
+                $user->notify(new CensoredOrderNotification($notification));
                 DB::commit();
 
                 return json_encode($data);
@@ -117,28 +131,42 @@ class OrderController extends Controller
             $order = $this->orderRepo->find($id, ['productDetails']);
             if ($order->status != config('order.status.rejected')
                 && $order->status != config('order.status.approved')) {
-                $this->orderRepo->update($id, [
+                $this->orderRepo->update($order->id, [
                    'status' => config('order.status.rejected')
                 ]);
                 $data['id'] = $order->id;
                 $data['rejected'] = trans('admin.rejected');
+                $user = $this->userRepo->find($order->user_id);
+                $notification = [
+                    'order_id' => $order->id,
+                    'title' => 'admin.notification.order_rejected.title',
+                    'content' => 'admin.notification.order_rejected.content',
+                ];
+                $user->notify(new CensoredOrderNotification($notification));
                 DB::commit();
 
                 return json_encode($data);
             } elseif ($order->status == config('order.status.approved')) {
                 $productDetails = $order->productDetails;
-                foreach ($productDetails as $product) {
-                    if ($product->quantity >= $product->pivot->quantity) {
-                        $this->productRepo->update($id, [
-                            'quantity' => $product->quantity + $product->pivot->quantity,
+                foreach ($productDetails as $productDetail) {
+                    if ($productDetail->quantity >= $productDetail->pivot->quantity) {
+                        $this->productDetailRepo->update($productDetail->id, [
+                            'quantity' => $productDetail->quantity + $productDetail->pivot->quantity,
                         ]);
                     }
                 }
-                $this->orderRepo->update($id, [
+                $this->orderRepo->update($order->id, [
                     'status' => config('order.status.rejected')
                 ]);
                 $data['id'] = $order->id;
                 $data['rejected'] = trans('admin.rejected');
+                $user = $this->userRepo->find($order->user_id);
+                $notification = [
+                    'order_id' => $order->id,
+                    'title' => 'admin.notification.order_rejected.title',
+                    'content' => 'admin.notification.order_rejected.content',
+                ];
+                $user->notify(new CensoredOrderNotification($notification));
                 DB::commit();
 
                 return json_encode($data);
