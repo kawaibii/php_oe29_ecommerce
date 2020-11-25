@@ -2,23 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
-use App\Models\Product;
-use App\Models\Order;
 use Session;
 use Auth;
 
 class OrderController extends Controller
 {
+    protected $productRepository, $orderRepository, $userRepository;
+
+    function __construct(
+        OrderRepositoryInterface $order,
+        ProductRepositoryInterface $product,
+        UserRepositoryInterface $user
+        ) {
+        $this->orderRepository = $order;
+        $this->productRepository = $product;
+        $this->userRepository = $user;
+    }
+
     public function getListItemsInCart()
     {
         $user = Auth::user();
         $cart = Session::get('cart');
         $productNames = [];
         foreach ($cart as $item) {
-            $product = Product::findOrFail($item['product_id']);
-            array_push($productNames, $product->name);
+            $product = $this->productRepository->find($item['product_id']);
+            if ($product) {
+                array_push($productNames, $product->name);
+            }
         }
 
         return view('users.pages.checkout', compact('user', 'cart', 'productNames'));
@@ -27,24 +42,23 @@ class OrderController extends Controller
      public function checkout(CheckoutRequest $request)
     {
         try {
-            $order = Order::create([
+            $data = [
                 'user_id' => Auth::id(),
                 'status' => config('order.status.pending'),
                 'total_price' => $request->payment,
                 'address' => $request->receive_address,
                 'phone' => $request->receive_phone,
                 'note' => $request->note,
-            ]);
+            ];
+            $order = $this->orderRepository->create($data);
             $cart = Session::get('cart');
             foreach ($cart as $key => $item) {
-                $order->productDetails()->attach([
-                    $key => [
-                        'product_detail_id' => $item['product_detail_id'],
-                        'order_id' => $order->id,
-                        'quantity' => $item['quantity'],
-                        'unit_price' => $item['price'],
-                    ],
-                ]);
+                $data = [
+                    'order_id' => $order->id,
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $item['price'],
+                ];
+                $this->orderRepository->attach($order->id, $item['product_detail_id'], $data);
             }
             Session::forget('cart');
             Session::forget('numberOfItemInCart');
@@ -59,65 +73,22 @@ class OrderController extends Controller
 
     public function getOrderHistory()
     {
-        $orders = Auth::user()
-            ->orders()
-            ->orderBy('created_at', 'desc')
-            ->with(['productDetails.product' => function ($query) {
-                $query->withTrashed();
-            }])
-            ->paginate(config('setting.paginate.order'));
+        $orders = $this->userRepository->getOrderHistory(Auth::user()->id);
 
         return view('users.pages.order_history', compact('orders'));
     }
 
     public function getOrderHistoryByStatus()
     {
-        $orders = Auth::user()
-            ->orders()
-            ->orderBy('created_at', 'desc')
-            ->with(['productDetails.product' => function ($query) {
-                $query->withTrashed();
-            }])
-            ->get();
-        $existsPending = false;
-        $existsApproved = false;
-        $existsRejected = false;
-        $existsCancelled = false;
-        foreach ($orders as $order) {
-            switch ($order->status) {
-                case config('order.status.pending'):
-                    $existsPending = true;
+        $orders = $this->userRepository->getOrderHistory(Auth::user()->id);
 
-                    break;
-                case config('order.status.approved'):
-                    $existsApproved = true;
-
-                    break;
-                case config('order.status.rejected'):
-                    $existsRejected = true;
-
-                    break;
-                case config('order.status.cancelled'):
-                    $existsCancelled = true;
-
-                    break;
-            }
-        }
-
-        return view('users.pages.order_history_by_status', compact(
-            'orders',
-            'existsPending',
-            'existsApproved',
-            'existsRejected',
-            'existsCancelled'
-        ));
+        return view('users.pages.order_history_by_status', compact('orders'));
     }
 
     public function userCancelOrder(Request $request)
     {
         try {
-            $order = Order::findOrFail($request->order_id);
-            $order->update([
+            $this->orderRepository->update($request->order_id, [
                 'status' => config('order.status.cancelled'),
             ]);
             alert()->success(trans('user.sweetalert.done'), trans('user.sweetalert.cancel_order'));
@@ -131,19 +102,21 @@ class OrderController extends Controller
     public function deleteProductNotExistInOrder(Request $request)
     {
         try {
-            $order = Order::findOrFail($request->order_id);
-            foreach ($order->productDetails as $productDetail) {
-                if ($request->product_detail_id == $productDetail->pivot->product_detail_id) {
-                    $total = $request->total_price - ($productDetail->pivot->quantity * $productDetail->pivot->unit_price);
+            $order = $this->orderRepository->find($request->order_id);
+            if ($order) {
+                foreach ($order->productDetails as $productDetail) {
+                    if ($request->product_detail_id == $productDetail->pivot->product_detail_id) {
+                        $total = $request->total_price - ($productDetail->pivot->quantity * $productDetail->pivot->unit_price);
 
-                    break;
+                        break;
+                    }
                 }
+                $this->orderRepository->detach($order->id , $request->product_detail_id);
+                $this->orderRepository->update($order->id, [
+                    'total_price' => $total,
+                ]);
+                alert()->success(trans('user.sweetalert.saved'));
             }
-            $order->productDetails()->detach($request->product_detail_id);
-            $order->update([
-                'total_price' => $total,
-            ]);
-            alert()->success(trans('user.sweetalert.saved'));
 
             return redirect()->back();
         } catch (Exception $e) {

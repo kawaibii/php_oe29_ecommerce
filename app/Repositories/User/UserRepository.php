@@ -13,4 +13,18 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return User::class;
     }
 
+    public function getOrderHistory($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            return $user->orders()
+                ->orderBy('created_at', 'desc')
+                ->with(['productDetails.product' => function ($query) {
+                    $query->withTrashed();
+                }])
+                ->paginate(config('setting.paginate.order'));
+        }
+
+        return false;
+    }
 }

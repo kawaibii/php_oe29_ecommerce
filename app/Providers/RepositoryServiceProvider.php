@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Comment\CommentRepositoryInterface;
+use App\Repositories\Order\OrderRepository;
+use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -19,8 +21,6 @@ use App\Repositories\ProductDetails\ProductDetailRepositoryInterface;
 use App\Repositories\ProductDetails\ProductDetailRepository;
 use App\Repositories\Supplier\SupplierRepositoryInterface;
 use App\Repositories\Supplier\SupplierRepository;
-use App\Repositories\Order\OrderRepository;
-use App\Repositories\Order\OrderRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {

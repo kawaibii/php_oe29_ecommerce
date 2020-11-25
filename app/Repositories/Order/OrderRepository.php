@@ -18,4 +18,21 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
         return $result;
     }
+
+    public function attach($orderId, $productId, $attributes = [])
+    {
+        $order = Order::findOrFail($orderId);
+
+        return  $order->productDetails()->attach($productId, $attributes);
+    }
+
+    public function detach($orderId, $productId)
+    {
+        $order = Order::findOrFail($orderId);
+        if ($order) {
+            return $order->productDetails()->detach($productId);
+        }
+
+        return false;
+    }
 }
