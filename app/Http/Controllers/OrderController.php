@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Notifications\UserCheckoutNotification;
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use Session;
@@ -63,6 +64,13 @@ class OrderController extends Controller
             Session::forget('cart');
             Session::forget('numberOfItemInCart');
             Session::save();
+            $user = Auth::user();
+            $notification = [
+                'message' => "message_pending",
+                'name_user' => $user->name,
+                'order_id' => $order->id,
+            ];
+            $user->notify(new UserCheckoutNotification($notification));
             alert()->success(trans('user.sweetalert.saved'), trans('user.sweetalert.checkout'));
 
             return redirect()->route('user.orderHistory');
