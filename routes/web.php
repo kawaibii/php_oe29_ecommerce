@@ -50,6 +50,8 @@ Route::group(['middleware' => ['localization', 'localizationJS']], function() {
     });
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
         Route::get('/', 'DashboardController@index')->name('admin.dashboard');
+        Route::get('order-chart', 'ChartController@orderChart')->name('order_chart');
+        Route::get('status-by-month', 'ChartController@getStatusByMonth')->name('get_status_order_by_month');
         Route::group(['prefix' => 'manage-product', 'middleware' => 'role:' . config('role.admin.product')], function () {
             Route::get('/highcharts-Order', 'DashboardController@highChart')->name('admin.highcharts');
             Route::group(['prefix' => 'manage-product'], function () {

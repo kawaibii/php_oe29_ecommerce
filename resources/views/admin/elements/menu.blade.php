@@ -17,6 +17,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('order_chart') }}" class="active">
+                    <i class="fa fa-bar-chart-o fa-fw"></i>
+                    {{ trans('admin.menu.chart') }}
+                </a>
+            </li>
+            <li>
                 <a href="#" >
                     <i class="fa fa-table fa-fw"></i>
                     {{ trans('admin.menu.user_management') }}

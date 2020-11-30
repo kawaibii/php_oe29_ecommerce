@@ -32,6 +32,7 @@
     <script src="{{ asset('bower_components/bower_project1/admin/js/startmin.js') }}"></script>
     <script src="{{ asset('bower_components/highcharts/highcharts.js') }}"></script>
     <script src="{{ asset('bower_components/highcharts/modules/exporting.js') }}"></script>
+    <script src="{{ asset('bower_components/chart.js/dist/Chart.min.js') }}"></script>
     @yield('js')
 </body>
 </html>
