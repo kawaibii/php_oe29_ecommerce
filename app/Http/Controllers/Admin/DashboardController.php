@@ -4,11 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Order;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Order\OrderRepositoryInterface;
 
 class DashboardController extends Controller
 {
+    protected $orderRepo;
+
+    public function __construct(OrderRepositoryInterface $orderRepo)
+    {
+        $this->orderRepo = $orderRepo;
+    }
+
     public function index()
     {
         return view('admin.pages.dashboard');
@@ -16,7 +22,7 @@ class DashboardController extends Controller
 
     public function highChart()
     {
-        $orders = Order::select("status", DB::raw("count(*) as number_order"))->groupBy('status')->get();
+        $orders = $this->orderRepo->getNumberOrderByStatus();
         $data = array();
         foreach ($orders as $order) {
             switch ($order->status) {

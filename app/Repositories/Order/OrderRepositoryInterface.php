@@ -12,4 +12,5 @@ interface OrderRepositoryInterface
 
     public function quantityOrderByStatus($status = []);
 
+    public function getNumberOrderByStatus();
 }

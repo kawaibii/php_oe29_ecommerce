@@ -11,7 +11,7 @@
                 </span>
                 </div>
             <li>
-                <a href="#" class="active">
+                <a href="{{ route('admin.dashboard') }}" class="active">
                     <i class="fa fa-dashboard fa-fw"></i>
                     {{ trans('admin.menu.dashboard') }}
                 </a>
