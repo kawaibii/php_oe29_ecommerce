@@ -4,6 +4,7 @@ namespace App\Repositories\Order;
 
 use App\Repositories\BaseRepository;
 use App\Models\Order;
+use DB;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
@@ -41,5 +42,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         $statusOrder = empty($status) ? config('order.status.pending') : $status;
 
         return trans('report_quantity_order') . Order::where('status', $statusOrder)->count();
+    }
+
+    public function getNumberOrderByStatus()
+    {
+        return Order::select('status', DB::raw("count(*) as number_order"))->groupBy('status')->get();
     }
 }
