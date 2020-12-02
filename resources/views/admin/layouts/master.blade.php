@@ -33,6 +33,70 @@
     <script src="{{ asset('bower_components/highcharts/highcharts.js') }}"></script>
     <script src="{{ asset('bower_components/highcharts/modules/exporting.js') }}"></script>
     <script src="{{ asset('bower_components/chart.js/dist/Chart.min.js') }}"></script>
-    @yield('js')
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+@yield('js');
+<script>
+    window.translations = {!! $translation !!};
+    var lang = JSON.parse(window.translations);
+    var firebaseConfig = {
+        apiKey: "AIzaSyD6Vyj7cmDjQfcWQYzIyaWSzdHfe5io3rw",
+        authDomain: "fir-user-d81b3.firebaseapp.com",
+        databaseURL: "https://fir-user-d81b3.firebaseio.com",
+        projectId: "fir-user-d81b3",
+        storageBucket: "fir-user-d81b3.appspot.com",
+        messagingSenderId: "968376625039",
+        appId: "1:968376625039:web:c06430ca7bb60a7ef14dfa",
+        measurementId: "G-BKN5P1DKQR"
+    };
+    firebase.initializeApp(firebaseConfig);
+    var database = firebase.database();
+    let data = database.ref('/user');
+    // lang nghe su kien them don hang .
+    data.orderByChild("timestamp").limitToLast(1).on('child_added', (snapshot) =>{
+        const data = snapshot.val();
+        if (data.status == 1) {
+            let countNotification = parseInt($("#count-notification").text()) + 1;
+            $("#count-notification").text(countNotification);
+            let notifcation = '<div class="message-notification">' +
+                '<li>' +
+                '<a href="' + data.route + '" id="url-notification">' +
+                '<div>' +
+                '<i class="fa fa-comment fa-fw"></i>' +
+                lang[data.message] + " " + data.name_user +
+                '<span class="pull-right text-muted small">now</span>' +
+                '</div>' +
+                '</a>' +
+                '</li>' +
+                '<li class="divider"></li>' +
+                '</div>';
+            $(".view-notification").prepend(notifcation);
+        }
+    });
+    // lang nghe su kien thay doi.
+    data.on('child_changed', (snapshot) =>{
+        const data = snapshot.val();
+        if (data.status == 1) {
+            let countNotification = parseInt($("#count-notification").text()) + 1;
+            $("#count-notification").text(countNotification);
+            let notifcation = '<div class="message-notification">' +
+                '<li>' +
+                '<a href="' + data.route + ' " id="url-notification">' +
+                '<div>' +
+                '<i class="fa fa-comment fa-fw"></i>' +
+                lang[data.message] + " " + data.name_user +
+                '<span class="pull-right text-muted small">now</span>' +
+                '</div>' +
+                '</a>' +
+                '</li>' +
+                '<li class="divider"></li>' +
+                '</div>';
+            $(".view-notification").prepend(notifcation);
+        }
+    });
+</script>
 </body>
 </html>

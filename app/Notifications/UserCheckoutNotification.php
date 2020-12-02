@@ -43,6 +43,7 @@ class UserCheckoutNotification extends Notification
     public function toArray($notifiable)
     {
         return [
+            'id' => $this->id,
             'message' => $this->data['message'],
             'name_user' => $this->data['name_user'],
             'order_id' => $this->data['order_id'],
