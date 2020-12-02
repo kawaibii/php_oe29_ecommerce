@@ -50,4 +50,5 @@
         'unpaid' => '0',
     ],
     'load_more' => 5,
+    'report_time_order_pending' => '16:00',
 ];
