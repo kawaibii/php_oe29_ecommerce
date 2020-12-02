@@ -161,7 +161,7 @@
     "men_collection" : "Bộ sưu tập nam giới",
     "message_success" : "Thao tác thành công",
     "message_cart" : "bạn chưa nhập size giày",
-    "message_pending" : "Bạn có một đơn hàng của :name_user",
+    "message_pending" : "Bạn có một đơn hàng của ",
     "message_error" : "Hệ thống đang cập nhật",
     "message_error_price" : "giá bán cao hơn giá gốc",
     "minute" : "Phút",

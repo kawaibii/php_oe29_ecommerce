@@ -64,6 +64,7 @@ Route::group(['middleware' => ['localization', 'localizationJS']], function() {
                 Route::resource('orders', 'OrderController')->names('orders');
                 Route::patch('order/{id}/approved', 'OrderController@approvedOrder')->name('orders.approved');
                 Route::patch('order/{id}/rejected', 'OrderController@rejectedOrder')->name('orders.rejected');
+                Route::get('detail-order/{id}','NotificationController@showDetailOrder')->name('orders.detail');
             });
             Route::group(['prefix' => 'manage-supplier', 'middleware' => 'role:' . config('role.admin.supplier')], function () {
                 Route::resource('suppliers', 'SupplierController')->names('suppliers');

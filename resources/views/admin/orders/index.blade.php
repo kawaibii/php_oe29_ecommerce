@@ -96,7 +96,10 @@
         </div>
         <!-- /.container-fluid -->
     </div>
-    <div class="modal fade" id="detail-Order" role="dialog"></div>
+    <div class="modal fade" id="detail-order" role="dialog"></div>
+    @if (!empty($detailOrder))
+        <div class="detail_order" data-url="{{ route('orders.show', $detailOrder->id) }}"></div>
+    @endif
     @include('admin.elements.loading')
 @endsection
 @section('js')

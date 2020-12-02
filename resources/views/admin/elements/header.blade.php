@@ -17,32 +17,32 @@
     <ul class="nav navbar-right navbar-top-links">
         @auth
             <li class="dropdown navbar-inverse">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-bell fa-fw" id="notification">
-                    <span id="count-notification">{{ count($notifications->where('read_at', null)) }}</span>
-                </i>
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu dropdown-alerts view-notification">
-                @foreach ($notifications as $notification)
-                    <div class="
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-bell fa-fw" id="notification">
+                        <span id="count-notification">{{ count($notifications->where('read_at', null)) }}</span>
+                    </i>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu dropdown-alerts view-notification">
+                    @foreach ($notifications as $notification)
+                        <div class="message-notification
                         @if ($notification->read_at != null)
                             seen
                         @endif">
-                        <li>
-                            <a href="#" id="url-notification">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i>
-                                    {{ trans(json_decode($notification->data)->message, ['name_user' => $notification->notifiable->name]) }}
-                                    <span class="pull-right text-muted small">{{ time_elapsed_string(strtotime($notification->created_at)) }}</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                    </div>
-                @endforeach
-            </ul>
-        </li>
+                            <li>
+                                <a href="{{ route('orders.detail', json_decode($notification->data)->id) }}" id="url-notification">
+                                    <div>
+                                        <i class="fa fa-comment fa-fw"></i>
+                                        {{ trans(json_decode($notification->data)->message) . $notification->notifiable->name }}
+                                        <span class="pull-right text-muted small">{{ time_elapsed_string(strtotime($notification->created_at)) }}</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                        </div>
+                    @endforeach
+                </ul>
+            </li>
         @endauth
         <li class="dropdown">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" dusk="language">

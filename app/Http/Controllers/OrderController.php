@@ -6,6 +6,7 @@ use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Notifications\UserCheckoutNotification;
+use App\Service\FirebaseService;
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use Session;
@@ -71,6 +72,12 @@ class OrderController extends Controller
                 'order_id' => $order->id,
             ];
             $user->notify(new UserCheckoutNotification($notification));
+            $firebase = new FirebaseService();
+            $database = $firebase->getDatabase();
+            $notification['status'] = config('order.status.pending');
+            $notification['route'] = route('orders.detail', $user->notifications->first()->id);
+            $notification['timestamp'] = time();
+            $database->getReference('user/' . $user->id)->set($notification);
             alert()->success(trans('user.sweetalert.saved'), trans('user.sweetalert.checkout'));
 
             return redirect()->route('user.orderHistory');
