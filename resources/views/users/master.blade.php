@@ -48,8 +48,29 @@
     <script src="{{ asset('bower_components/bower_project1/user/js/main.js') }}"></script>
     <script src="{{ asset('bower_components/bower_project1/sweetalert2.all.js') }}"></script>
     <script src="{{ asset('js/showModal.js') }}"></script>
+    <script src="{{ asset('bower_components/pusher-js/dist/web/pusher.min.js') }}"></script>
     <script>
         window.translations = {!! $translation !!};
+        var lang = JSON.parse(window.translations);
+        $(document).ready(function() {
+            var pusher = new Pusher('09c078c2d213dcbbfb3f', {
+                cluster: 'ap1'
+            });
+            var channel = pusher.subscribe('NotificationEvent');
+            channel.bind('send-message', function(notification) {
+                numberNotification = parseInt($('#number-notification').text()) + 1;
+                $('#number-notification').text(numberNotification);
+                var title = lang[notification.title];
+                var content = lang[notification.content];
+                var newNotificationHtml = `
+                    <a class="dropdown-item unread" href="read-notification/${notification.id}">
+                        <span>${title}</span><br>
+                        <small>${content}</small>
+                    </a>
+                `;
+                $('.menu-notification').prepend(newNotificationHtml);
+            });
+        });
     </script>
     @yield("js")
 </body>
