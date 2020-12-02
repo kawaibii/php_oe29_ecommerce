@@ -9,5 +9,4 @@ interface OrderRepositoryInterface
     public function attach($orderId, $productId, $attributes = []);
 
     public function detach($orderID, $productId);
-
 }

@@ -22,6 +22,7 @@ mix.js('resources/js/showModal.js', 'public/js');
 mix.js('resources/js/order_history_by_status.js', 'public/js');
 mix.js('resources/js/admin_list_brand.js', 'public/js');
 mix.js('resources/js/adminHighCharts.js', 'public/js');
+mix.js('resources/js/admin_chart.js', 'public/js');
 mix.styles([
     'resources/css/admin_menu.css',
     'resources/css/detail_page.css',

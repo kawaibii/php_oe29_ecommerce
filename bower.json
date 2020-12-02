@@ -20,6 +20,7 @@
     "bootstrap-sweetalert": "^1.0.1",
     "highcharts": "^8.2.2",
     "ckeditor": "^4.15.0",
-    "font-awesome": "^5.15.1"
+    "font-awesome": "^5.15.1",
+    "chart.js": "^2.9.4"
   }
 }
