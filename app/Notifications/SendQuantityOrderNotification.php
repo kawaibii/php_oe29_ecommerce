@@ -44,16 +44,4 @@ class SendQuantityOrderNotification extends Notification
         return (new MailMessage)->view('emails.send_email_quantity_order_pending', ['data' => $this->data]);
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
 }

@@ -8,6 +8,8 @@ class Notification extends Model
 {
     protected $fillable = [
         'read_at',
+        'notifiable_id',
+        'notifiable_type',
     ];
 
     protected $table = "notifications";

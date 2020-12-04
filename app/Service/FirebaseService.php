@@ -31,4 +31,14 @@ class FirebaseService
     {
         return $this->database;
     }
+
+    public function sendNotificationOrderPending($id, $notification)
+    {
+        return $this->database->getReference('user/' . $id)->set($notification);
+    }
+
+    public function updateNotificationOrder($id, $notification)
+    {
+        return $this->database->getReference('user/' . $id)->update($notification);
+    }
 }

@@ -15,15 +15,18 @@ use Auth;
 class OrderController extends Controller
 {
     protected $productRepository, $orderRepository, $userRepository;
+    protected $firebase;
 
     function __construct(
         OrderRepositoryInterface $order,
         ProductRepositoryInterface $product,
-        UserRepositoryInterface $user
-        ) {
+        UserRepositoryInterface $user,
+        FirebaseService $firebase
+    ) {
         $this->orderRepository = $order;
         $this->productRepository = $product;
         $this->userRepository = $user;
+        $this->firebase = $firebase;
     }
 
     public function getListItemsInCart()
@@ -43,7 +46,6 @@ class OrderController extends Controller
 
      public function checkout(CheckoutRequest $request)
     {
-        try {
             $data = [
                 'user_id' => Auth::id(),
                 'status' => config('order.status.pending'),
@@ -72,18 +74,13 @@ class OrderController extends Controller
                 'order_id' => $order->id,
             ];
             $user->notify(new UserCheckoutNotification($notification));
-            $firebase = new FirebaseService();
-            $database = $firebase->getDatabase();
             $notification['status'] = config('order.status.pending');
             $notification['route'] = route('orders.detail', $user->notifications->first()->id);
             $notification['timestamp'] = time();
-            $database->getReference('user/' . $user->id)->set($notification);
+            $this->firebase->sendNotificationOrderPending($user->id, $notification);
             alert()->success(trans('user.sweetalert.saved'), trans('user.sweetalert.checkout'));
 
             return redirect()->route('user.orderHistory');
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
     }
 
     public function getOrderHistory()
