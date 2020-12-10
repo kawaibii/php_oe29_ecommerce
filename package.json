@@ -22,7 +22,7 @@
     "dependencies": {
         "jAlert": "^4.9.1",
         "laravel-echo": "^1.9.0",
-        "pusher-js": "^7.0.1",
+        "pusher-js": "^7.0.2",
         "sweetalert2": "^10.8.1"
     }
 }
