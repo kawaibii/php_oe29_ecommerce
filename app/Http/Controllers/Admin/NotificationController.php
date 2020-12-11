@@ -10,25 +10,32 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    protected $notificationRepo, $orderRepo;
+    protected $notificationRepo, $orderRepo, $firebase;
 
-    function __construct(NotificationRepositoryInterface $notificationRepo, OrderRepositoryInterface $orderRepo)
-    {
+    function __construct(
+        NotificationRepositoryInterface $notificationRepo,
+        OrderRepositoryInterface $orderRepo,
+        FirebaseService $firebase
+    ) {
         $this->notificationRepo = $notificationRepo;
         $this->orderRepo = $orderRepo;
+        $this->firebase = $firebase;
     }
 
     public function showDetailOrder($id)
     {
         $notification = $this->notificationRepo->find($id);
-        $notification->update(['read_at' => now()]);
+        if (!$notification) {
+            return redirect()->back();
+        }
+        $this->notificationRepo->update($id, ['read_at' => now()]);
         $userId = $notification->notifiable->id;
-        $firebase = new FirebaseService();
         $status = [
             'status' => config('order.status.approved')
         ];
-        $firebase->getDatabase()->getReference('user/' . $userId)->update($status);
-        $detailOrder = $this->orderRepo->find(json_decode($notification->data)->order_id);
+        $this->firebase->updateNotificationOrder($userId, $status);
+        $orderID = json_decode($notification->data)->order_id;
+        $detailOrder = $this->orderRepo->find($orderID);
         $orders = $this->orderRepo->orderBy('status', 'productDetails');
 
         return view('admin.orders.index', compact('detailOrder', 'orders'));
