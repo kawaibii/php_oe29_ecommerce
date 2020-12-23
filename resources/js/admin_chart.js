@@ -1,4 +1,6 @@
 window.onload = function () {
+    Chart.defaults.global.elements.rectangle.borderColor = '#000';
+    Chart.defaults.global.elements.rectangle.borderWidth = 1;
     var url = $(".url").data("url");
     $.ajax({
         type: 'get',
@@ -35,13 +37,21 @@ window.onload = function () {
                 },
                 options: {
                     scales: {
+                        xAxes: [{
+                            stacked: false
+                        }],
                         yAxes: [{
                             ticks: {
-                                beginAtZero:true
+                                beginAtZero: true,
+                                stepSize: 1
                             }
                         }]
                     },
-                }
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                },
             });
         }
     });
