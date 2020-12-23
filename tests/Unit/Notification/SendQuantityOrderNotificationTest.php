@@ -33,7 +33,7 @@ class SendQuantityOrderNotificationTest extends TestCase
 
     public function test_toMail_method()
     {
-        $this->assertEquals("emails.send_email_quantity_order_pending", $this->sendQuantity->toMail($this->data)->view);
+        $this->assertEquals("emails.send_email_quantity_order_pending", $this->sendQuantity->toMail($this->data)->markdown);
         $this->assertEquals($this->data, $this->sendQuantity->toMail($this->data)->viewData['data']);
     }
 }

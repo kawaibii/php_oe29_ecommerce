@@ -65,8 +65,8 @@ abstract class BaseRepository implements RepositoryInterface
 
     public function where($attribute = [])
     {
-       if (empty($attribute)) {
-           return $this->model->where($attribute);
+       if (!empty($attribute)) {
+           return $this->model->where($attribute)->get();
        }
 
        return $this->getAll();

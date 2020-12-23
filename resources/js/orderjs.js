@@ -31,7 +31,16 @@ $(document).on("click", ".order", function () {
                     },
                     success : function (response) {
                         let data = JSON.parse(response);
-                        alert(data.message);
+                        $.jAlert({
+                            'title': 'success',
+                            'content': data.message,
+                            'theme': "blue",
+                            'closeOnClick': true,
+                            'backgroundColor': 'white',
+                            'btns': [
+                                {'text':'OK', 'theme':"blue"}
+                            ]
+                        });
                         $(".status-order div").each(function (){
                             if ($(this).data('id') == data.id) {
                                 $(this).removeClass();
@@ -42,16 +51,17 @@ $(document).on("click", ".order", function () {
                         $("#detail-order").modal('hide');
                        },
                        error : function (data) {
-                           alert("not working");
+                           errorAlert("not working");
                            $("#detail-order").modal('hide');
                        }
                     });
                 });
 
             $(".rejected-order").click(function () {
-                let check = confirm("rejected ???");
-                if (check == true) {
-                    let url = this.getAttribute('data-url');
+                let that = this;
+                confirm(function (e) {
+                    e.preventDefault();
+                    let url = that.getAttribute('data-url');
                     $.ajax({
                         url : url,
                         type : "PATCH",
@@ -60,7 +70,16 @@ $(document).on("click", ".order", function () {
                         },
                         success : function (response) {
                             let data = JSON.parse(response);
-                            alert(data.message);
+                            $.jAlert({
+                                'title': 'success',
+                                'content': data.message,
+                                'theme': "blue",
+                                'closeOnClick': true,
+                                'backgroundColor': 'white',
+                                'btns': [
+                                    {'text':'OK', 'theme':"blue"}
+                                ]
+                            });
                             $(".status-order div").each(function (){
                                 if ($(this).data('id') == data.id) {
                                     $(this).removeClass();
@@ -71,11 +90,15 @@ $(document).on("click", ".order", function () {
                             });
                         },
                         error : function (data) {
-                            alert('not working');
+                            errorAlert('not working');
                             $("#detail-order").modal('hide');
                         }
                     });
-                }
+                    return false;
+                }, function (){
+                    errorAlert("errors");
+                    return false;
+                })
             });
         }
     });
@@ -107,7 +130,19 @@ $(document).ready(function (){
                             },
                             success : function (response) {
                                 let data = JSON.parse(response);
-                                alert(data.message);
+                                $.jAlert({
+                                    'title': 'success',
+                                    'content': data.message,
+                                    'theme': "blue",
+                                    'closeOnClick': true,
+                                    'backgroundColor': 'white',
+                                    'btns': [
+                                        {
+                                            'text':'OK',
+                                            'theme':"blue"
+                                        }
+                                    ]
+                                });
                                 $(".status-order div").each(function (){
                                     if ($(this).data('id') == data.id) {
                                         $(this).removeClass();
@@ -125,9 +160,10 @@ $(document).ready(function (){
                     });
 
                     $(".rejected-order").click(function () {
-                        let check = confirm("rejected ???");
-                        if (check == true) {
-                            let url = this.getAttribute('data-url');
+                        let that = this; // khai bao de co the trong confirm truy cap duoc this
+                        confirm(function (e) {
+                            e.preventDefault();
+                            let url = that.getAttribute('data-url');
                             $.ajax({
                                 url : url,
                                 type : "PATCH",
@@ -136,7 +172,19 @@ $(document).ready(function (){
                                 },
                                 success : function (response) {
                                     let data = JSON.parse(response);
-                                    alert(data.message);
+                                    $.jAlert({
+                                        'title': 'success',
+                                        'content': data.message,
+                                        'theme': "blue",
+                                        'closeOnClick': true,
+                                        'backgroundColor': 'white',
+                                        'btns': [
+                                            {
+                                                'text':'OK',
+                                                'theme':"blue"
+                                            }
+                                        ]
+                                    });
                                     $(".status-order div").each(function (){
                                         if ($(this).data('id') == data.id) {
                                             $(this).removeClass();
@@ -147,11 +195,15 @@ $(document).ready(function (){
                                     });
                                 },
                                 error : function (data) {
-                                    alert('not working');
+                                    errorAlert('not working');
                                     $("#detail-order").modal('hide');
                                 }
                             });
-                        }
+                            return false;
+                        }, function (){
+                            errorAlert("errors");
+                            return false;
+                        })
                     });
                 }
             });

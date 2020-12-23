@@ -19,6 +19,7 @@
     <link href="{{ asset('bower_components/bower_project1/admin/css/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
     @yield('css')
     <script src="{{ asset('bower_components/ckeditor/ckeditor.js') }}"></script>
+    <link href="{{ asset('bower_components/jAlert/dist/jAlert.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="wrapper">
@@ -33,6 +34,8 @@
     <script src="{{ asset('bower_components/highcharts/highcharts.js') }}"></script>
     <script src="{{ asset('bower_components/highcharts/modules/exporting.js') }}"></script>
     <script src="{{ asset('bower_components/chart.js/dist/Chart.min.js') }}"></script>
+<script src="{{ asset('bower_components/jAlert/dist/jAlert.min.js') }}"></script>
+<script src="{{ asset('bower_components/jAlert/dist/jAlert-functions.min.js') }}"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>

@@ -23,6 +23,7 @@ mix.js('resources/js/order_history_by_status.js', 'public/js');
 mix.js('resources/js/admin_list_brand.js', 'public/js');
 mix.js('resources/js/adminHighCharts.js', 'public/js');
 mix.js('resources/js/admin_chart.js', 'public/js');
+mix.copyDirectory('node_modules/jAlert', 'public/bower_components/jAlert');
 mix.styles([
     'resources/css/admin_menu.css',
     'resources/css/detail_page.css',
@@ -43,3 +44,4 @@ mix.styles([
     'resources/css/admin_header.css',
     ], 'public/css/all.css'
 );
+
