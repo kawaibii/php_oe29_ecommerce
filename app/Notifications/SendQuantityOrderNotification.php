@@ -41,7 +41,9 @@ class SendQuantityOrderNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->view('emails.send_email_quantity_order_pending', ['data' => $this->data]);
+        return (new MailMessage)
+            ->subject(trans('email.report_order'))
+            ->markdown('emails.send_email_quantity_order_pending', ['data' => $this->data]);
     }
 
 }

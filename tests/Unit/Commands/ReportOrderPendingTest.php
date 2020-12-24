@@ -3,14 +3,14 @@
 namespace Tests\Unit\Commands;
 
 use App\Console\Commands\ReportOrderPendingCommand;
+use App\Jobs\SendEmail;
 use App\Models\User;
-use App\Notifications\SendQuantityOrderNotification;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 use Mockery;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Notification;
 
 class ReportOrderPendingTest extends TestCase
 {
@@ -44,23 +44,24 @@ class ReportOrderPendingTest extends TestCase
     public function test_method_handle()
     {
         $user = factory(User::class)->make();
+        $user->role_id = config('role.admin.management');
         $user1 = factory(User::class)->make();
+        $user1->role_id = config('role.admin.management');
         $users = new Collection([$user1, $user]);
         $this->orderMock->shouldReceive('quantityOrderByStatus')
             ->once()
             ->andReturn(3);
         $data = [
-            'message' => 3,
-            'route' => route('orders.index'),
+            [
+                'role_id', config('role.admin.management'),
+            ],
         ];
-        $this->userMock->shouldReceive('getAll')
+        $this->userMock->shouldReceive('where')
             ->once()
+            ->withAnyArgs($data)
             ->andReturn($users);
-        Notification::fake();
+        Bus::fake();
         $this->reportOrder->handle();
-        Notification::assertSentTo(
-            $user,
-            SendQuantityOrderNotification::class
-        );
+        Bus::assertDispatched(SendEmail::class);
     }
 }

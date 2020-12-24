@@ -4,10 +4,9 @@ namespace App\Console\Commands;
 
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
-use App\Notifications\SendQuantityOrderNotification;
-use Illuminate\Support\Facades\Auth;
-use App;
+use App\Jobs\SendEmail;
 
 class ReportOrderPendingCommand extends Command
 {
@@ -48,13 +47,18 @@ class ReportOrderPendingCommand extends Command
     public function handle()
     {
         $countOrderPending = $this->orderRepo->quantityOrderByStatus();
+        Carbon::setLocale('vi');
         $data = [
-            'message' => $countOrderPending,
+            'quantity' => $countOrderPending,
             'route' => route('orders.index'),
+            'time' => Carbon::now()->toDateString(),
         ];
-        $users = $this->userRepo->getALl();
-        foreach ($users->where('role_id', config('role.admin.management')) as $user) {
-            $user->notify(new SendQuantityOrderNotification($data));
+        $users = $this->userRepo->where([['role_id', config('role.admin.management')]]);
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                $data['username'] = $user->name;
+                SendEmail::dispatch($data, $user);
+            }
         }
     }
 }

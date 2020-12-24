@@ -116,12 +116,12 @@ class OrderController extends Controller
                     $options
                 );
                 $newestNotification = Notification::orderBy('created_at', 'desc')->first();
-                $data = [
+                $notifcation = [
                     'id' => json_decode($newestNotification->data)->id,
                     'title' => 'admin.notification.order_approved.title',
                     'content' => 'admin.notification.order_approved.content',
                 ];
-                $pusher->trigger('NotificationEvent', 'send-message', $data);
+                $pusher->trigger('NotificationEvent', 'send-message', $notifcation);
                 DB::commit();
 
                 return json_encode($data);
@@ -175,12 +175,12 @@ class OrderController extends Controller
                     $options
                 );
                 $newestNotification = Notification::orderBy('created_at', 'desc')->first();
-                $data = [
+                $notification = [
                     'id' => json_decode($newestNotification->data)->id,
                     'title' => 'admin.notification.order_rejected.title',
                     'content' => 'admin.notification.order_rejected.content',
                 ];
-                $pusher->trigger('NotificationEvent', 'send-message', $data);
+                $pusher->trigger('NotificationEvent', 'send-message', $notification);
                 DB::commit();
 
                 return json_encode($data);
@@ -217,12 +217,12 @@ class OrderController extends Controller
                     $options
                 );
                 $newestNotification = Notification::orderBy('created_at', 'desc')->first();
-                $data = [
+                $notification = [
                     'id' => json_decode($newestNotification->data)->id,
                     'title' => 'admin.notification.order_rejected.title',
                     'content' => 'admin.notification.order_rejected.content',
                 ];
-                $pusher->trigger('NotificationEvent', 'send-message', $data);
+                $pusher->trigger('NotificationEvent', 'send-message', $notification);
                 DB::commit();
 
                 return json_encode($data);
