@@ -24,6 +24,7 @@ mix.js('resources/js/admin_list_brand.js', 'public/js');
 mix.js('resources/js/adminHighCharts.js', 'public/js');
 mix.js('resources/js/admin_chart.js', 'public/js');
 mix.copyDirectory('node_modules/jAlert', 'public/bower_components/jAlert');
+mix.js('resources/js/admin_user.js', 'public/js');
 mix.styles([
     'resources/css/admin_menu.css',
     'resources/css/detail_page.css',
