@@ -14,6 +14,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use App\Notifications\Admin\CensoredOrderNotification;
 use Pusher\Pusher;
 use App\Models\Notification;
+use App\Jobs\SendMailJob;
 
 class OrderController extends Controller
 {
@@ -98,6 +99,22 @@ class OrderController extends Controller
                 $data['id'] = $order->id;
                 $data['approved'] = trans('admin.approved');
                 $user = $this->userRepo->find($order->user_id);
+                $itemInOrder = [];
+                foreach ($order->productDetails as $productDetail) {
+                    $item = [
+                        'product_detail_name' => $productDetail->product->name,
+                        'quantity' => $productDetail->pivot->quantity,
+                        'unit_price' => $productDetail->pivot->unit_price,
+                    ];
+                    array_push($itemInOrder, $item);
+                }
+                $dataToJob = [
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'order' => $order,
+                    'itemInOrder' => $itemInOrder,
+                ];
+                $this->dispatch(new SendMailJob($dataToJob));
                 $notification = [
                     'user_id' => Auth::id(),
                     'order_id' => $order->id,
