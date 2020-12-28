@@ -51,4 +51,5 @@
     ],
     'load_more' => 5,
     'report_time_order_pending' => '16:00',
+    'date' => 'H:i:s d/m/Y',
 ];
